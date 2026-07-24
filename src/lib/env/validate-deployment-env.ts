@@ -25,6 +25,18 @@ const requiredVariables = [
   },
 ] as const;
 
+const supabaseActivationVariables = [
+  {
+    key: "SUPABASE_PROJECT_REF",
+    message: "Informe o project-ref do Supabase em SUPABASE_PROJECT_REF.",
+  },
+  {
+    key: "SUPABASE_DB_PASSWORD",
+    message:
+      "Informe a senha do banco Supabase em SUPABASE_DB_PASSWORD para aplicar as migrations.",
+  },
+] as const;
+
 function isSupabaseUrl(value: string | undefined): boolean {
   if (!value?.trim()) {
     return true;
@@ -84,6 +96,23 @@ export function validateDeploymentEnv(env: DeploymentEnv): DeploymentEnvValidati
       "Remova NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: chave secreta nao pode ficar publica.",
     );
   }
+
+  return {
+    messages,
+    ok: messages.length === 0,
+  };
+}
+
+export function validateSupabaseActivationEnv(
+  env: DeploymentEnv,
+): DeploymentEnvValidation {
+  const deploymentResult = validateDeploymentEnv(env);
+  const messages = [
+    ...deploymentResult.messages,
+    ...supabaseActivationVariables
+      .filter(({ key }) => !env[key]?.trim())
+      .map(({ message }) => message),
+  ];
 
   return {
     messages,

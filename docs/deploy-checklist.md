@@ -16,6 +16,8 @@ Para uma versao mais guiada da ativacao do Supabase real, use tambem `docs/supab
    NEXT_PUBLIC_SUPABASE_URL=
    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
    SUPABASE_SERVICE_ROLE_KEY=
+   SUPABASE_PROJECT_REF=
+   SUPABASE_DB_PASSWORD=
    ADMIN_EMAILS=admin@atelielucrativo.com
    ADMIN_BOOTSTRAP_EMAIL=admin@atelielucrativo.com
    ADMIN_BOOTSTRAP_PASSWORD=
@@ -25,6 +27,7 @@ Para uma versao mais guiada da ativacao do Supabase real, use tambem `docs/supab
 4. Confira se o ambiente esta completo.
    ```bash
    pnpm env:check
+   pnpm supabase:check
    ```
 5. Rode o app.
    ```bash
@@ -39,7 +42,9 @@ Para uma versao mais guiada da ativacao do Supabase real, use tambem `docs/supab
    - URL do projeto para `NEXT_PUBLIC_SUPABASE_URL`.
    - Publishable key para `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
    - Secret key ou service_role legacy para `SUPABASE_SERVICE_ROLE_KEY`.
-3. Nunca coloque `SUPABASE_SERVICE_ROLE_KEY` em variavel `NEXT_PUBLIC_`.
+   - Identificador do projeto para `SUPABASE_PROJECT_REF`.
+   - Senha do banco para `SUPABASE_DB_PASSWORD`.
+3. Nunca coloque `SUPABASE_SERVICE_ROLE_KEY` ou `SUPABASE_DB_PASSWORD` em variavel `NEXT_PUBLIC_`.
 4. Confirme que o projeto usa Supabase Auth com email e senha.
 
 ## 3. Aplicar migrations
@@ -55,6 +60,7 @@ As migrations ficam em `supabase/migrations` e devem ser aplicadas nessa ordem:
 Com a Supabase CLI conectada ao projeto:
 
 ```bash
+pnpm supabase:check
 supabase login
 supabase link --project-ref <project-ref>
 supabase db push
@@ -107,15 +113,17 @@ O teste E2E completo com dados reais so deve ser considerado final depois que o 
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
+   - `SUPABASE_PROJECT_REF`
    - `ADMIN_EMAILS`
    - `ADMIN_BOOTSTRAP_EMAIL`
    - `ADMIN_BOOTSTRAP_PASSWORD`
    - `ADMIN_BOOTSTRAP_NAME`
    - `ADMIN_BOOTSTRAP_ATELIER`
-3. Confirme que variaveis secretas nao aparecem no navegador.
-4. Publique.
-5. Abra `/entrar` no dominio final.
-6. Teste login de administrador, cadastro de cliente e aprovacao.
+3. Nao envie `SUPABASE_DB_PASSWORD` para o navegador. Use somente em ambiente seguro quando precisar aplicar migrations.
+4. Confirme que variaveis secretas nao aparecem no navegador.
+5. Publique.
+6. Abra `/entrar` no dominio final.
+7. Teste login de administrador, cadastro de cliente e aprovacao.
 
 ## 8. Backup
 

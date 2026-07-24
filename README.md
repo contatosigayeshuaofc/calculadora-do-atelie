@@ -30,6 +30,8 @@ No projeto real do Supabase, copie as chaves em Settings > API Keys e preencha:
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_PROJECT_REF=
+SUPABASE_DB_PASSWORD=
 ADMIN_EMAILS=admin@atelielucrativo.com
 ADMIN_BOOTSTRAP_EMAIL=admin@atelielucrativo.com
 ADMIN_BOOTSTRAP_PASSWORD=
@@ -38,6 +40,8 @@ ADMIN_BOOTSTRAP_ATELIER=Atelie Lucrativo
 ```
 
 Use a publishable key no campo `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. A chave secreta ou `service_role` deve ficar somente no servidor, em `SUPABASE_SERVICE_ROLE_KEY`.
+
+Use `SUPABASE_PROJECT_REF` e `SUPABASE_DB_PASSWORD` apenas para conectar a Supabase CLI e aplicar as migrations no banco real.
 
 ## Migrations do Banco
 
@@ -52,6 +56,7 @@ As migrations precisam ser aplicadas no Supabase real antes do primeiro teste co
 Com Supabase CLI instalado e projeto conectado:
 
 ```bash
+pnpm supabase:check
 supabase login
 supabase link --project-ref <project-ref>
 supabase db push
@@ -70,6 +75,7 @@ pnpm typecheck
 pnpm lint
 pnpm test
 pnpm env:check
+pnpm supabase:check
 pnpm pilot:check
 pnpm build
 pnpm test:e2e

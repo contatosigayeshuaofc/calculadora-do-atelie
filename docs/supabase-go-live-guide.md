@@ -33,6 +33,8 @@ Preencha o `.env.local` assim:
 NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sua_publishable_key_ou_anon_key
 SUPABASE_SERVICE_ROLE_KEY=sua_secret_key_ou_service_role
+SUPABASE_PROJECT_REF=seu-project-ref
+SUPABASE_DB_PASSWORD=sua_senha_do_banco
 ADMIN_EMAILS=admin@atelielucrativo.com
 ADMIN_BOOTSTRAP_EMAIL=admin@atelielucrativo.com
 ADMIN_BOOTSTRAP_PASSWORD=sua_senha_segura_fora_do_codigo
@@ -45,11 +47,14 @@ Use:
 - `NEXT_PUBLIC_SUPABASE_URL`: URL do projeto Supabase.
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: publishable key, ou a anon key antiga.
 - `SUPABASE_SERVICE_ROLE_KEY`: secret key, ou a service_role antiga.
+- `SUPABASE_PROJECT_REF`: identificador do projeto, copiado da URL do painel.
+- `SUPABASE_DB_PASSWORD`: senha do banco, usada somente para aplicar migrations.
 - `ADMIN_BOOTSTRAP_PASSWORD`: senha real do administrador.
 
 Nao use:
 
 - Chave secreta em qualquer campo que comece com `NEXT_PUBLIC_`.
+- Senha do banco em qualquer campo que comece com `NEXT_PUBLIC_`.
 - Senha real em `.env.example`, README, docs ou mensagens publicas.
 
 ## 3. Conferir o ambiente
@@ -58,12 +63,14 @@ Depois de preencher `.env.local`, rode:
 
 ```bash
 pnpm env:check
+pnpm supabase:check
 ```
 
 Resultado esperado:
 
 ```text
 Ambiente pronto para o proximo passo do deploy.
+Supabase pronto para conectar e aplicar migrations.
 ```
 
 Se aparecer uma mensagem, corrija apenas o campo indicado e rode de novo.
@@ -73,6 +80,7 @@ Se aparecer uma mensagem, corrija apenas o campo indicado e rode de novo.
 Conecte o projeto local ao Supabase real:
 
 ```bash
+pnpm supabase:check
 supabase login
 supabase link --project-ref SEU-PROJECT-REF
 supabase db push
@@ -141,6 +149,7 @@ Repita o teste de administrador, cadastro, aprovacao, produto, cliente e venda n
 O MVP pode ir para piloto quando:
 
 - `pnpm env:check` estiver aprovado.
+- `pnpm supabase:check` estiver aprovado.
 - Migrations estiverem aplicadas.
 - Administrador conseguir entrar.
 - Painel admin estiver visivel somente para o administrador.

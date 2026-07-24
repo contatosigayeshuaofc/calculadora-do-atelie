@@ -15,6 +15,8 @@ describe("pilot deployment documentation", () => {
     expect(envExample).toContain("NEXT_PUBLIC_SUPABASE_URL=");
     expect(envExample).toContain("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=");
     expect(envExample).toContain("SUPABASE_SERVICE_ROLE_KEY=");
+    expect(envExample).toContain("SUPABASE_PROJECT_REF=");
+    expect(envExample).toContain("SUPABASE_DB_PASSWORD=");
     expect(envExample).toContain("ADMIN_EMAILS=admin@atelielucrativo.com");
     expect(envExample).toContain("ADMIN_BOOTSTRAP_EMAIL=admin@atelielucrativo.com");
     expect(envExample).toContain("ADMIN_BOOTSTRAP_PASSWORD=");
@@ -31,6 +33,8 @@ describe("pilot deployment documentation", () => {
     expect(fullText).toContain("NEXT_PUBLIC_SUPABASE_URL");
     expect(fullText).toContain("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
     expect(fullText).toContain("SUPABASE_SERVICE_ROLE_KEY");
+    expect(fullText).toContain("SUPABASE_PROJECT_REF");
+    expect(fullText).toContain("SUPABASE_DB_PASSWORD");
     expect(fullText).toContain("ADMIN_EMAILS");
     expect(fullText).toContain("ADMIN_BOOTSTRAP_PASSWORD");
 
@@ -41,6 +45,7 @@ describe("pilot deployment documentation", () => {
     expect(fullText).toContain("20260724154500_harden_public_api_surface.sql");
 
     expect(fullText).toContain("pnpm admin:create");
+    expect(fullText).toContain("pnpm supabase:check");
     expect(fullText).toContain("pnpm test:e2e");
     expect(fullText).toContain("supabase db push");
     expect(fullText).toContain("supabase gen types typescript");
@@ -55,8 +60,11 @@ describe("pilot deployment documentation", () => {
     expect(guide).toContain("NEXT_PUBLIC_SUPABASE_URL");
     expect(guide).toContain("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
     expect(guide).toContain("SUPABASE_SERVICE_ROLE_KEY");
+    expect(guide).toContain("SUPABASE_PROJECT_REF");
+    expect(guide).toContain("SUPABASE_DB_PASSWORD");
     expect(guide).toContain("ADMIN_BOOTSTRAP_PASSWORD");
     expect(guide).toContain("pnpm env:check");
+    expect(guide).toContain("pnpm supabase:check");
     expect(guide).toContain("supabase db push");
     expect(guide).toContain("pnpm admin:create");
     expect(guide).toContain("http://localhost:3000/entrar");
