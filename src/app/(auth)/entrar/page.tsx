@@ -1,4 +1,5 @@
 import { ArrowRight, Calculator, LockKeyhole, Sparkles } from "lucide-react";
+import { Button, Input } from "@/components/ui";
 
 const benefits = [
   "Calcule custo por unidade sem planilha confusa",
@@ -48,31 +49,12 @@ export default function SignInPage() {
               </p>
 
               <form className="mt-8 space-y-5">
-                <label className="block">
-                  <span className="text-sm font-medium text-[color:var(--color-warm-graphite)]">E-mail</span>
-                  <input
-                    className="mt-2 h-12 w-full rounded-xl border border-[color:var(--color-clay-beige)] bg-white/70 px-4 text-sm outline-none transition focus:border-[color:var(--color-olive)] focus:ring-4 focus:ring-[rgba(104,98,70,0.16)]"
-                    type="email"
-                    placeholder="voce@email.com"
-                  />
-                </label>
+                <Input label="E-mail" placeholder="voce@email.com" type="email" />
+                <Input label="Senha" placeholder="Sua senha" type="password" />
 
-                <label className="block">
-                  <span className="text-sm font-medium text-[color:var(--color-warm-graphite)]">Senha</span>
-                  <input
-                    className="mt-2 h-12 w-full rounded-xl border border-[color:var(--color-clay-beige)] bg-white/70 px-4 text-sm outline-none transition focus:border-[color:var(--color-olive)] focus:ring-4 focus:ring-[rgba(104,98,70,0.16)]"
-                    type="password"
-                    placeholder="Sua senha"
-                  />
-                </label>
-
-                <button
-                  className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-olive)] px-5 text-sm font-semibold text-white transition hover:bg-[#59543c] focus:outline-none focus:ring-4 focus:ring-[rgba(104,98,70,0.22)]"
-                  type="button"
-                >
+                <Button className="w-full" rightIcon={<ArrowRight className="h-4 w-4" aria-hidden="true" />} size="lg">
                   Entrar
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </button>
+                </Button>
               </form>
 
               <div className="mt-8 flex items-start gap-3 rounded-xl border border-[color:var(--color-clay-beige)] bg-[color:var(--color-paper)] p-4 text-sm leading-6 text-[color:var(--color-text-muted)]">
