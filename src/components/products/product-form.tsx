@@ -1,13 +1,14 @@
 "use client";
 
 import { useActionState, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Plus, Save, Trash2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calculator, Plus, Save, Trash2 } from "lucide-react";
 import { calculateProductPricing } from "@/features/pricing/calculate-product-pricing";
 import type { ProductDetail } from "@/features/products/types";
 import {
   buildProductPricingInput,
   parseProductFormData,
 } from "@/features/products/schemas";
+import { inferProductMultipliers } from "@/features/products/product-multipliers";
 import {
   getCostItemMarketSuggestion,
   otherBatchCostSuggestion,
@@ -150,7 +151,12 @@ export function ProductForm({
           {step === 2 ? (
             <PriceFields
               form={form}
+              product={product}
               pricing={pricing}
+              settings={{
+                minimumMultiplier,
+                recommendedMultiplier,
+              }}
               updateField={updateField}
             />
           ) : null}
@@ -379,13 +385,31 @@ function CostItemFields({
 
 function PriceFields({
   form,
+  product,
   pricing,
+  settings,
   updateField,
 }: {
   form: ProductFormDraft;
+  product?: ProductDetail | null;
   pricing: ReturnType<typeof calculateProductPricing> | null;
+  settings: {
+    minimumMultiplier: number;
+    recommendedMultiplier: number;
+  };
   updateField: (name: keyof ProductFormDraft, value: string) => void;
 }) {
+  function applyCurrentSettings() {
+    updateField(
+      "minimumMultiplier",
+      String(settings.minimumMultiplier).replace(".", ","),
+    );
+    updateField(
+      "recommendedMultiplier",
+      String(settings.recommendedMultiplier).replace(".", ","),
+    );
+  }
+
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Input
@@ -432,6 +456,22 @@ function PriceFields({
         }
         value={form.recommendedMultiplier}
       />
+      {product ? (
+        <div className="md:col-span-2 rounded-[var(--radius-sm)] bg-[color:var(--color-soft-cream)] p-4 text-sm text-[color:var(--color-text-muted)]">
+          Produtos ja salvos mantem os precos atuais. Use o botao abaixo
+          somente se quiser recalcular este produto com os multiplicadores das
+          configuracoes.
+          <Button
+            className="mt-3"
+            leftIcon={<Calculator className="h-4 w-4" />}
+            onClick={applyCurrentSettings}
+            type="button"
+            variant="secondary"
+          >
+            Recalcular este produto
+          </Button>
+        </div>
+      ) : null}
       <Input
         inputMode="decimal"
         label="Preco praticado"
@@ -485,8 +525,26 @@ function productToForm(
     packagingCostPerUnit: formatCurrency(product.packaging_cost_per_unit_cents),
     additionalBatchCost: formatCurrency(product.additional_batch_cost_cents),
     sellingPrice: formatCurrency(product.selling_price_cents),
-    minimumMultiplier: String(minimumMultiplier).replace(".", ","),
-    recommendedMultiplier: String(recommendedMultiplier).replace(".", ","),
+    minimumMultiplier: String(
+      inferProductMultipliers(
+        {
+          minimumPriceCents: product.minimum_price_cents,
+          recommendedPriceCents: product.recommended_price_cents,
+          unitCostCents: product.unit_cost_cents,
+        },
+        { minimumMultiplier, recommendedMultiplier },
+      ).minimumMultiplier,
+    ).replace(".", ","),
+    recommendedMultiplier: String(
+      inferProductMultipliers(
+        {
+          minimumPriceCents: product.minimum_price_cents,
+          recommendedPriceCents: product.recommended_price_cents,
+          unitCostCents: product.unit_cost_cents,
+        },
+        { minimumMultiplier, recommendedMultiplier },
+      ).recommendedMultiplier,
+    ).replace(".", ","),
     costItems: product.product_cost_items.map((item) => ({
       name: item.name,
       unitMeasure: item.unit_measure,

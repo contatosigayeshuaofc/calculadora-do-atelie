@@ -6,5 +6,5 @@ export const navItems = [
   { label: "Precificar", href: "/precificar", icon: Calculator },
   { label: "Clientes", href: "/clientes", icon: Users },
   { label: "Vendas", href: "/vendas", icon: ReceiptText },
-  { label: "Ajustes", href: "/ajustes", icon: Settings },
+  { label: "Ajustes", href: "/configuracoes", icon: Settings },
 ];
