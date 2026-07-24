@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft, LogOut, ShieldCheck } from "lucide-react";
 import { AdminUsersTable } from "@/components/admin/admin-users-table";
 import { CreateUserForm } from "@/components/admin/create-user-form";
+import { PilotReadinessCard } from "@/components/admin/pilot-readiness-card";
 import { Button } from "@/components/ui";
 import { signOutAction } from "@/features/auth/actions";
 import { listAdminUsers } from "@/features/admin/queries";
@@ -49,6 +50,8 @@ export default async function AdminPage() {
           </section>
         ) : (
           <>
+            <PilotReadinessCard />
+
             <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <Metric label="Total" value={overview.stats.total} />
               <Metric label="Pendentes" value={overview.stats.pending} />
