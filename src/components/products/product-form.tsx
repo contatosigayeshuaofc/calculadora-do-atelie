@@ -8,6 +8,11 @@ import {
   buildProductPricingInput,
   parseProductFormData,
 } from "@/features/products/schemas";
+import {
+  getCostItemMarketSuggestion,
+  otherBatchCostSuggestion,
+  packagingCostSuggestion,
+} from "@/features/products/market-consumption-suggestions";
 import { Button, Input, Textarea } from "@/components/ui";
 import { formatCurrency } from "@/lib/currency/format-currency";
 import { parseCurrencyInput } from "@/lib/currency/parse-currency-input";
@@ -257,75 +262,14 @@ function CostFields({
   return (
     <div className="space-y-4">
       {costItems.map((item, index) => (
-        <div
-          className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] p-4"
+        <CostItemFields
+          costItemsLength={costItems.length}
+          index={index}
+          item={item}
           key={index}
-        >
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <p className="text-sm font-bold text-[color:var(--color-warm-graphite)]">
-              Custo {index + 1}
-            </p>
-            {costItems.length > 1 ? (
-              <Button
-                aria-label="Remover custo"
-                leftIcon={<Trash2 className="h-4 w-4" />}
-                onClick={() => removeCostItem(index)}
-                size="icon"
-                type="button"
-                variant="ghost"
-              />
-            ) : null}
-          </div>
-          <div className="grid gap-4 md:grid-cols-5">
-            <Input
-              className="md:col-span-2"
-              label="Item"
-              onChange={(event) =>
-                updateCostItem(index, "name", event.target.value)
-              }
-              value={item.name}
-            />
-            <Input
-              label="Unidade"
-              onChange={(event) =>
-                updateCostItem(index, "unitMeasure", event.target.value)
-              }
-              value={item.unitMeasure}
-            />
-            <Input
-              inputMode="decimal"
-              label="Qtd comprada"
-              onChange={(event) =>
-                updateCostItem(index, "purchaseQuantity", event.target.value)
-              }
-              value={item.purchaseQuantity}
-            />
-            <Input
-              inputMode="decimal"
-              label="Qtd usada"
-              onChange={(event) =>
-                updateCostItem(index, "usedQuantity", event.target.value)
-              }
-              value={item.usedQuantity}
-            />
-            <Input
-              className="md:col-span-2"
-              inputMode="decimal"
-              label="Preco da compra"
-              onBlur={(event) =>
-                updateCostItem(
-                  index,
-                  "purchasePrice",
-                  formatCurrency(parseCurrencyInput(event.target.value)),
-                )
-              }
-              onChange={(event) =>
-                updateCostItem(index, "purchasePrice", event.target.value)
-              }
-              value={item.purchasePrice}
-            />
-          </div>
-        </div>
+          removeCostItem={removeCostItem}
+          updateCostItem={updateCostItem}
+        />
       ))}
       <Button
         leftIcon={<Plus className="h-4 w-4" />}
@@ -335,6 +279,100 @@ function CostFields({
       >
         Adicionar custo
       </Button>
+    </div>
+  );
+}
+
+function CostItemFields({
+  costItemsLength,
+  index,
+  item,
+  removeCostItem,
+  updateCostItem,
+}: {
+  costItemsLength: number;
+  index: number;
+  item: CostItemDraft;
+  removeCostItem: (index: number) => void;
+  updateCostItem: (
+    index: number,
+    name: keyof CostItemDraft,
+    value: string,
+  ) => void;
+}) {
+  const suggestion = getCostItemMarketSuggestion(item.name);
+
+  return (
+    <div className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] p-4">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <p className="text-sm font-bold text-[color:var(--color-warm-graphite)]">
+          Custo {index + 1}
+        </p>
+        {costItemsLength > 1 ? (
+          <Button
+            aria-label="Remover custo"
+            leftIcon={<Trash2 className="h-4 w-4" />}
+            onClick={() => removeCostItem(index)}
+            size="icon"
+            type="button"
+            variant="ghost"
+          />
+        ) : null}
+      </div>
+      <div className="grid gap-4 md:grid-cols-5">
+        <Input
+          className="md:col-span-2"
+          hint={suggestion.itemHint}
+          label="Item"
+          onChange={(event) =>
+            updateCostItem(index, "name", event.target.value)
+          }
+          value={item.name}
+        />
+        <Input
+          hint="Use a mesma unidade da compra e do consumo: g, ml, un, m ou cm."
+          label="Unidade"
+          onChange={(event) =>
+            updateCostItem(index, "unitMeasure", event.target.value)
+          }
+          value={item.unitMeasure}
+        />
+        <Input
+          hint={suggestion.purchaseQuantityHint}
+          inputMode="decimal"
+          label="Qtd comprada"
+          onChange={(event) =>
+            updateCostItem(index, "purchaseQuantity", event.target.value)
+          }
+          value={item.purchaseQuantity}
+        />
+        <Input
+          hint={suggestion.usedQuantityHint}
+          inputMode="decimal"
+          label="Qtd usada"
+          onChange={(event) =>
+            updateCostItem(index, "usedQuantity", event.target.value)
+          }
+          value={item.usedQuantity}
+        />
+        <Input
+          className="md:col-span-2"
+          hint={suggestion.purchasePriceHint}
+          inputMode="decimal"
+          label="Preco da compra"
+          onBlur={(event) =>
+            updateCostItem(
+              index,
+              "purchasePrice",
+              formatCurrency(parseCurrencyInput(event.target.value)),
+            )
+          }
+          onChange={(event) =>
+            updateCostItem(index, "purchasePrice", event.target.value)
+          }
+          value={item.purchasePrice}
+        />
+      </div>
     </div>
   );
 }
@@ -351,6 +389,7 @@ function PriceFields({
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Input
+        hint={packagingCostSuggestion}
         inputMode="decimal"
         label="Custo de embalagem por unidade"
         onBlur={(event) =>
@@ -365,6 +404,7 @@ function PriceFields({
         value={form.packagingCostPerUnit}
       />
       <Input
+        hint={otherBatchCostSuggestion}
         inputMode="decimal"
         label="Outros custos do lote"
         onBlur={(event) =>
