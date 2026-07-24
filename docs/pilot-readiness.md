@@ -24,6 +24,7 @@ Este documento resume a situacao atual da Calculadora do Atelie antes de abrir o
 
 - Configurar um projeto Supabase real.
 - Preencher as variaveis de ambiente reais.
+- Conferir as variaveis reais com `pnpm env:check`.
 - Aplicar as migrations no banco real.
 - Gerar tipos atualizados do banco depois das migrations.
 - Criar o administrador real com `admin@atelielucrativo.com`.
@@ -35,16 +36,17 @@ Este documento resume a situacao atual da Calculadora do Atelie antes de abrir o
 
 1. Criar ou abrir o projeto Supabase real.
 2. Preencher `.env.local` com URL, publishable key e chave secreta do Supabase.
-3. Aplicar as migrations com a Supabase CLI.
-4. Gerar os tipos do banco.
-5. Criar o administrador com `pnpm admin:create`.
-6. Entrar como administrador e confirmar que `/admin` esta restrito.
-7. Criar uma conta de cliente real de teste.
-8. Aprovar a cliente no painel administrador.
-9. Entrar como cliente ativa e testar produto, cliente, venda e painel.
-10. Configurar as variaveis na Vercel.
-11. Publicar na Vercel.
-12. Repetir o teste com conta real no dominio final.
+3. Rodar `pnpm env:check`.
+4. Aplicar as migrations com a Supabase CLI.
+5. Gerar os tipos do banco.
+6. Criar o administrador com `pnpm admin:create`.
+7. Entrar como administrador e confirmar que `/admin` esta restrito.
+8. Criar uma conta de cliente real de teste.
+9. Aprovar a cliente no painel administrador.
+10. Entrar como cliente ativa e testar produto, cliente, venda e painel.
+11. Configurar as variaveis na Vercel.
+12. Publicar na Vercel.
+13. Repetir o teste com conta real no dominio final.
 
 ## criterios de aceite antes de vender
 
@@ -60,7 +62,7 @@ Este documento resume a situacao atual da Calculadora do Atelie antes de abrir o
 - Orcamentos e vendas canceladas nao entram no faturamento.
 - Uma cliente nao acessa dados de outra cliente.
 - App funciona bem no celular.
-- `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` e `pnpm test:e2e` passam.
+- `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm env:check`, `pnpm build` e `pnpm test:e2e` passam.
 
 ## Decisao
 

@@ -20,11 +20,15 @@ Este checklist prepara a Calculadora do Atelie para sair do modo local e funcion
    ADMIN_BOOTSTRAP_NAME=Administrador
    ADMIN_BOOTSTRAP_ATELIER=Atelie Lucrativo
    ```
-4. Rode o app.
+4. Confira se o ambiente esta completo.
+   ```bash
+   pnpm env:check
+   ```
+5. Rode o app.
    ```bash
    pnpm dev
    ```
-5. Abra `http://localhost:3000/entrar`.
+6. Abra `http://localhost:3000/entrar`.
 
 ## 2. Configurar Supabase
 
@@ -92,6 +96,7 @@ supabase gen types typescript --linked --schema public > src/types/database.ts
 pnpm typecheck
 pnpm lint
 pnpm test
+pnpm env:check
 pnpm build
 pnpm test:e2e
 ```
@@ -134,4 +139,4 @@ O MVP so deve ser liberado quando:
 - Aprovacao manual funcionando.
 - Produto, cliente, venda e painel funcionando.
 - Mensagens de erro amigaveis.
-- `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` e `pnpm test:e2e` aprovados.
+- `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm env:check`, `pnpm build` e `pnpm test:e2e` aprovados.

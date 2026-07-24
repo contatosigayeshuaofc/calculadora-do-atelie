@@ -69,6 +69,7 @@ supabase gen types typescript --linked --schema public > src/types/database.ts
 pnpm typecheck
 pnpm lint
 pnpm test
+pnpm env:check
 pnpm build
 pnpm test:e2e
 pnpm admin:create
@@ -100,6 +101,7 @@ Depois rode as validacoes finais:
 pnpm typecheck
 pnpm lint
 pnpm test
+pnpm env:check
 pnpm build
 pnpm test:e2e
 ```
