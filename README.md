@@ -91,6 +91,8 @@ A senha do administrador deve ficar apenas no `.env.local` ou no painel seguro d
 
 Antes do deploy, confira o checklist completo em `docs/deploy-checklist.md`.
 
+Para ativar o Supabase real passo a passo, siga tambem `docs/supabase-go-live-guide.md`.
+
 Para decidir se o MVP ja pode receber clientes reais, confira tambem `docs/pilot-readiness.md`.
 
 Na Vercel, configure as mesmas variaveis do `.env.local`. Marque `SUPABASE_SERVICE_ROLE_KEY` e `ADMIN_BOOTSTRAP_PASSWORD` como variaveis sensiveis quando o provedor oferecer essa opcao.

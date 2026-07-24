@@ -47,4 +47,19 @@ describe("pilot deployment documentation", () => {
     expect(fullText).toContain("Backup");
     expect(fullText).toContain("Vercel");
   });
+
+  test("provides a non-technical Supabase go-live guide", () => {
+    const guide = readProjectFile("docs/supabase-go-live-guide.md");
+
+    expect(guide).toContain("Guia Rapido: Ativar Supabase Real");
+    expect(guide).toContain("NEXT_PUBLIC_SUPABASE_URL");
+    expect(guide).toContain("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
+    expect(guide).toContain("SUPABASE_SERVICE_ROLE_KEY");
+    expect(guide).toContain("ADMIN_BOOTSTRAP_PASSWORD");
+    expect(guide).toContain("pnpm env:check");
+    expect(guide).toContain("supabase db push");
+    expect(guide).toContain("pnpm admin:create");
+    expect(guide).toContain("http://localhost:3000/entrar");
+    expect(guide).not.toContain("!Trader0407");
+  });
 });

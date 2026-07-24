@@ -2,6 +2,8 @@
 
 Este checklist prepara a Calculadora do Atelie para sair do modo local e funcionar com clientes reais.
 
+Para uma versao mais guiada da ativacao do Supabase real, use tambem `docs/supabase-go-live-guide.md`.
+
 ## 1. Preparar o ambiente local
 
 1. Instale as dependencias.
