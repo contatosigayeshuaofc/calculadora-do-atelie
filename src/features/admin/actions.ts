@@ -87,32 +87,47 @@ export async function createManualUserAction(
   }
 }
 
-export async function updateUserAccessAction(formData: FormData) {
-  const input = parseUpdateAccessFormData({
-    accessStatus: getString(formData, "accessStatus"),
-    userId: getString(formData, "userId"),
-  });
-  const { adminClient, user } = await requireAdminUser();
+export async function updateUserAccessAction(
+  _previousState: AdminActionState,
+  formData: FormData,
+): Promise<AdminActionState> {
+  try {
+    const input = parseUpdateAccessFormData({
+      accessStatus: getString(formData, "accessStatus"),
+      userId: getString(formData, "userId"),
+    });
+    const { adminClient, user } = await requireAdminUser();
 
-  if (!adminClient) {
-    throw new Error(missingSupabaseAdminMessage);
+    if (!adminClient) {
+      throw new Error(missingSupabaseAdminMessage);
+    }
+
+    if (input.userId === user.id && input.accessStatus === "suspended") {
+      throw new Error("Voce nao pode cancelar seu proprio acesso admin.");
+    }
+
+    const { error } = await adminClient
+      .from("profiles")
+      .update({
+        access_status: input.accessStatus,
+        activated_at: input.accessStatus === "active" ? new Date().toISOString() : null,
+      })
+      .eq("id", input.userId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    revalidatePath("/admin");
+
+    return {
+      message: input.accessStatus === "active" ? "Cliente aprovada para acessar o app." : "Acesso da cliente cancelado.",
+      status: "success",
+    };
+  } catch (error) {
+    return {
+      message: getAdminFormError(error),
+      status: "error",
+    };
   }
-
-  if (input.userId === user.id && input.accessStatus === "suspended") {
-    throw new Error("Voce nao pode cancelar seu proprio acesso admin.");
-  }
-
-  const { error } = await adminClient
-    .from("profiles")
-    .update({
-      access_status: input.accessStatus,
-      activated_at: input.accessStatus === "active" ? new Date().toISOString() : null,
-    })
-    .eq("id", input.userId);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  revalidatePath("/admin");
 }

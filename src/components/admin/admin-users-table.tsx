@@ -1,7 +1,7 @@
-import { Check, ShieldCheck, X } from "lucide-react";
-import { Button, EmptyState } from "@/components/ui";
-import { updateUserAccessAction } from "@/features/admin/actions";
+import { ShieldCheck } from "lucide-react";
+import { EmptyState } from "@/components/ui";
 import type { AdminUserSummary } from "@/features/admin/types";
+import { AdminAccessActionForm } from "./admin-access-action-form";
 import { AdminStatus } from "./admin-status";
 
 function formatDate(value: string | null) {
@@ -64,22 +64,10 @@ export function AdminUsersTable({ users }: { users: AdminUserSummary[] }) {
 
             <div className="flex flex-wrap gap-2 sm:justify-end">
               {user.status !== "active" ? (
-                <form action={updateUserAccessAction}>
-                  <input name="userId" type="hidden" value={user.id} />
-                  <input name="accessStatus" type="hidden" value="active" />
-                  <Button leftIcon={<Check className="h-4 w-4" aria-hidden="true" />} size="sm" type="submit">
-                    Aprovar
-                  </Button>
-                </form>
+                <AdminAccessActionForm actionLabel="Aprovar" status="active" userId={user.id} />
               ) : null}
               {user.status !== "suspended" ? (
-                <form action={updateUserAccessAction}>
-                  <input name="userId" type="hidden" value={user.id} />
-                  <input name="accessStatus" type="hidden" value="suspended" />
-                  <Button leftIcon={<X className="h-4 w-4" aria-hidden="true" />} size="sm" type="submit" variant="danger">
-                    Cancelar
-                  </Button>
-                </form>
+                <AdminAccessActionForm actionLabel="Cancelar" status="suspended" userId={user.id} />
               ) : null}
             </div>
           </article>
