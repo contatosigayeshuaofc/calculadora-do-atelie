@@ -299,6 +299,21 @@ export type Database = {
         };
         Returns: undefined;
       };
+      create_sale_with_items: {
+        Args: {
+          p_customer_id: string | null;
+          p_order_date: string;
+          p_delivery_date: string | null;
+          p_status: OrderStatus;
+          p_payment_status: PaymentStatus;
+          p_payment_method: string | null;
+          p_discount_cents: number;
+          p_delivery_fee_cents: number;
+          p_items: Json;
+          p_notes: string | null;
+        };
+        Returns: string;
+      };
     };
     Enums: PublicEnums;
     CompositeTypes: Record<string, never>;
