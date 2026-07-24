@@ -47,4 +47,14 @@ describe("app navigation", () => {
       "/produtos/novo",
     );
   });
+
+  it("keeps profile visible and admin hidden from the app navigation", () => {
+    render(<Sidebar />);
+
+    expect(screen.getByRole("link", { name: "Perfil" })).toHaveAttribute(
+      "href",
+      "/perfil",
+    );
+    expect(screen.queryByRole("link", { name: /admin/i })).not.toBeInTheDocument();
+  });
 });

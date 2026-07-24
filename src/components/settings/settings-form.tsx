@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { Save } from "lucide-react";
+import { LifeBuoy, Save } from "lucide-react";
 import { saveSettingsAction } from "@/features/settings/actions";
 import type { AtelierSettings } from "@/features/settings/types";
 import { Button, Input } from "@/components/ui";
@@ -24,7 +24,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
             Perfil do atelie
           </p>
           <h1 className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
-            Dados da conta
+            Dados do perfil
           </h1>
         </div>
 
@@ -89,7 +89,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
           leftIcon={<Save className="h-4 w-4" />}
           type="submit"
         >
-          Salvar configuracoes
+          Salvar perfil
         </Button>
 
         {state.message ? (
@@ -103,6 +103,25 @@ export function SettingsForm({ settings }: SettingsFormProps) {
             {state.message}
           </p>
         ) : null}
+
+        <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 text-sm leading-6 text-[color:var(--color-text-muted)] shadow-[var(--shadow-soft)] sm:p-5">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(104,98,70,0.1)] text-[color:var(--color-olive)]">
+              <LifeBuoy className="h-4 w-4" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="font-semibold text-[color:var(--color-warm-graphite)]">
+                Suporte
+              </p>
+              <a
+                className="mt-1 inline-block break-all font-semibold text-[color:var(--color-olive)]"
+                href="mailto:suporte@ateliearomatico.site"
+              >
+                suporte@ateliearomatico.site
+              </a>
+            </div>
+          </div>
+        </section>
       </aside>
     </form>
   );

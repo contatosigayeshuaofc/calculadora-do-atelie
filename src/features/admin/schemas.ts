@@ -29,12 +29,9 @@ export type CreateManualUserInput = z.infer<typeof createUserSchema>;
 export type UpdateAccessInput = z.infer<typeof updateAccessSchema>;
 
 export function parseAdminEmails(value: string | undefined) {
-  const configuredEmails = (value ?? "")
-    .split(",")
-    .map((email) => email.trim().toLowerCase())
-    .filter(Boolean);
+  void value;
 
-  return new Set([DEFAULT_ADMIN_EMAIL, ...configuredEmails]);
+  return new Set([DEFAULT_ADMIN_EMAIL]);
 }
 
 export function canAdminAccess(email: string | null | undefined, adminEmails: Set<string>) {

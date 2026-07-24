@@ -15,10 +15,11 @@ describe("admin schemas", () => {
     expect(canAdminAccess("cliente@atelielucrativo.com", admins)).toBe(false);
   });
 
-  test("matches admin email list case-insensitively", () => {
+  test("does not allow extra admin emails from configuration", () => {
     const admins = parseAdminEmails("dona@atelie.com, financeiro@atelie.com");
 
-    expect(canAdminAccess("DONA@ATELIE.COM", admins)).toBe(true);
+    expect(canAdminAccess(DEFAULT_ADMIN_EMAIL, admins)).toBe(true);
+    expect(canAdminAccess("DONA@ATELIE.COM", admins)).toBe(false);
     expect(canAdminAccess("cliente@atelie.com", admins)).toBe(false);
   });
 

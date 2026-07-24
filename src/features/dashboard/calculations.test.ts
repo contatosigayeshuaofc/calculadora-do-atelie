@@ -52,6 +52,50 @@ describe("calculateDashboardMetrics", () => {
     expect(dashboard.averageTicketCents).toBe(12000);
   });
 
+  test("counts sold pieces and unique customers for the dashboard highlights", () => {
+    const dashboard = calculateDashboardMetrics({
+      periodEnd: "2026-07-31",
+      periodStart: "2026-07-01",
+      sales: [
+        baseSale,
+        {
+          ...baseSale,
+          customerId: "customer-1",
+          items: [
+            {
+              productId: "product-2",
+              productName: "Home spray",
+              quantity: 3,
+              subtotalCents: 9000,
+            },
+          ],
+        },
+        {
+          ...baseSale,
+          customerId: "customer-2",
+          customerName: "Bia",
+          items: [
+            {
+              productId: "product-3",
+              productName: "Difusor",
+              quantity: 4,
+              subtotalCents: 16000,
+            },
+          ],
+        },
+        {
+          ...baseSale,
+          customerId: "customer-3",
+          status: "canceled",
+        },
+      ],
+      today: "2026-07-24",
+    });
+
+    expect(dashboard.itemQuantity).toBe(9);
+    expect(dashboard.customerCount).toBe(2);
+  });
+
   test("calculates pending total and active orders with MVP partial-payment approximation", () => {
     const dashboard = calculateDashboardMetrics({
       periodEnd: "2026-07-31",

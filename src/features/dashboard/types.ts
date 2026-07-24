@@ -23,7 +23,9 @@ export type DashboardSaleInput = {
 export type DashboardSummary = {
   activeOrderCount: number;
   averageTicketCents: number;
+  customerCount: number;
   estimatedProfitCents: number;
+  itemQuantity: number;
   orderCount: number;
   pendingAmountCents: number;
   pendingAmountIsApproximate: boolean;

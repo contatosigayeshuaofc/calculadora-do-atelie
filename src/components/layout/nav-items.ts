@@ -1,4 +1,4 @@
-import { BarChart3, Calculator, Package, ReceiptText, Settings, Users } from "lucide-react";
+import { BarChart3, Calculator, Package, ReceiptText, UserCircle, Users } from "lucide-react";
 
 export const navItems = [
   { label: "Painel", href: "/painel", icon: BarChart3 },
@@ -6,5 +6,5 @@ export const navItems = [
   { label: "Precificar", href: "/produtos/novo", icon: Calculator },
   { label: "Clientes", href: "/clientes", icon: Users },
   { label: "Vendas", href: "/vendas", icon: ReceiptText },
-  { label: "Ajustes", href: "/configuracoes", icon: Settings },
+  { label: "Perfil", href: "/perfil", icon: UserCircle },
 ];

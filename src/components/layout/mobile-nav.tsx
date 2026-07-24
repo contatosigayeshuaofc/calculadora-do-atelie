@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { navItems } from "./nav-items";
 import { getActiveNavHref } from "./nav-state";
 
-const mobileItems = navItems.slice(0, 5);
+const mobileItems = navItems.filter((item) => item.label !== "Precificar");
 
 export function MobileNav() {
   const activeHref = getActiveNavHref(usePathname());

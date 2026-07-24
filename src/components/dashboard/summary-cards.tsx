@@ -5,6 +5,7 @@ import {
   PackageCheck,
   ReceiptText,
   TrendingUp,
+  Users,
 } from "lucide-react";
 import { StatusBadge } from "@/components/ui";
 import { formatCurrency } from "@/lib/currency/format-currency";
@@ -23,12 +24,22 @@ export function SummaryCards({ summary }: SummaryCardsProps) {
     },
     {
       icon: TrendingUp,
-      label: "Lucro estimado",
+      label: "Lucro liquido",
       value: formatCurrency(summary.estimatedProfitCents),
     },
     {
+      icon: PackageCheck,
+      label: "Pecas vendidas",
+      value: String(summary.itemQuantity),
+    },
+    {
+      icon: Users,
+      label: "Clientes",
+      value: String(summary.customerCount),
+    },
+    {
       icon: ReceiptText,
-      label: "Pedidos",
+      label: "Vendas",
       value: String(summary.orderCount),
     },
     {
@@ -42,7 +53,7 @@ export function SummaryCards({ summary }: SummaryCardsProps) {
       value: formatCurrency(summary.pendingAmountCents),
     },
     {
-      icon: PackageCheck,
+      icon: Clock3,
       label: "Em andamento",
       value: String(summary.activeOrderCount),
     },

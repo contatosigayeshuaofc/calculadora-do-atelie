@@ -46,6 +46,14 @@ export function calculateDashboardMetrics({
     financialSales.map((sale) => sale.estimatedProfitCents),
   );
   const orderCount = financialSales.length;
+  const itemQuantity = sum(
+    financialSales.flatMap((sale) => sale.items.map((item) => item.quantity)),
+  );
+  const customerCount = new Set(
+    financialSales
+      .map((sale) => sale.customerId)
+      .filter((customerId): customerId is string => Boolean(customerId)),
+  ).size;
   const pendingSales = nonCanceledSales.filter(
     (sale) => sale.paymentStatus !== "paid",
   );
@@ -56,7 +64,9 @@ export function calculateDashboardMetrics({
       .length,
     averageTicketCents:
       orderCount === 0 ? 0 : Math.round(revenueCents / orderCount),
+    customerCount,
     estimatedProfitCents,
+    itemQuantity,
     orderCount,
     pendingAmountCents,
     pendingAmountIsApproximate: pendingSales.some(
