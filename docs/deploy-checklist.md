@@ -61,11 +61,12 @@ Com a Supabase CLI conectada ao projeto:
 
 ```bash
 pnpm supabase:check
-supabase login
-supabase link --project-ref <project-ref>
-supabase db push
-supabase migration list
+pnpm supabase:activate
 ```
+
+Se a CLI pedir login, rode `supabase login` uma vez e execute `pnpm supabase:activate` novamente.
+
+ Por dentro, esse script conecta o projeto, executa `supabase db push` e confere `supabase migration list`.
 
 Depois gere os tipos do banco:
 

@@ -15,6 +15,8 @@
     "test:e2e": "playwright test",
     "env:check": "node scripts/check-env.mjs",
     "supabase:check": "node scripts/check-supabase-activation.mjs",
+    "supabase:version": "supabase --version",
+    "supabase:activate": "node scripts/check-supabase-activation.mjs && node scripts/apply-supabase-migrations.mjs",
     "pilot:check": "node scripts/pilot-check.mjs",
     "admin:create": "node scripts/create-admin-user.mjs"
   },
@@ -41,6 +43,7 @@
     "eslint": "9.39.2",
     "eslint-config-next": "latest",
     "jsdom": "latest",
+    "supabase": "^2.109.1",
     "tailwindcss": "latest",
     "typescript": "6.0.3",
     "vitest": "latest"

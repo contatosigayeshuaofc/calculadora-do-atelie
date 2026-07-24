@@ -81,11 +81,10 @@ Conecte o projeto local ao Supabase real:
 
 ```bash
 pnpm supabase:check
-supabase login
-supabase link --project-ref SEU-PROJECT-REF
-supabase db push
-supabase migration list
+pnpm supabase:activate
 ```
+
+Se a CLI pedir login, rode `supabase login` uma vez e execute `pnpm supabase:activate` novamente.
 
 As migrations precisam entrar no banco antes do primeiro login real:
 

@@ -57,10 +57,12 @@ Com Supabase CLI instalado e projeto conectado:
 
 ```bash
 pnpm supabase:check
-supabase login
-supabase link --project-ref <project-ref>
-supabase db push
+pnpm supabase:activate
 ```
+
+Se a CLI pedir login, rode `supabase login` uma vez e execute `pnpm supabase:activate` novamente.
+
+ Por dentro, esse script conecta o projeto, executa `supabase db push` e confere `supabase migration list`.
 
 Depois gere os tipos atualizados:
 
@@ -76,6 +78,7 @@ pnpm lint
 pnpm test
 pnpm env:check
 pnpm supabase:check
+pnpm supabase:activate
 pnpm pilot:check
 pnpm build
 pnpm test:e2e

@@ -46,6 +46,7 @@ describe("pilot deployment documentation", () => {
 
     expect(fullText).toContain("pnpm admin:create");
     expect(fullText).toContain("pnpm supabase:check");
+    expect(fullText).toContain("pnpm supabase:activate");
     expect(fullText).toContain("pnpm test:e2e");
     expect(fullText).toContain("supabase db push");
     expect(fullText).toContain("supabase gen types typescript");
@@ -65,7 +66,7 @@ describe("pilot deployment documentation", () => {
     expect(guide).toContain("ADMIN_BOOTSTRAP_PASSWORD");
     expect(guide).toContain("pnpm env:check");
     expect(guide).toContain("pnpm supabase:check");
-    expect(guide).toContain("supabase db push");
+    expect(guide).toContain("pnpm supabase:activate");
     expect(guide).toContain("pnpm admin:create");
     expect(guide).toContain("http://localhost:3000/entrar");
     expect(guide).not.toContain("!Trader0407");
