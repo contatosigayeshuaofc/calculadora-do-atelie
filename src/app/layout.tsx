@@ -13,7 +13,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        {children}
+        <footer className="px-4 pb-6 pt-4 text-center text-xs leading-5 text-[color:var(--color-text-muted)]">
+          Precisa de ajuda?{" "}
+          <a className="font-semibold text-[color:var(--color-olive-dark)] underline-offset-4 hover:underline" href="mailto:suporte@ateliearomatico.site">
+            suporte@ateliearomatico.site
+          </a>
+        </footer>
+      </body>
     </html>
   );
 }
