@@ -1,17 +1,23 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navItems } from "./nav-items";
+import { getActiveNavHref } from "./nav-state";
 
 const mobileItems = navItems.slice(0, 5);
 
 export function MobileNav() {
+  const activeHref = getActiveNavHref(usePathname());
+
   return (
     <nav
       aria-label="Navegacao mobile"
-      className="atelier-rail fixed inset-x-3 bottom-3 z-40 grid grid-cols-5 rounded-[var(--radius-lg)] border p-1.5 lg:hidden"
+      className="atelier-rail fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 grid grid-cols-5 rounded-[var(--radius-lg)] border p-1.5 lg:hidden"
     >
-      {mobileItems.map((item, index) => {
+      {mobileItems.map((item) => {
         const Icon = item.icon;
-        const isActive = index === 0;
+        const isActive = item.href === activeHref;
 
         return (
           <Link

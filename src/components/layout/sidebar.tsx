@@ -1,8 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Sparkles } from "lucide-react";
 import { navItems } from "./nav-items";
+import { getActiveNavHref } from "./nav-state";
 
 export function Sidebar() {
+  const activeHref = getActiveNavHref(usePathname());
+
   return (
     <aside className="atelier-rail fixed left-5 top-5 hidden h-[calc(100vh-40px)] w-64 flex-col rounded-[var(--radius-lg)] border p-4 lg:flex">
       <Link className="flex items-center gap-3 rounded-[var(--radius-md)] px-2 py-2" href={"/painel" as never}>
@@ -18,9 +24,9 @@ export function Sidebar() {
       </Link>
 
       <nav className="mt-8 space-y-1" aria-label="Navegacao principal">
-        {navItems.map((item, index) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = index === 0;
+          const isActive = item.href === activeHref;
 
           return (
             <Link
