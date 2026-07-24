@@ -20,6 +20,49 @@ pnpm dev
 
 Copie `.env.example` para `.env.local` quando as credenciais do Supabase estiverem disponiveis.
 
+Abra `http://localhost:3000/entrar` para visualizar o app localmente.
+
+## Configuracao do Supabase
+
+No projeto real do Supabase, copie as chaves em Settings > API Keys e preencha:
+
+```dotenv
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+ADMIN_EMAILS=admin@atelielucrativo.com
+ADMIN_BOOTSTRAP_EMAIL=admin@atelielucrativo.com
+ADMIN_BOOTSTRAP_PASSWORD=
+ADMIN_BOOTSTRAP_NAME=Administrador
+ADMIN_BOOTSTRAP_ATELIER=Atelie Lucrativo
+```
+
+Use a publishable key no campo `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. A chave secreta ou `service_role` deve ficar somente no servidor, em `SUPABASE_SERVICE_ROLE_KEY`.
+
+## Migrations do Banco
+
+As migrations precisam ser aplicadas no Supabase real antes do primeiro teste com clientes:
+
+1. `20260724112802_initial_schema.sql`
+2. `20260724124300_product_pricing_rpc.sql`
+3. `20260724143000_sales_rpc.sql`
+4. `20260724152000_admin_access_review.sql`
+5. `20260724154500_harden_public_api_surface.sql`
+
+Com Supabase CLI instalado e projeto conectado:
+
+```bash
+supabase login
+supabase link --project-ref <project-ref>
+supabase db push
+```
+
+Depois gere os tipos atualizados:
+
+```bash
+supabase gen types typescript --linked --schema public > src/types/database.ts
+```
+
 ## Scripts
 
 ```bash
@@ -35,21 +78,33 @@ pnpm admin:create
 
 O e-mail `admin@atelielucrativo.com` e reconhecido como administrador do MVP.
 
-Para criar ou atualizar esse usuario no Supabase real, configure em `.env.local`:
-
-```dotenv
-NEXT_PUBLIC_SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
-ADMIN_BOOTSTRAP_PASSWORD=
-```
-
-Depois rode:
+Para criar ou atualizar esse usuario no Supabase real, preencha `ADMIN_BOOTSTRAP_PASSWORD` em `.env.local` e rode:
 
 ```bash
 pnpm admin:create
 ```
 
 A senha do administrador deve ficar apenas no `.env.local` ou no painel seguro do provedor. Ela nao deve ser commitada.
+
+## Deploy na Vercel
+
+Antes do deploy, confira o checklist completo em `docs/deploy-checklist.md`.
+
+Na Vercel, configure as mesmas variaveis do `.env.local`. Marque `SUPABASE_SERVICE_ROLE_KEY` e `ADMIN_BOOTSTRAP_PASSWORD` como variaveis sensiveis quando o provedor oferecer essa opcao.
+
+Depois rode as validacoes finais:
+
+```bash
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
+pnpm test:e2e
+```
+
+## Backup
+
+Antes de abrir para clientes reais, ative uma rotina de Backup no Supabase. No piloto, o minimo recomendado e revisar diariamente os backups automaticos do projeto e exportar um backup manual antes de grandes alteracoes no banco.
 
 ## Observacao
 
