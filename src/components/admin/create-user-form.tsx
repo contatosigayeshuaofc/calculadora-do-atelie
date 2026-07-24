@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { useActionState } from "react";
-import { UserPlus } from "lucide-react";
+import { Eye, EyeOff, UserPlus } from "lucide-react";
 import { createManualUserAction } from "@/features/admin/actions";
 import type { AdminActionState } from "@/features/admin/types";
 import { Button, Input } from "@/components/ui";
@@ -13,6 +14,7 @@ const initialState: AdminActionState = {
 
 export function CreateUserForm() {
   const [state, formAction, isPending] = useActionState(createManualUserAction, initialState);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form action={formAction} className="atelier-panel p-5 sm:p-6">
@@ -31,7 +33,27 @@ export function CreateUserForm() {
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <Input label="Nome da cliente" name="fullName" placeholder="Ana Souza" required />
         <Input label="E-mail de acesso" name="email" placeholder="ana@email.com" required type="email" />
-        <Input label="Senha temporaria" name="password" placeholder="Minimo 6 caracteres" required type="text" />
+        <label className="block" htmlFor="password">
+          <span className="text-sm font-semibold text-[color:var(--color-warm-graphite)]">Senha temporaria</span>
+          <span className="mt-2 flex h-11 overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white focus-within:border-[color:var(--color-olive)] focus-within:ring-2 focus-within:ring-[rgba(104,98,70,0.14)]">
+            <input
+              className="min-w-0 flex-1 bg-transparent px-3.5 text-sm outline-none"
+              id="password"
+              name="password"
+              placeholder="Minimo 6 caracteres"
+              required
+              type={showPassword ? "text" : "password"}
+            />
+            <button
+              aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+              className="flex h-full w-11 shrink-0 items-center justify-center text-[color:var(--color-muted-lavender)] transition hover:text-[color:var(--color-olive)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[color:var(--color-antique-gold)]"
+              onClick={() => setShowPassword((current) => !current)}
+              type="button"
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
+            </button>
+          </span>
+        </label>
         <Input label="WhatsApp" name="whatsapp" placeholder="Opcional" />
         <Input className="sm:col-span-2" label="Nome do atelie" name="atelierName" placeholder="Opcional" />
       </div>
