@@ -95,12 +95,7 @@ supabase gen types typescript --linked --schema public > src/types/database.ts
 ## 6. Rodar validacoes
 
 ```bash
-pnpm typecheck
-pnpm lint
-pnpm test
-pnpm env:check
-pnpm build
-pnpm test:e2e
+pnpm pilot:check
 ```
 
 O teste E2E completo com dados reais so deve ser considerado final depois que o Supabase real estiver configurado e as migrations estiverem aplicadas.
@@ -141,4 +136,4 @@ O MVP so deve ser liberado quando:
 - Aprovacao manual funcionando.
 - Produto, cliente, venda e painel funcionando.
 - Mensagens de erro amigaveis.
-- `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm env:check`, `pnpm build` e `pnpm test:e2e` aprovados.
+- `pnpm pilot:check` aprovado.

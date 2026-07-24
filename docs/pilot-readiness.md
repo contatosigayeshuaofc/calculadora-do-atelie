@@ -25,6 +25,7 @@ Este documento resume a situacao atual da Calculadora do Atelie antes de abrir o
 - Configurar um projeto Supabase real.
 - Preencher as variaveis de ambiente reais.
 - Conferir as variaveis reais com `pnpm env:check`.
+- Rodar `pnpm pilot:check` antes de vender o acesso.
 - Aplicar as migrations no banco real.
 - Gerar tipos atualizados do banco depois das migrations.
 - Criar o administrador real com `admin@atelielucrativo.com`.
@@ -40,13 +41,14 @@ Este documento resume a situacao atual da Calculadora do Atelie antes de abrir o
 4. Aplicar as migrations com a Supabase CLI.
 5. Gerar os tipos do banco.
 6. Criar o administrador com `pnpm admin:create`.
-7. Entrar como administrador e confirmar que `/admin` esta restrito.
-8. Criar uma conta de cliente real de teste.
-9. Aprovar a cliente no painel administrador.
-10. Entrar como cliente ativa e testar produto, cliente, venda e painel.
-11. Configurar as variaveis na Vercel.
-12. Publicar na Vercel.
-13. Repetir o teste com conta real no dominio final.
+7. Rodar `pnpm pilot:check`.
+8. Entrar como administrador e confirmar que `/admin` esta restrito.
+9. Criar uma conta de cliente real de teste.
+10. Aprovar a cliente no painel administrador.
+11. Entrar como cliente ativa e testar produto, cliente, venda e painel.
+12. Configurar as variaveis na Vercel.
+13. Publicar na Vercel.
+14. Repetir o teste com conta real no dominio final.
 
 ## criterios de aceite antes de vender
 
@@ -62,7 +64,7 @@ Este documento resume a situacao atual da Calculadora do Atelie antes de abrir o
 - Orcamentos e vendas canceladas nao entram no faturamento.
 - Uma cliente nao acessa dados de outra cliente.
 - App funciona bem no celular.
-- `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm env:check`, `pnpm build` e `pnpm test:e2e` passam.
+- `pnpm pilot:check` passa.
 
 ## Decisao
 

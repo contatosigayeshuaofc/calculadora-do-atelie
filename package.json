@@ -14,6 +14,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "env:check": "node scripts/check-env.mjs",
+    "pilot:check": "node scripts/pilot-check.mjs",
     "admin:create": "node scripts/create-admin-user.mjs"
   },
   "dependencies": {

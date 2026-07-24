@@ -70,6 +70,7 @@ pnpm typecheck
 pnpm lint
 pnpm test
 pnpm env:check
+pnpm pilot:check
 pnpm build
 pnpm test:e2e
 pnpm admin:create
@@ -100,12 +101,7 @@ Na Vercel, configure as mesmas variaveis do `.env.local`. Marque `SUPABASE_SERVI
 Depois rode as validacoes finais:
 
 ```bash
-pnpm typecheck
-pnpm lint
-pnpm test
-pnpm env:check
-pnpm build
-pnpm test:e2e
+pnpm pilot:check
 ```
 
 ## Backup
