@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -10,6 +10,16 @@ function readMigration(fileName: string) {
 
 function readMigrations(...fileNames: string[]) {
   return fileNames.map(readMigration).join("\n");
+}
+
+function readAllMigrations() {
+  const migrationsDir = join(root, "supabase", "migrations");
+
+  return readdirSync(migrationsDir)
+    .filter((fileName) => fileName.endsWith(".sql"))
+    .sort()
+    .map((fileName) => readFileSync(join(migrationsDir, fileName), "utf8"))
+    .join("\n");
 }
 
 function readSource(fileName: string) {
@@ -40,6 +50,7 @@ describe("data isolation security audit", () => {
       "20260724154500_harden_public_api_surface.sql",
     ),
   );
+  const currentMigrations = normalizeSql(readAllMigrations());
 
   test("keeps RLS enabled for every tenant-owned table", () => {
     const tenantTables = [
@@ -88,6 +99,24 @@ describe("data isolation security audit", () => {
     );
     expect(allMigrations).toContain(
       "revoke execute on function public.update_my_profile(text, text, text) from public, anon, authenticated;",
+    );
+  });
+
+  test("removes public execution from Supabase security helper functions", () => {
+    expect(currentMigrations).toContain(
+      "revoke execute on function public.rls_auto_enable() from public, anon, authenticated;",
+    );
+  });
+
+  test("keeps profile editing on normal user privileges and safe columns only", () => {
+    expect(currentMigrations).toContain(
+      "grant update (full_name, atelier_name, whatsapp) on public.profiles to authenticated;",
+    );
+    expect(currentMigrations).toContain(
+      "alter function public.update_my_profile(text, text, text) security invoker;",
+    );
+    expect(currentMigrations).not.toContain(
+      "grant update (access_status) on public.profiles to authenticated;",
     );
   });
 
