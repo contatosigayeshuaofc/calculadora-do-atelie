@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getAccessDecision } from "@/features/auth/access";
+import { canAdminAccess, parseAdminEmails } from "@/features/admin/schemas";
 import { forgotPasswordSchema, resetPasswordSchema, signInSchema, signUpSchema } from "@/features/auth/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { missingSupabaseMessage } from "@/lib/supabase/env";
@@ -54,6 +55,10 @@ export async function signInAction(_: AuthActionState, formData: FormData): Prom
 
   if (!user) {
     return errorState("Nao foi possivel confirmar sua sessao. Tente novamente.");
+  }
+
+  if (canAdminAccess(user.email, parseAdminEmails(process.env.ADMIN_EMAILS))) {
+    redirect("/admin" as never);
   }
 
   const decision = await getAccessDecision(supabase, user);

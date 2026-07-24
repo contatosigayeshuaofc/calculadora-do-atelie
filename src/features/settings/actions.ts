@@ -24,14 +24,11 @@ export async function saveSettingsAction(
     });
     const { supabase, user } = await requireActiveUser();
 
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .update({
-        atelier_name: settings.atelierName,
-        full_name: settings.fullName,
-        whatsapp: settings.whatsapp,
-      })
-      .eq("id", user.id);
+    const { error: profileError } = await supabase.rpc("update_my_profile", {
+      p_atelier_name: settings.atelierName,
+      p_full_name: settings.fullName,
+      p_whatsapp: settings.whatsapp,
+    });
 
     if (profileError) {
       throw new Error(profileError.message);

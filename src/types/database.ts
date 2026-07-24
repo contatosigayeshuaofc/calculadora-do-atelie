@@ -314,6 +314,14 @@ export type Database = {
         };
         Returns: string;
       };
+      update_my_profile: {
+        Args: {
+          p_atelier_name: string | null;
+          p_full_name: string | null;
+          p_whatsapp: string | null;
+        };
+        Returns: undefined;
+      };
     };
     Enums: PublicEnums;
     CompositeTypes: Record<string, never>;
