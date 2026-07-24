@@ -28,7 +28,28 @@ pnpm lint
 pnpm test
 pnpm build
 pnpm test:e2e
+pnpm admin:create
 ```
+
+## Administrador
+
+O e-mail `admin@atelielucrativo.com` e reconhecido como administrador do MVP.
+
+Para criar ou atualizar esse usuario no Supabase real, configure em `.env.local`:
+
+```dotenv
+NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+ADMIN_BOOTSTRAP_PASSWORD=
+```
+
+Depois rode:
+
+```bash
+pnpm admin:create
+```
+
+A senha do administrador deve ficar apenas no `.env.local` ou no painel seguro do provedor. Ela nao deve ser commitada.
 
 ## Observacao
 

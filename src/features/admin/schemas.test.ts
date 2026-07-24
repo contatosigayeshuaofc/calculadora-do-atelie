@@ -1,7 +1,20 @@
 import { describe, expect, test } from "vitest";
-import { canAdminAccess, parseAdminEmails, parseCreateUserFormData, parseUpdateAccessFormData } from "./schemas";
+import {
+  DEFAULT_ADMIN_EMAIL,
+  canAdminAccess,
+  parseAdminEmails,
+  parseCreateUserFormData,
+  parseUpdateAccessFormData,
+} from "./schemas";
 
 describe("admin schemas", () => {
+  test("keeps the official owner email as an admin by default", () => {
+    const admins = parseAdminEmails(undefined);
+
+    expect(canAdminAccess(DEFAULT_ADMIN_EMAIL.toUpperCase(), admins)).toBe(true);
+    expect(canAdminAccess("cliente@atelielucrativo.com", admins)).toBe(false);
+  });
+
   test("matches admin email list case-insensitively", () => {
     const admins = parseAdminEmails("dona@atelie.com, financeiro@atelie.com");
 

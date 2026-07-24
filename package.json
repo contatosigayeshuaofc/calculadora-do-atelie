@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "admin:create": "node scripts/create-admin-user.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",

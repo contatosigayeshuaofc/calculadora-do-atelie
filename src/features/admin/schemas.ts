@@ -1,6 +1,8 @@
 import { z } from "zod";
 import type { AccessStatus } from "@/types/database";
 
+export const DEFAULT_ADMIN_EMAIL = "admin@atelielucrativo.com";
+
 const managedAccessStatusSchema = z.enum(["active", "suspended"], {
   error: "Escolha aprovar ou cancelar o acesso.",
 });
@@ -26,12 +28,12 @@ export type CreateManualUserInput = z.infer<typeof createUserSchema>;
 export type UpdateAccessInput = z.infer<typeof updateAccessSchema>;
 
 export function parseAdminEmails(value: string | undefined) {
-  return new Set(
-    (value ?? "")
-      .split(",")
-      .map((email) => email.trim().toLowerCase())
-      .filter(Boolean),
-  );
+  const configuredEmails = (value ?? "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+
+  return new Set([DEFAULT_ADMIN_EMAIL, ...configuredEmails]);
 }
 
 export function canAdminAccess(email: string | null | undefined, adminEmails: Set<string>) {
