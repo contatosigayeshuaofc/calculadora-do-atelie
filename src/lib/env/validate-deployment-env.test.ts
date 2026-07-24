@@ -40,4 +40,20 @@ describe("validateDeploymentEnv", () => {
       "Remova NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: chave secreta nao pode ficar publica.",
     );
   });
+
+  test("reports friendly messages for values that look pasted in the wrong field", () => {
+    const result = validateDeploymentEnv({
+      ADMIN_BOOTSTRAP_PASSWORD: "!Trader0407",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_secret_wrong_place",
+      NEXT_PUBLIC_SUPABASE_URL: "not-a-url",
+      SUPABASE_SERVICE_ROLE_KEY: "sb_publishable_wrong_place",
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.messages).toEqual([
+      "Confira NEXT_PUBLIC_SUPABASE_URL: ela deve ser uma URL do Supabase, como https://seu-projeto.supabase.co.",
+      "Confira NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: use a publishable key ou anon key, nunca uma chave secreta.",
+      "Confira SUPABASE_SERVICE_ROLE_KEY: use uma secret key ou service_role, nunca a publishable key.",
+    ]);
+  });
 });

@@ -9,6 +9,20 @@ function readProjectFile(path: string) {
 }
 
 describe("pilot deployment documentation", () => {
+  test("keeps a safe environment example for setup", () => {
+    const envExample = readProjectFile(".env.example");
+
+    expect(envExample).toContain("NEXT_PUBLIC_SUPABASE_URL=");
+    expect(envExample).toContain("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=");
+    expect(envExample).toContain("SUPABASE_SERVICE_ROLE_KEY=");
+    expect(envExample).toContain("ADMIN_EMAILS=admin@atelielucrativo.com");
+    expect(envExample).toContain("ADMIN_BOOTSTRAP_EMAIL=admin@atelielucrativo.com");
+    expect(envExample).toContain("ADMIN_BOOTSTRAP_PASSWORD=");
+    expect(envExample).not.toContain("!Trader0407");
+    expect(envExample).not.toContain("sb_secret_");
+    expect(envExample).not.toContain("NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY");
+  });
+
   test("documents the complete production activation checklist", () => {
     const readme = readProjectFile("README.md");
     const checklist = readProjectFile("docs/deploy-checklist.md");
