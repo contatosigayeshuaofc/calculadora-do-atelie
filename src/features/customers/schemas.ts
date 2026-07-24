@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
 
 const optionalTrimmedString = z
   .string()
@@ -54,7 +55,7 @@ export function getCustomerFormError(error: unknown): string {
   }
 
   if (error instanceof Error) {
-    return error.message;
+    return getUserFacingErrorMessage(error, "Nao foi possivel salvar a cliente. Tente novamente.");
   }
 
   return "Nao foi possivel salvar a cliente.";

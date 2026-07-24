@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { OrderStatus, PaymentStatus } from "@/types/database";
 import { parseCurrencyInput } from "@/lib/currency/parse-currency-input";
+import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
 
 export const orderStatuses = [
   "quote",
@@ -121,7 +122,7 @@ export function getSaleFormError(error: unknown): string {
   }
 
   if (error instanceof Error) {
-    return error.message;
+    return getUserFacingErrorMessage(error, "Nao foi possivel salvar a venda. Tente novamente.");
   }
 
   return "Nao foi possivel salvar a venda.";

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { ProductPricingInput } from "@/features/pricing/types";
 import { parseCurrencyInput } from "@/lib/currency/parse-currency-input";
+import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
 
 const positiveNumberFromString = (field: string) =>
   z.coerce.number({ error: `${field} precisa ser informado.` }).positive({
@@ -109,7 +110,7 @@ export function getProductFormError(error: unknown): string {
   }
 
   if (error instanceof Error) {
-    return error.message;
+    return getUserFacingErrorMessage(error, "Nao foi possivel salvar o produto. Tente novamente.");
   }
 
   return "Nao foi possivel salvar o produto.";

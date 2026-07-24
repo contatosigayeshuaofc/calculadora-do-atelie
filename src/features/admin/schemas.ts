@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { AccessStatus } from "@/types/database";
+import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
 
 export const DEFAULT_ADMIN_EMAIL = "admin@atelielucrativo.com";
 
@@ -70,7 +71,7 @@ export function getAdminFormError(error: unknown) {
   }
 
   if (error instanceof Error) {
-    return error.message;
+    return getUserFacingErrorMessage(error, "Nao foi possivel concluir a acao. Tente novamente.");
   }
 
   return "Nao foi possivel concluir a acao.";

@@ -30,7 +30,7 @@ export function getSupabaseAdminEnv(): SupabaseAdminEnv | null {
 }
 
 export const missingSupabaseMessage =
-  "Configure NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY para ativar login, cadastro e protecao do app.";
+  "O acesso ainda esta sendo preparado. Entre em contato com o suporte se precisar de ajuda.";
 
 export const missingSupabaseAdminMessage =
-  "Configure SUPABASE_SERVICE_ROLE_KEY e ADMIN_EMAILS para ativar o painel administrativo.";
+  "O painel administrativo ainda esta sendo preparado. Verifique as configuracoes internas antes de continuar.";

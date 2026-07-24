@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
 
 const multiplierFromString = (field: string) =>
   z
@@ -44,7 +45,7 @@ export function getSettingsFormError(error: unknown): string {
   }
 
   if (error instanceof Error) {
-    return error.message;
+    return getUserFacingErrorMessage(error, "Nao foi possivel salvar as configuracoes. Tente novamente.");
   }
 
   return "Nao foi possivel salvar as configuracoes.";

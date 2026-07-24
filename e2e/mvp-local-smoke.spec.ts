@@ -1,14 +1,20 @@
 import { expect, test } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
 const protectedRoutes = ["/painel", "/produtos", "/clientes", "/vendas", "/configuracoes"];
+const missingAccessMessage = "O acesso ainda esta sendo preparado.";
+
+function gotoApp(page: Page, route: string) {
+  return page.goto(route, { waitUntil: "domcontentloaded" });
+}
 
 test.describe("MVP local smoke", () => {
   test("shows the sign-in page and captures a visual checkpoint", async ({ page }, testInfo) => {
-    await page.goto("/entrar");
+    await gotoApp(page, "/entrar");
 
     await expect(page.getByRole("heading", { name: "Calculadora do Atelie" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Entre no seu atelie" })).toBeVisible();
-    await expect(page.getByText("Configure NEXT_PUBLIC_SUPABASE_URL")).toBeVisible();
+    await expect(page.getByText(missingAccessMessage)).toBeVisible();
     await expect(page.getByRole("link", { name: "suporte@ateliearomatico.site" })).toHaveAttribute(
       "href",
       "mailto:suporte@ateliearomatico.site",
@@ -22,17 +28,17 @@ test.describe("MVP local smoke", () => {
 
   for (const route of protectedRoutes) {
     test(`protects ${route} without a configured session`, async ({ page }) => {
-      await page.goto(route);
+      await gotoApp(page, route);
 
       await expect(page).toHaveURL(/\/entrar/);
-      await expect(page.getByText("Configure NEXT_PUBLIC_SUPABASE_URL")).toBeVisible();
+      await expect(page.getByText(missingAccessMessage)).toBeVisible();
     });
   }
 
   test("keeps the admin page hidden from visitors", async ({ page }) => {
-    await page.goto("/admin");
+    await gotoApp(page, "/admin");
 
     await expect(page).toHaveURL(/\/entrar/);
-    await expect(page.getByText("Configure NEXT_PUBLIC_SUPABASE_URL")).toBeVisible();
+    await expect(page.getByText(missingAccessMessage)).toBeVisible();
   });
 });
