@@ -1,0 +1,27 @@
+import Link from "next/link";
+import { ProductForm } from "@/components/products/product-form";
+import { getProductPricingSettings } from "@/features/products/queries";
+
+export default async function NewProductPage() {
+  const settings = await getProductPricingSettings();
+
+  return (
+    <div className="space-y-5">
+      <div>
+        <Link
+          className="text-sm font-semibold text-[color:var(--color-text-muted)] hover:text-[color:var(--color-olive)]"
+          href="/produtos"
+        >
+          Voltar para produtos
+        </Link>
+        <h1 className="mt-3 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
+          Novo produto
+        </h1>
+      </div>
+      <ProductForm
+        minimumMultiplier={settings.minimumMultiplier}
+        recommendedMultiplier={settings.recommendedMultiplier}
+      />
+    </div>
+  );
+}

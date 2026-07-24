@@ -274,7 +274,32 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      upsert_product_with_cost_items: {
+        Args: {
+          p_product_id: string | null;
+          p_name: string;
+          p_category: string | null;
+          p_description: string | null;
+          p_sale_unit: string;
+          p_batch_yield: number;
+          p_packaging_cost_per_unit_cents: number;
+          p_additional_batch_cost_cents: number;
+          p_selling_price_cents: number;
+          p_minimum_multiplier: number;
+          p_recommended_multiplier: number;
+          p_cost_items: Json;
+        };
+        Returns: string;
+      };
+      set_product_active: {
+        Args: {
+          p_product_id: string;
+          p_is_active: boolean;
+        };
+        Returns: undefined;
+      };
+    };
     Enums: PublicEnums;
     CompositeTypes: Record<string, never>;
   };
