@@ -1,5 +1,10 @@
-import { ArrowRight, Calculator, LockKeyhole, Sparkles } from "lucide-react";
-import { Button, Input } from "@/components/ui";
+import Link from "next/link";
+import { Calculator, LockKeyhole, Sparkles } from "lucide-react";
+import { SignInForm, SignUpForm } from "@/features/auth/auth-forms";
+import { getAccessDecision } from "@/features/auth/access";
+import { missingSupabaseMessage } from "@/lib/supabase/env";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 const benefits = [
   "Calcule custo por unidade sem planilha confusa",
@@ -7,7 +12,27 @@ const benefits = [
   "Registre clientes, pedidos e entregas em um so lugar",
 ];
 
-export default function SignInPage() {
+type SignInPageProps = {
+  searchParams?: Promise<{ motivo?: string }>;
+};
+
+export default async function SignInPage({ searchParams }: SignInPageProps) {
+  const supabase = await createClient();
+  const resolvedSearchParams = await searchParams;
+
+  if (supabase) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      const decision = await getAccessDecision(supabase, user);
+      redirect(decision.destination as never);
+    }
+  }
+
+  const isMissingConfig = resolvedSearchParams?.motivo === "configuracao" || !supabase;
+
   return (
     <main className="atelier-shell">
       <section className="atelier-panel overflow-hidden">
@@ -44,22 +69,33 @@ export default function SignInPage() {
               <h2 className="font-[var(--font-cormorant)] text-4xl text-[color:var(--color-warm-graphite)]">
                 Entre no seu atelie
               </h2>
-              <p className="mt-3 text-sm leading-6 text-[color:var(--color-text-muted)]">
-                A autenticacao com Supabase entra na proxima etapa. Esta tela ja prepara a experiencia do MVP.
-              </p>
+              <p className="mt-3 text-sm leading-6 text-[color:var(--color-text-muted)]">Entre com seu e-mail e senha para acessar sua calculadora.</p>
 
-              <form className="mt-8 space-y-5">
-                <Input label="E-mail" placeholder="voce@email.com" type="email" />
-                <Input label="Senha" placeholder="Sua senha" type="password" />
+              {isMissingConfig ? (
+                <div className="mt-6 rounded-[var(--radius-sm)] border border-[rgba(160,82,69,0.25)] bg-[rgba(160,82,69,0.08)] p-4 text-sm leading-6 text-[color:var(--color-danger)]">
+                  {missingSupabaseMessage}
+                </div>
+              ) : null}
 
-                <Button className="w-full" rightIcon={<ArrowRight className="h-4 w-4" aria-hidden="true" />} size="lg">
-                  Entrar
-                </Button>
-              </form>
+              <div className="mt-8">
+                <SignInForm />
+              </div>
+
+              <Link className="mt-4 inline-block text-sm font-semibold text-[color:var(--color-olive-dark)]" href={"/recuperar-senha" as never}>
+                Esqueci minha senha
+              </Link>
 
               <div className="mt-8 flex items-start gap-3 rounded-xl border border-[color:var(--color-clay-beige)] bg-[color:var(--color-paper)] p-4 text-sm leading-6 text-[color:var(--color-text-muted)]">
                 <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--color-muted-lavender)]" aria-hidden="true" />
                 <p>Contas novas ficarao aguardando liberacao manual apos confirmacao da compra.</p>
+              </div>
+
+              <div className="mt-8 border-t border-[color:var(--color-clay-beige)] pt-8">
+                <h3 className="font-[var(--font-cormorant)] text-3xl leading-tight text-[color:var(--color-warm-graphite)]">Criar acesso</h3>
+                <p className="mb-5 mt-1 text-sm leading-6 text-[color:var(--color-text-muted)]">
+                  Cadastre seus dados para entrar na fila de liberacao manual.
+                </p>
+                <SignUpForm />
               </div>
             </div>
           </div>

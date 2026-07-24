@@ -1,12 +1,17 @@
-import { Bell, Search } from "lucide-react";
+import { Bell, LogOut, Search } from "lucide-react";
 import { Button } from "@/components/ui";
+import { signOutAction } from "@/features/auth/actions";
 
-export function AppHeader() {
+type AppHeaderProps = {
+  atelierName?: string | null;
+};
+
+export function AppHeader({ atelierName }: AppHeaderProps) {
   return (
     <header className="flex flex-col gap-4 border-b border-[rgba(201,191,177,0.72)] pb-5 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <p className="font-[var(--font-cinzel)] text-[10px] font-bold uppercase tracking-[0.22em] text-[color:var(--color-antique-gold)]">
-          Calculadora do Atelie
+          {atelierName || "Calculadora do Atelie"}
         </p>
         <h1 className="mt-2 font-[var(--font-cormorant)] text-4xl leading-none text-[color:var(--color-warm-graphite)] sm:text-5xl">Painel</h1>
       </div>
@@ -19,6 +24,11 @@ export function AppHeader() {
         <Button aria-label="Notificacoes" size="icon" variant="secondary">
           <Bell className="h-4 w-4" aria-hidden="true" />
         </Button>
+        <form action={signOutAction}>
+          <Button aria-label="Sair" size="icon" type="submit" variant="ghost">
+            <LogOut className="h-4 w-4" aria-hidden="true" />
+          </Button>
+        </form>
       </div>
     </header>
   );
