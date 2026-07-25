@@ -7,12 +7,12 @@ export default function WaitingAccessPage() {
   return (
     <main className="atelier-shell">
       <section className="atelier-panel w-full max-w-xl p-6 text-center sm:p-10">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[rgba(98,121,88,0.12)] text-[color:var(--color-olive)]">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[rgba(196,168,130,0.18)] text-[color:var(--color-gold)]">
           <Clock3 className="h-7 w-7" aria-hidden="true" />
         </div>
-        <h1 className="mt-6 font-[var(--font-cormorant)] text-5xl leading-none text-[color:var(--color-warm-graphite)]">Aguardando liberacao</h1>
+        <h1 className="mt-6 text-5xl font-black leading-none text-[color:var(--color-cream)]">Aguardando liberação</h1>
         <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-[color:var(--color-text-muted)]">
-          Sua conta foi criada e entrara no app assim que a compra for conferida manualmente.
+          Sua conta foi criada e entrará no app assim que a compra for conferida manualmente.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Link href={"/entrar" as never}>

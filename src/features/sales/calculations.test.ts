@@ -82,7 +82,7 @@ describe("calculateSaleTotals", () => {
         discountCents: 5000,
         deliveryFeeCents: 0,
       }),
-    ).toThrow("O total da venda nao pode ficar negativo.");
+    ).toThrow("O total da venda não pode ficar negativo.");
   });
 
   test("mantem os snapshots do produto usados na venda", () => {

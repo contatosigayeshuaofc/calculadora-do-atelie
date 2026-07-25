@@ -55,8 +55,8 @@ export function getCustomerFormError(error: unknown): string {
   }
 
   if (error instanceof Error) {
-    return getUserFacingErrorMessage(error, "Nao foi possivel salvar a cliente. Tente novamente.");
+    return getUserFacingErrorMessage(error, "Não foi possível salvar a cliente. Tente novamente.");
   }
 
-  return "Nao foi possivel salvar a cliente.";
+  return "Não foi possível salvar a cliente.";
 }

@@ -42,6 +42,6 @@ describe("parseSettingsFormData", () => {
         recommendedMultiplier: "2",
         whatsapp: "",
       }),
-    ).toThrow("O multiplicador recomendado precisa ser igual ou maior que o minimo.");
+    ).toThrow("O multiplicador recomendado precisa ser igual ou maior que o mínimo.");
   });
 });

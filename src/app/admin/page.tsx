@@ -14,16 +14,16 @@ export default async function AdminPage() {
   const overview = await listAdminUsers();
 
   return (
-    <main className="min-h-screen bg-[color:var(--color-background)] px-4 py-5 text-[color:var(--color-warm-graphite)] sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[color:var(--color-background)] px-4 py-5 text-[color:var(--color-cream)] sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <header className="flex flex-col gap-4 border-b border-[color:var(--color-clay-beige)] pb-6 sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-4 border-b border-[color:var(--color-card-border)] pb-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[color:var(--color-olive)] text-white">
               <ShieldCheck className="h-5 w-5" aria-hidden="true" />
             </span>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[color:var(--color-antique-gold)]">Administracao</p>
-              <h1 className="mt-1 font-[var(--font-cormorant)] text-5xl leading-none">Acessos das clientes</h1>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[color:var(--color-antique-gold)]">Administração</p>
+              <h1 className="mt-1 font-black text-5xl leading-none">Acessos das clientes</h1>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--color-text-muted)]">
                 Aprove cadastros pendentes, cancele acessos e crie uma cliente manualmente quando a venda acontecer fora do fluxo normal.
               </p>
@@ -74,7 +74,7 @@ function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div className="atelier-panel p-5">
       <p className="text-xs font-bold uppercase tracking-[0.14em] text-[color:var(--color-muted-lavender)]">{label}</p>
-      <p className="mt-2 font-[var(--font-cormorant)] text-4xl leading-none text-[color:var(--color-warm-graphite)]">{value}</p>
+      <p className="mt-2 font-black text-4xl leading-none text-[color:var(--color-cream)]">{value}</p>
     </div>
   );
 }

@@ -22,7 +22,7 @@ export async function saveProductAction(
     const payload = formData.get("payload");
 
     if (typeof payload !== "string") {
-      throw new Error("Nao foi possivel ler os dados do produto.");
+      throw new Error("Não foi possível ler os dados do produto.");
     }
 
     const product = parseProductFormData(JSON.parse(payload));
@@ -85,7 +85,7 @@ async function setProductActive(formData: FormData, isActive: boolean) {
   const productId = formData.get("productId");
 
   if (typeof productId !== "string") {
-    throw new Error("Produto nao informado.");
+    throw new Error("Produto não informado.");
   }
 
   const { supabase } = await requireActiveUser();

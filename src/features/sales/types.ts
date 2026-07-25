@@ -35,17 +35,17 @@ export type SaleCustomerOption = Pick<
 >;
 
 export const orderStatusLabels: Record<OrderStatus, string> = {
-  quote: "Orcamento",
+  quote: "Orçamento",
   awaiting_payment: "Aguardando pagamento",
   confirmed: "Confirmado",
-  in_production: "Em producao",
+  in_production: "Em produção",
   ready: "Pronto",
   delivered: "Entregue",
   canceled: "Cancelado",
 };
 
 export const paymentStatusLabels: Record<PaymentStatus, string> = {
-  unpaid: "Nao pago",
+  unpaid: "Não pago",
   partially_paid: "Parcialmente pago",
   paid: "Pago",
 };

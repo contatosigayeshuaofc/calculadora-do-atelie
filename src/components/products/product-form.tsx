@@ -115,7 +115,7 @@ export function ProductForm({
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
               Etapa {step + 1} de 3
             </p>
-            <h1 className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
+            <h1 className="mt-1 font-black text-2xl text-[color:var(--color-cream)]">
               {["Produto", "Custos", "Preço"][step]}
             </h1>
           </div>

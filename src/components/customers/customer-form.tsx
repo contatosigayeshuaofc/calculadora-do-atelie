@@ -43,18 +43,18 @@ export function CustomerForm({ customer }: CustomerFormProps) {
       <input name="payload" type="hidden" value={JSON.stringify(payload)} />
       <div>
         <Link
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--color-text-muted)] hover:text-[color:var(--color-olive)]"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--color-text-muted)] hover:text-[color:var(--color-gold)]"
           href="/clientes"
         >
           <ArrowLeft className="h-4 w-4" />
           Voltar para clientes
         </Link>
-        <h1 className="mt-3 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
+        <h1 className="mt-3 text-3xl font-black text-[color:var(--color-cream)]">
           {customer ? "Editar cliente" : "Nova cliente"}
         </h1>
       </div>
 
-      <section className="grid gap-4 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] sm:p-5 md:grid-cols-2">
+      <section className="grid gap-4 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5 md:grid-cols-2">
         <Input
           className="md:col-span-2"
           label="Nome da cliente"
@@ -69,7 +69,7 @@ export function CustomerForm({ customer }: CustomerFormProps) {
           value={form.whatsapp}
         />
         <Input
-          hint="Use @usuario, se tiver."
+          hint="Use @usuário, se tiver."
           label="Instagram"
           onChange={(event) => updateField("instagram", event.target.value)}
           value={form.instagram}
@@ -80,15 +80,15 @@ export function CustomerForm({ customer }: CustomerFormProps) {
           value={form.city}
         />
         <Input
-          label="Aniversario"
+          label="Aniversário"
           onChange={(event) => updateField("birthday", event.target.value)}
           type="date"
           value={form.birthday}
         />
         <Textarea
           className="md:col-span-2"
-          hint="Preferencias, medidas, combinados ou cuidados especiais."
-          label="Observacoes"
+          hint="Preferências, medidas, combinados ou cuidados especiais."
+          label="Observações"
           onChange={(event) => updateField("notes", event.target.value)}
           value={form.notes}
         />

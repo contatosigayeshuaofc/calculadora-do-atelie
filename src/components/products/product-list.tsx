@@ -22,7 +22,7 @@ export function ProductList({
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Produtos
           </p>
-          <h1 className="mt-1 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
+          <h1 className="mt-1 font-black text-3xl text-[color:var(--color-cream)]">
             Catálogo precificado
           </h1>
         </div>
@@ -82,7 +82,7 @@ export function ProductList({
             >
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="font-serif text-xl text-[color:var(--color-warm-graphite)]">
+                  <h2 className="font-black text-xl text-[color:var(--color-cream)]">
                     {product.name}
                   </h2>
                   <StatusBadge tone={product.is_active ? "success" : "neutral"}>

@@ -93,7 +93,7 @@ export function validateDeploymentEnv(env: DeploymentEnv): DeploymentEnvValidati
 
   if (env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY?.trim()) {
     messages.push(
-      "Remova NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: chave secreta nao pode ficar publica.",
+      "Remova NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: chave secreta não pode ficar pública.",
     );
   }
 

@@ -21,11 +21,11 @@ export function CreateUserForm() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-[color:var(--color-muted-lavender)]">Novo acesso</p>
-          <h2 className="mt-2 font-[var(--font-cormorant)] text-3xl leading-none text-[color:var(--color-warm-graphite)]">
+          <h2 className="mt-2 text-3xl font-black leading-none text-[color:var(--color-cream)]">
             Cadastrar cliente manualmente
           </h2>
         </div>
-        <span className="hidden h-11 w-11 items-center justify-center rounded-[var(--radius-md)] bg-[rgba(92,117,82,0.12)] text-[color:var(--color-olive)] sm:flex">
+        <span className="hidden h-11 w-11 items-center justify-center rounded-[var(--radius-md)] bg-[rgba(196,168,130,0.18)] text-[color:var(--color-gold)] sm:flex">
           <UserPlus className="h-5 w-5" aria-hidden="true" />
         </span>
       </div>
@@ -34,13 +34,13 @@ export function CreateUserForm() {
         <Input label="Nome da cliente" name="fullName" placeholder="Ana Souza" required />
         <Input label="E-mail de acesso" name="email" placeholder="ana@email.com" required type="email" />
         <label className="block" htmlFor="password">
-          <span className="text-sm font-semibold text-[color:var(--color-warm-graphite)]">Senha temporaria</span>
-          <span className="mt-2 flex h-11 overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white focus-within:border-[color:var(--color-olive)] focus-within:ring-2 focus-within:ring-[rgba(104,98,70,0.14)]">
+          <span className="text-sm font-semibold text-[color:var(--color-cream)]">Senha temporária</span>
+          <span className="mt-2 flex h-11 overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[rgba(48,42,37,0.74)] focus-within:border-[color:var(--color-gold)] focus-within:ring-2 focus-within:ring-[rgba(196,168,130,0.18)]">
             <input
-              className="min-w-0 flex-1 bg-transparent px-3.5 text-sm outline-none"
+              className="min-w-0 flex-1 bg-transparent px-3.5 text-sm text-[color:var(--color-cream)] outline-none placeholder:text-[color:var(--color-text-muted)]"
               id="password"
               name="password"
-              placeholder="Minimo 6 caracteres"
+              placeholder="Mínimo 6 caracteres"
               required
               type={showPassword ? "text" : "password"}
             />
@@ -55,7 +55,7 @@ export function CreateUserForm() {
           </span>
         </label>
         <Input label="WhatsApp" name="whatsapp" placeholder="Opcional" />
-        <Input className="sm:col-span-2" label="Nome do atelie" name="atelierName" placeholder="Opcional" />
+        <Input className="sm:col-span-2" label="Nome do ateliê" name="atelierName" placeholder="Opcional" />
       </div>
 
       {state.message ? (

@@ -22,7 +22,7 @@ export async function saveSaleAction(
     const payload = formData.get("payload");
 
     if (typeof payload !== "string") {
-      throw new Error("Nao foi possivel ler os dados da venda.");
+      throw new Error("Não foi possível ler os dados da venda.");
     }
 
     const sale = parseSaleFormData(JSON.parse(payload));
@@ -41,7 +41,7 @@ export async function saveSaleAction(
     }
 
     if ((products ?? []).length !== productIds.length) {
-      throw new Error("Um dos produtos selecionados nao esta disponivel.");
+      throw new Error("Um dos produtos selecionados não está disponível.");
     }
 
     const productById = new Map((products ?? []).map((product) => [product.id, product]));
@@ -52,7 +52,7 @@ export async function saveSaleAction(
         const product = productById.get(item.productId);
 
         if (!product) {
-          throw new Error("Produto nao encontrado.");
+          throw new Error("Produto não encontrado.");
         }
 
         return {
@@ -111,7 +111,7 @@ export async function updateSaleAction(
     const payload = formData.get("payload");
 
     if (typeof payload !== "string") {
-      throw new Error("Nao foi possivel ler os dados da venda.");
+      throw new Error("Não foi possível ler os dados da venda.");
     }
 
     const sale = parseSaleUpdateData(JSON.parse(payload));

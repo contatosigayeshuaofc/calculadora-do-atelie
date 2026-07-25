@@ -27,12 +27,12 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
     <div className="space-y-5">
       <div>
         <Link
-          className="text-sm font-semibold text-[color:var(--color-text-muted)] hover:text-[color:var(--color-olive)]"
+          className="text-sm font-semibold text-[color:var(--color-text-muted)] hover:text-[color:var(--color-gold)]"
           href={`/produtos/${product.id}` as never}
         >
           Voltar para o produto
         </Link>
-        <h1 className="mt-3 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
+        <h1 className="mt-3 font-black text-3xl text-[color:var(--color-cream)]">
           Editar produto
         </h1>
       </div>

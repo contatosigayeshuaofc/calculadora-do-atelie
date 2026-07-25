@@ -45,7 +45,7 @@ export async function createManualUserAction(
     });
 
     if (error || !data.user) {
-      throw new Error(error?.message ?? "Nao foi possivel criar a cliente.");
+      throw new Error(error?.message ?? "Não foi possível criar a cliente.");
     }
 
     const { error: profileError } = await adminClient.from("profiles").upsert({
@@ -103,7 +103,7 @@ export async function updateUserAccessAction(
     }
 
     if (input.userId === user.id && input.accessStatus === "suspended") {
-      throw new Error("Voce nao pode cancelar seu proprio acesso admin.");
+      throw new Error("Você não pode cancelar seu próprio acesso admin.");
     }
 
     const { error } = await adminClient

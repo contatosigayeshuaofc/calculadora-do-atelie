@@ -30,7 +30,7 @@ export function SaleList({
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Vendas
           </p>
-          <h1 className="mt-1 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
+          <h1 className="mt-1 font-black text-3xl text-[color:var(--color-cream)]">
             Pedidos do ateliê
           </h1>
         </div>
@@ -97,7 +97,7 @@ export function SaleList({
             >
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="font-serif text-xl text-[color:var(--color-warm-graphite)]">
+                  <h2 className="font-black text-xl text-[color:var(--color-cream)]">
                     Pedido #{sale.id.slice(0, 8)}
                   </h2>
                   <OrderStatusBadge status={sale.status} />

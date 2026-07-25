@@ -18,7 +18,7 @@ export const settingsFormSchema = z
   .object({
     atelierName: optionalTrimmedString,
     fullName: z.string().trim().min(2, "Digite seu nome."),
-    minimumMultiplier: multiplierFromString("Multiplicador minimo"),
+    minimumMultiplier: multiplierFromString("Multiplicador mínimo"),
     recommendedMultiplier: multiplierFromString("Multiplicador recomendado"),
     whatsapp: optionalTrimmedString,
   })
@@ -27,7 +27,7 @@ export const settingsFormSchema = z
       context.addIssue({
         code: "custom",
         message:
-          "O multiplicador recomendado precisa ser igual ou maior que o minimo.",
+          "O multiplicador recomendado precisa ser igual ou maior que o mínimo.",
         path: ["recommendedMultiplier"],
       });
     }
@@ -41,12 +41,12 @@ export function parseSettingsFormData(input: unknown): SettingsFormValues {
 
 export function getSettingsFormError(error: unknown): string {
   if (error instanceof z.ZodError) {
-    return error.issues[0]?.message ?? "Revise suas configuracoes.";
+    return error.issues[0]?.message ?? "Revise suas configurações.";
   }
 
   if (error instanceof Error) {
-    return getUserFacingErrorMessage(error, "Nao foi possivel salvar as configuracoes. Tente novamente.");
+    return getUserFacingErrorMessage(error, "Não foi possível salvar as configurações. Tente novamente.");
   }
 
-  return "Nao foi possivel salvar as configuracoes.";
+  return "Não foi possível salvar as configurações.";
 }

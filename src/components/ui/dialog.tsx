@@ -22,12 +22,12 @@ export function Dialog({ children, description, onClose, open, title }: DialogPr
       <section
         aria-modal="true"
         aria-labelledby="atelier-dialog-title"
-        className="w-full max-w-lg rounded-[var(--radius-lg)] border border-[color:var(--color-clay-beige)] bg-[color:var(--color-plaster-white)] p-5 shadow-[var(--shadow-raised)]"
+        className="w-full max-w-lg rounded-[var(--radius-lg)] border border-[color:var(--color-card-border)] bg-[color:var(--color-plaster-white)] p-5 shadow-[var(--shadow-raised)]"
         role="dialog"
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="font-[var(--font-cormorant)] text-3xl leading-tight text-[color:var(--color-warm-graphite)]" id="atelier-dialog-title">
+            <h2 className="font-black text-3xl leading-tight text-[color:var(--color-cream)]" id="atelier-dialog-title">
               {title}
             </h2>
             {description ? <p className="mt-1 text-sm leading-6 text-[color:var(--color-text-muted)]">{description}</p> : null}

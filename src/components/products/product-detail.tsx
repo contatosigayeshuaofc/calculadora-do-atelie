@@ -18,13 +18,13 @@ export function ProductDetail({ product }: ProductDetailProps) {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <Link
-            className="text-sm font-semibold text-[color:var(--color-text-muted)] hover:text-[color:var(--color-olive)]"
+            className="text-sm font-semibold text-[color:var(--color-text-muted)] hover:text-[color:var(--color-gold)]"
             href="/produtos"
           >
             Voltar para produtos
           </Link>
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            <h1 className="font-serif text-3xl text-[color:var(--color-warm-graphite)]">
+            <h1 className="text-3xl font-black text-[color:var(--color-cream)]">
               {product.name}
             </h1>
             <StatusBadge tone={product.is_active ? "success" : "neutral"}>
@@ -65,20 +65,20 @@ export function ProductDetail({ product }: ProductDetailProps) {
       </div>
 
       <section className="grid gap-3 md:grid-cols-4">
-        <Metric label="Custo unitario" value={product.unit_cost_cents} />
-        <Metric label="Preco minimo" value={product.minimum_price_cents} />
+        <Metric label="Custo unitário" value={product.unit_cost_cents} />
+        <Metric label="Preço mínimo" value={product.minimum_price_cents} />
         <Metric label="Recomendado" value={product.recommended_price_cents} />
         <Metric label="Praticado" value={product.selling_price_cents} />
       </section>
 
-      <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)]">
-        <h2 className="font-serif text-2xl text-[color:var(--color-warm-graphite)]">
+      <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
+        <h2 className="text-2xl font-black text-[color:var(--color-cream)]">
           Custos do lote
         </h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[620px] text-left text-sm">
             <thead className="text-xs uppercase text-[color:var(--color-text-muted)]">
-              <tr className="border-b border-[color:var(--color-clay-beige)]">
+              <tr className="border-b border-[color:var(--color-card-border)]">
                 <th className="py-2">Item</th>
                 <th className="py-2">Compra</th>
                 <th className="py-2">Uso</th>
@@ -88,10 +88,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <tbody>
               {product.product_cost_items.map((item) => (
                 <tr
-                  className="border-b border-[color:var(--color-clay-beige)] last:border-0"
+                  className="border-b border-[color:var(--color-card-border)] last:border-0"
                   key={item.id}
                 >
-                  <td className="py-3 font-semibold text-[color:var(--color-warm-graphite)]">
+                  <td className="py-3 font-semibold text-[color:var(--color-cream)]">
                     {item.name}
                   </td>
                   <td className="py-3 text-[color:var(--color-text-muted)]">
@@ -116,9 +116,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
 function Metric({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)]">
+    <div className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
       <p className="text-xs text-[color:var(--color-text-muted)]">{label}</p>
-      <p className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
+      <p className="mt-1 text-2xl font-black text-[color:var(--color-cream)]">
         {formatCurrency(value)}
       </p>
     </div>

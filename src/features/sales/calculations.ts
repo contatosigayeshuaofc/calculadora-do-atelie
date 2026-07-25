@@ -59,7 +59,7 @@ export function calculateSaleTotals(
     subtotalCents - input.discountCents + input.deliveryFeeCents;
 
   if (totalCents < 0) {
-    throw new Error("O total da venda nao pode ficar negativo.");
+    throw new Error("O total da venda não pode ficar negativo.");
   }
 
   return {
@@ -75,15 +75,15 @@ export function calculateSaleTotals(
 
 function validateSaleCalculation(input: SaleCalculationInput) {
   if (input.items.length === 0) {
-    throw new Error("Adicione pelo menos um produto a venda.");
+    throw new Error("Adicione pelo menos um produto à venda.");
   }
 
   if (input.discountCents < 0) {
-    throw new Error("O desconto nao pode ser negativo.");
+    throw new Error("O desconto não pode ser negativo.");
   }
 
   if (input.deliveryFeeCents < 0) {
-    throw new Error("A taxa de entrega nao pode ser negativa.");
+    throw new Error("A taxa de entrega não pode ser negativa.");
   }
 
   for (const item of input.items) {
@@ -92,7 +92,7 @@ function validateSaleCalculation(input: SaleCalculationInput) {
     }
 
     if (item.unitPriceCents < 0 || item.unitCostCents < 0) {
-      throw new Error("Os valores dos produtos nao podem ser negativos.");
+      throw new Error("Os valores dos produtos não podem ser negativos.");
     }
   }
 }

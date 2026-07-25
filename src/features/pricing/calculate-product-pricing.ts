@@ -59,7 +59,7 @@ function validateInput(input: ProductPricingInput): void {
   }
 
   if (input.recommendedMultiplier < input.minimumMultiplier) {
-    throw new Error("O preco recomendado nao pode ser menor que o minimo.");
+    throw new Error("O preço recomendado não pode ser menor que o mínimo.");
   }
 
   for (const item of input.costItems) {

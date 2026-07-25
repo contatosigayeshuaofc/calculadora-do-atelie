@@ -35,7 +35,7 @@ export const saleItemFormSchema = z.object({
   productId: z.string().uuid("Selecione um produto."),
   quantity: z.coerce
     .number({ error: "Informe a quantidade." })
-    .int("A quantidade precisa ser um numero inteiro.")
+    .int("A quantidade precisa ser um número inteiro.")
     .positive("A quantidade precisa ser maior que zero."),
   unitPrice: moneyFromString,
 });
@@ -58,7 +58,7 @@ export const saleFormSchema = z
     if (value.deliveryDate && value.deliveryDate < value.orderDate) {
       context.addIssue({
         code: "custom",
-        message: "A entrega nao pode ser antes da data do pedido.",
+        message: "A entrega não pode ser antes da data do pedido.",
         path: ["deliveryDate"],
       });
     }
@@ -83,7 +83,7 @@ export const saleFormSchema = z
 
 export const saleUpdateSchema = z
   .object({
-    saleId: z.string().uuid("Venda nao informada."),
+    saleId: z.string().uuid("Venda não informada."),
     orderDate: z.string().min(1, "Informe a data do pedido."),
     deliveryDate: z.string().optional().default(""),
     status: z.enum(orderStatuses),
@@ -95,7 +95,7 @@ export const saleUpdateSchema = z
     if (value.deliveryDate && value.deliveryDate < value.orderDate) {
       context.addIssue({
         code: "custom",
-        message: "A entrega nao pode ser antes da data do pedido.",
+        message: "A entrega não pode ser antes da data do pedido.",
         path: ["deliveryDate"],
       });
     }
@@ -122,8 +122,8 @@ export function getSaleFormError(error: unknown): string {
   }
 
   if (error instanceof Error) {
-    return getUserFacingErrorMessage(error, "Nao foi possivel salvar a venda. Tente novamente.");
+    return getUserFacingErrorMessage(error, "Não foi possível salvar a venda. Tente novamente.");
   }
 
-  return "Nao foi possivel salvar a venda.";
+  return "Não foi possível salvar a venda.";
 }

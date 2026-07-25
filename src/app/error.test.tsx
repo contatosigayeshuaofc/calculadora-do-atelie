@@ -11,7 +11,7 @@ describe("AppError", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: "Nao foi possivel carregar esta tela" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Não foi possível carregar esta tela" })).toBeVisible();
     expect(screen.getByText(/Tente novamente em alguns instantes/i)).toBeVisible();
     expect(screen.queryByText(/permission denied|profiles|"/i)).not.toBeInTheDocument();
   });

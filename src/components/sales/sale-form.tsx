@@ -130,12 +130,12 @@ export function SaleForm({ customers, products }: SaleFormProps) {
   return (
     <form action={action} className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
       <input name="payload" type="hidden" value={JSON.stringify(payload)} />
-      <section className="space-y-5 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] sm:p-5">
+      <section className="space-y-5 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Nova venda
           </p>
-          <h1 className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
+          <h1 className="mt-1 font-black text-2xl text-[color:var(--color-cream)]">
             Registrar pedido
           </h1>
         </div>
@@ -179,12 +179,12 @@ export function SaleForm({ customers, products }: SaleFormProps) {
         </div>
 
         <div className="space-y-3">
-          <p className="text-sm font-bold text-[color:var(--color-warm-graphite)]">
+          <p className="text-sm font-bold text-[color:var(--color-cream)]">
             Produtos do pedido
           </p>
           {items.map((item, index) => (
             <div
-              className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] p-3 md:grid-cols-[1fr_100px_150px_auto]"
+              className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] p-3 md:grid-cols-[1fr_100px_150px_auto]"
               key={index}
             >
               <Select
@@ -207,7 +207,7 @@ export function SaleForm({ customers, products }: SaleFormProps) {
               />
               <Input
                 inputMode="decimal"
-                label="Preco unitario"
+                label="Preço unitário"
                 onBlur={(event) =>
                   updateItem(
                     index,
@@ -286,7 +286,7 @@ export function SaleForm({ customers, products }: SaleFormProps) {
           />
           <Textarea
             className="md:col-span-2"
-            label="Observacoes"
+            label="Observações"
             onChange={(event) => updateField("notes", event.target.value)}
             value={form.notes}
           />
@@ -308,7 +308,7 @@ export function SaleForm({ customers, products }: SaleFormProps) {
         </Button>
       </section>
 
-      <aside className="h-fit rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)]">
+      <aside className="h-fit rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
         <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
           Resumo
         </p>
@@ -349,8 +349,8 @@ function Row({
       <span
         className={
           strong
-            ? "text-base font-bold text-[color:var(--color-warm-graphite)]"
-            : "font-semibold text-[color:var(--color-warm-graphite)]"
+            ? "text-base font-bold text-[color:var(--color-cream)]"
+            : "font-semibold text-[color:var(--color-cream)]"
         }
       >
         {value}

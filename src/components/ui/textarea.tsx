@@ -11,7 +11,7 @@ export function Textarea({ className, hint, id, label, ...props }: TextareaProps
 
   return (
     <label className="block" htmlFor={textareaId}>
-      {label ? <span className="text-sm font-semibold text-[color:var(--color-warm-graphite)]">{label}</span> : null}
+      {label ? <span className="text-sm font-semibold text-[color:var(--color-cream)]">{label}</span> : null}
       <textarea
         className={cn("atelier-field mt-2 min-h-28 w-full resize-y rounded-[var(--radius-sm)] px-3.5 py-3 text-sm leading-6", className)}
         id={textareaId}

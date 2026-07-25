@@ -11,7 +11,7 @@ export function Select({ children, className, hint, id, label, ...props }: Selec
 
   return (
     <label className="block" htmlFor={selectId}>
-      {label ? <span className="text-sm font-semibold text-[color:var(--color-warm-graphite)]">{label}</span> : null}
+      {label ? <span className="text-sm font-semibold text-[color:var(--color-cream)]">{label}</span> : null}
       <select className={cn("atelier-field mt-2 h-11 w-full rounded-[var(--radius-sm)] px-3.5 text-sm", className)} id={selectId} {...props}>
         {children}
       </select>

@@ -7,7 +7,7 @@ export type CostItemMarketSuggestion = {
 
 const generalSuggestion: CostItemMarketSuggestion = {
   itemHint:
-    "Ex.: cera, essencia, pavio, gesso, resina, tecido, etiqueta, fita ou caixa.",
+    "Ex.: cera, essência, pavio, gesso, resina, tecido, etiqueta, fita ou caixa.",
   purchaseQuantityHint:
     "Informe o total comprado no pacote, frasco, rolo ou saco. Ex.: pacote de 1 kg = 1000 g.",
   purchasePriceHint:
@@ -26,23 +26,23 @@ const rules: Array<{
       purchaseQuantityHint:
         "Frascos costumam vir em ml. Cadastre o volume comprado e o valor total do frasco.",
       usedQuantityHint:
-        "Velas: use como partida 6% a 10% do peso da cera. Sabonete cold process: 3% a 6% dos oleos; base glicerinada: 2% a 3% do peso da base.",
+        "Velas: use como partida 6% a 10% do peso da cera. Sabonete cold process: 3% a 6% dos óleos; base glicerinada: 2% a 3% do peso da base.",
     },
   },
   {
     keywords: ["cera", "parafina"],
     suggestion: {
       usedQuantityHint:
-        "Velas: pese a capacidade do recipiente. Com 8% de essencia, uma vela de 120 g usa cerca de 111 g de cera e 9 g de essencia.",
+        "Velas: pese a capacidade do recipiente. Com 8% de essência, uma vela de 120 g usa cerca de 111 g de cera e 9 g de essência.",
     },
   },
   {
     keywords: ["gesso", "plaster"],
     suggestion: {
       purchaseQuantityHint:
-        "Sacos de gesso normalmente sao cadastrados em gramas. Ex.: 1 kg = 1000 g.",
+        "Sacos de gesso normalmente são cadastrados em gramas. Ex.: 1 kg = 1000 g.",
       usedQuantityHint:
-        "Gesso para molde/peca: use como partida 30 a 35 ml de agua para cada 100 g de po. Lance aqui o peso de po usado no lote.",
+        "Gesso para molde/peça: use como partida 30 a 35 ml de água para cada 100 g de pó. Lance aqui o peso de pó usado no lote.",
     },
   },
   {
@@ -51,7 +51,7 @@ const rules: Array<{
       purchaseQuantityHint:
         "Cadastre a quantidade total de pavios do pacote. Ex.: pacote com 100 unidades.",
       usedQuantityHint:
-        "Velas em pote geralmente usam 1 pavio por unidade; recipientes largos podem precisar de 2 ou mais apos teste de queima.",
+        "Velas em pote geralmente usam 1 pavio por unidade; recipientes largos podem precisar de 2 ou mais após teste de queima.",
     },
   },
   {
@@ -78,10 +78,10 @@ const rules: Array<{
 ];
 
 export const packagingCostSuggestion =
-  "Inclua caixa, saco, etiqueta, fita, tag e protecao. Se comprou pacote com 100 caixas, divida o valor total por 100.";
+  "Inclua caixa, saco, etiqueta, fita, tag e proteção. Se comprou pacote com 100 caixas, divida o valor total por 100.";
 
 export const otherBatchCostSuggestion =
-  "Use para custos diretos do lote que nao entram como material unitario: energia do forno, taxa de corte, acabamento terceirizado ou perda medida.";
+  "Use para custos diretos do lote que não entram como material unitário: energia do forno, taxa de corte, acabamento terceirizado ou perda medida.";
 
 export function getCostItemMarketSuggestion(
   itemName: string,

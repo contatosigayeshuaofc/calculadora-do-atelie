@@ -5,15 +5,15 @@ export default function ForgotPasswordPage() {
   return (
     <main className="atelier-shell">
       <section className="atelier-panel w-full max-w-lg p-6 sm:p-10">
-        <p className="font-[var(--font-cinzel)] text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--color-antique-gold)]">
-          Recuperacao
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[color:var(--color-gold)]">
+          Recuperação
         </p>
-        <h1 className="mt-4 font-[var(--font-cormorant)] text-5xl leading-none text-[color:var(--color-warm-graphite)]">Recuperar senha</h1>
+        <h1 className="mt-4 text-5xl font-black leading-none text-[color:var(--color-cream)]">Recuperar senha</h1>
         <p className="mt-4 text-sm leading-6 text-[color:var(--color-text-muted)]">
           Digite seu e-mail e enviaremos um link para criar uma nova senha.
         </p>
         <ForgotPasswordForm />
-        <Link className="mt-6 inline-block text-sm font-semibold text-[color:var(--color-olive-dark)]" href={"/entrar" as never}>
+        <Link className="mt-6 inline-block text-sm font-semibold text-[color:var(--color-gold)]" href={"/entrar" as never}>
           Voltar para entrar
         </Link>
       </section>

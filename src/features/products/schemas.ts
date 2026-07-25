@@ -40,7 +40,7 @@ export const productFormSchema = z
     packagingCostPerUnit: moneyFromString,
     additionalBatchCost: moneyFromString,
     sellingPrice: moneyFromString,
-    minimumMultiplier: multiplierFromString("Multiplicador minimo"),
+    minimumMultiplier: multiplierFromString("Multiplicador mínimo"),
     recommendedMultiplier: multiplierFromString("Multiplicador recomendado"),
     costItems: z
       .array(productCostItemFormSchema)
@@ -51,7 +51,7 @@ export const productFormSchema = z
       context.addIssue({
         code: "custom",
         message:
-          "O multiplicador recomendado precisa ser igual ou maior que o minimo.",
+          "O multiplicador recomendado precisa ser igual ou maior que o mínimo.",
         path: ["recommendedMultiplier"],
       });
     }
@@ -110,8 +110,8 @@ export function getProductFormError(error: unknown): string {
   }
 
   if (error instanceof Error) {
-    return getUserFacingErrorMessage(error, "Nao foi possivel salvar o produto. Tente novamente.");
+    return getUserFacingErrorMessage(error, "Não foi possível salvar o produto. Tente novamente.");
   }
 
-  return "Nao foi possivel salvar o produto.";
+  return "Não foi possível salvar o produto.";
 }

@@ -17,7 +17,7 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Clientes
           </p>
-          <h1 className="mt-1 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
+          <h1 className="mt-1 font-black text-3xl text-[color:var(--color-cream)]">
             Relacionamento e histórico
           </h1>
         </div>
@@ -67,7 +67,7 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
               key={customer.id}
             >
               <div>
-                <h2 className="font-serif text-xl text-[color:var(--color-warm-graphite)]">
+                <h2 className="font-black text-xl text-[color:var(--color-cream)]">
                   {customer.name}
                 </h2>
                 <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">

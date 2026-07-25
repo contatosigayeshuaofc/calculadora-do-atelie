@@ -11,15 +11,15 @@ const managedAccessStatusSchema = z.enum(["active", "suspended"], {
 const createUserSchema = z.object({
   accessStatus: managedAccessStatusSchema.default("active"),
   atelierName: z.string().trim().optional(),
-  email: z.string().trim().toLowerCase().email("Digite um e-mail valido."),
+  email: z.string().trim().toLowerCase().email("Digite um e-mail válido."),
   fullName: z.string().trim().min(2, "Digite o nome da cliente."),
-  password: z.string().min(6, "A senha temporaria precisa ter pelo menos 6 caracteres."),
+  password: z.string().min(6, "A senha temporária precisa ter pelo menos 6 caracteres."),
   whatsapp: z.string().trim().optional(),
 });
 
 const updateAccessSchema = z.object({
   accessStatus: managedAccessStatusSchema,
-  userId: z.string().uuid("Usuario invalido."),
+  userId: z.string().uuid("Usuário inválido."),
 });
 
 export type ManagedAccessStatus = Extract<AccessStatus, "active" | "suspended">;
@@ -68,8 +68,8 @@ export function getAdminFormError(error: unknown) {
   }
 
   if (error instanceof Error) {
-    return getUserFacingErrorMessage(error, "Nao foi possivel concluir a acao. Tente novamente.");
+    return getUserFacingErrorMessage(error, "Não foi possível concluir a ação. Tente novamente.");
   }
 
-  return "Nao foi possivel concluir a acao.";
+  return "Não foi possível concluir a ação.";
 }

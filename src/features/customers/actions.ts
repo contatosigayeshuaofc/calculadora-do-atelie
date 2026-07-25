@@ -19,7 +19,7 @@ export async function saveCustomerAction(
     const payload = formData.get("payload");
 
     if (typeof payload !== "string") {
-      throw new Error("Nao foi possivel ler os dados da cliente.");
+      throw new Error("Não foi possível ler os dados da cliente.");
     }
 
     const customer = parseCustomerFormData(JSON.parse(payload));

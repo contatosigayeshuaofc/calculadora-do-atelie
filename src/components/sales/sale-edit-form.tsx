@@ -32,19 +32,19 @@ export function SaleEditForm({ sale }: { sale: SaleDetail }) {
   }
 
   return (
-    <form action={action} className="max-w-3xl space-y-5 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] sm:p-5">
+    <form action={action} className="max-w-3xl space-y-5 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
       <input name="payload" type="hidden" value={JSON.stringify(payload)} />
       <div>
         <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
           Pedido #{sale.id.slice(0, 8)}
         </p>
-        <h1 className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
+        <h1 className="mt-1 font-black text-2xl text-[color:var(--color-cream)]">
           Editar acompanhamento
         </h1>
       </div>
       {sale.status === "delivered" ? (
         <p className="rounded-[var(--radius-sm)] bg-[color:var(--color-soft-cream)] px-3 py-2 text-sm text-[color:var(--color-text-muted)]">
-          Pedido entregue: os itens ficam preservados. Aqui voce altera apenas acompanhamento, pagamento, datas e observacoes.
+          Pedido entregue: os itens ficam preservados. Aqui você altera apenas acompanhamento, pagamento, datas e observacoes.
         </p>
       ) : null}
       <div className="grid gap-4 md:grid-cols-2">
@@ -89,7 +89,7 @@ export function SaleEditForm({ sale }: { sale: SaleDetail }) {
         />
         <Textarea
           className="md:col-span-2"
-          label="Observacoes"
+          label="Observações"
           onChange={(event) => updateField("notes", event.target.value)}
           value={form.notes}
         />
