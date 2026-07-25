@@ -4,7 +4,7 @@ import { ForgotPasswordForm } from "@/features/auth/auth-forms";
 export default function ForgotPasswordPage() {
   return (
     <main className="atelier-shell">
-      <section className="atelier-panel w-full max-w-lg p-6 sm:p-10">
+      <section className="atelier-panel w-full max-w-lg p-6 text-center sm:p-10">
         <p className="text-xs font-medium uppercase tracking-[0.22em] text-[color:var(--color-gold)]">
           Recuperação
         </p>

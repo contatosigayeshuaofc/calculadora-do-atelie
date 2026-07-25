@@ -11,6 +11,8 @@ const guardedFiles = [
   "src/components/admin/pilot-readiness-card.tsx",
   "src/app/admin/page.tsx",
   "src/app/error.tsx",
+  "src/app/(auth)/entrar/page.tsx",
+  "src/app/(auth)/criar-acesso/page.tsx",
   "src/app/(auth)/redefinir-senha/page.tsx",
   "src/app/(app)/perfil/page.tsx",
   "src/app/(app)/produtos/novo/page.tsx",
@@ -66,5 +68,16 @@ describe("copy and dark member-area theme guard", () => {
     expect(source).not.toContain("font-black");
     expect(source).not.toContain("font-bold uppercase");
     expect(source).not.toContain("font-semibold uppercase");
+  });
+
+  it("keeps account creation on its own screen", () => {
+    const signInPage = readFileSync(join(process.cwd(), "src/app/(auth)/entrar/page.tsx"), "utf8");
+    const createAccessPage = readFileSync(join(process.cwd(), "src/app/(auth)/criar-acesso/page.tsx"), "utf8");
+
+    expect(signInPage).toContain('href={"/criar-acesso"');
+    expect(signInPage).not.toContain("<SignUpForm");
+    expect(signInPage).not.toContain("Contas novas ficarão aguardando liberação manual");
+    expect(createAccessPage).toContain("<SignUpForm");
+    expect(createAccessPage).toContain("Contas novas ficarão aguardando liberação manual");
   });
 });

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { LockKeyhole, Sparkles } from "lucide-react";
-import { SignInForm, SignUpForm } from "@/features/auth/auth-forms";
+import { Sparkles } from "lucide-react";
+import { SignInForm } from "@/features/auth/auth-forms";
 import { getAccessDecision } from "@/features/auth/access";
 import { missingSupabaseMessage } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
@@ -62,14 +62,14 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
 
           <div className="flex items-center justify-center p-6 sm:p-10">
             <div className="w-full max-w-md">
-              <div className="mb-8 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[color:var(--color-olive)] text-white shadow-sm">
+              <div className="mx-auto mb-8 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[color:var(--color-olive)] text-white shadow-sm">
                 <span aria-hidden="true" className="text-2xl">🧮</span>
               </div>
 
-              <h2 className="text-4xl font-medium text-[color:var(--color-cream)]">
+              <h2 className="text-center text-4xl font-medium text-[color:var(--color-cream)]">
                 Entre no seu ateliê
               </h2>
-              <p className="mt-3 text-sm leading-6 text-[color:var(--color-text-muted)]">Entre com seu e-mail e senha para acessar sua calculadora.</p>
+              <p className="mt-3 text-center text-sm leading-6 text-[color:var(--color-text-muted)]">Entre com seu e-mail e senha para acessar sua calculadora.</p>
 
               {isMissingConfig ? (
                 <div className="mt-6 rounded-[var(--radius-sm)] border border-[rgba(160,82,69,0.25)] bg-[rgba(160,82,69,0.08)] p-4 text-sm leading-6 text-[color:var(--color-danger)]">
@@ -81,21 +81,14 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
                 <SignInForm />
               </div>
 
-              <Link className="mt-4 inline-block text-sm font-semibold text-[color:var(--color-gold)]" href={"/recuperar-senha" as never}>
-                Esqueci minha senha
-              </Link>
-
-              <div className="mt-8 flex items-start gap-3 rounded-xl border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 text-sm leading-6 text-[color:var(--color-text-muted)] shadow-[var(--shadow-floating)]">
-                <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--color-gold)]" aria-hidden="true" />
-                <p>Contas novas ficarão aguardando liberação manual após confirmação da compra.</p>
-              </div>
-
-              <div className="mt-8 border-t border-[color:var(--color-card-border)] pt-8">
-                <h3 className="text-3xl font-medium leading-tight text-[color:var(--color-cream)]">Criar acesso</h3>
-                <p className="mb-5 mt-1 text-sm leading-6 text-[color:var(--color-text-muted)]">
-                  Cadastre seus dados para entrar na fila de liberação manual.
-                </p>
-                <SignUpForm />
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
+                <Link className="font-medium text-[color:var(--color-gold)]" href={"/recuperar-senha" as never}>
+                  Esqueci minha senha
+                </Link>
+                <span className="text-[color:var(--color-text-muted)]" aria-hidden="true">•</span>
+                <Link className="font-medium text-[color:var(--color-gold)]" href={"/criar-acesso" as never}>
+                  Criar acesso
+                </Link>
               </div>
             </div>
           </div>

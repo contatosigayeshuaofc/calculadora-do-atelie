@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const emailSchema = z.string().trim().email("Digite um e-mail valido.");
+const emailSchema = z.string().trim().email("Digite um e-mail válido.");
 const passwordSchema = z.string().min(6, "A senha precisa ter pelo menos 6 caracteres.");
 
 export const signInSchema = z.object({
