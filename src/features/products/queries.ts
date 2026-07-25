@@ -74,3 +74,24 @@ export async function getProductPricingSettings() {
     recommendedMultiplier: Number(data?.recommended_price_multiplier ?? 2),
   };
 }
+
+export async function listProductCategories(): Promise<string[]> {
+  const { supabase } = await requireActiveUser();
+  const { data, error } = await supabase
+    .from("products")
+    .select("category")
+    .not("category", "is", null)
+    .order("category", { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return Array.from(
+    new Set(
+      data
+        .map((item) => item.category?.trim())
+        .filter((category): category is string => Boolean(category)),
+    ),
+  );
+}

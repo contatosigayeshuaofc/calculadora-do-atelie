@@ -3,6 +3,7 @@ import {
   buildProductPricingInput,
   parseProductFormData,
 } from "./schemas";
+import { getProductFormStepError } from "@/components/products/product-form";
 
 const validFormData = {
   name: "Vela botanica",
@@ -98,5 +99,67 @@ describe("product form schema", () => {
         recommendedMultiplier: "1,5",
       }),
     ).toThrow("O multiplicador recomendado precisa ser igual ou maior");
+  });
+});
+
+describe("product form step validation", () => {
+  it("asks for the product name before leaving the first step", () => {
+    expect(
+      getProductFormStepError(
+        0,
+        {
+          ...validFormData,
+          productId: "",
+          name: "",
+          costItems: [],
+        },
+        [],
+      ),
+    ).toBe("Informe o nome do produto para continuar.");
+  });
+
+  it("allows the first step when product basics are complete", () => {
+    expect(
+      getProductFormStepError(
+        0,
+        {
+          ...validFormData,
+          productId: "",
+          costItems: [],
+        },
+        [],
+      ),
+    ).toBeNull();
+  });
+
+  it("points to the incomplete cost before opening the price step", () => {
+    expect(
+      getProductFormStepError(
+        1,
+        {
+          ...validFormData,
+          productId: "",
+          costItems: [],
+        },
+        [
+          {
+            name: "Cera",
+            unitMeasure: "g",
+            purchaseQuantity: "5000",
+            purchasePrice: "R$ 25,00",
+            usedQuantity: "500",
+          },
+          {
+            name: "",
+            unitMeasure: "ml",
+            purchaseQuantity: "",
+            purchasePrice: "",
+            usedQuantity: "",
+          },
+        ],
+      ),
+    ).toBe(
+      "Complete o custo 2: item, unidade, quantidade comprada, quantidade usada e preço da compra.",
+    );
   });
 });

@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { ProductForm } from "@/components/products/product-form";
-import { getProductPricingSettings } from "@/features/products/queries";
+import {
+  getProductPricingSettings,
+  listProductCategories,
+} from "@/features/products/queries";
 
 export default async function NewProductPage() {
-  const settings = await getProductPricingSettings();
+  const [categories, settings] = await Promise.all([
+    listProductCategories(),
+    getProductPricingSettings(),
+  ]);
 
   return (
     <div className="space-y-5">
@@ -19,6 +25,7 @@ export default async function NewProductPage() {
         </h1>
       </div>
       <ProductForm
+        categories={categories}
         minimumMultiplier={settings.minimumMultiplier}
         recommendedMultiplier={settings.recommendedMultiplier}
       />

@@ -19,8 +19,10 @@ import { formatCurrency } from "@/lib/currency/format-currency";
 import { parseCurrencyInput } from "@/lib/currency/parse-currency-input";
 import { saveProductAction } from "@/features/products/actions";
 import { PriceSummary } from "./price-summary";
+import { cn } from "@/lib/cn";
 
 type ProductFormProps = {
+  categories?: string[];
   product?: ProductDetail | null;
   minimumMultiplier: number;
   recommendedMultiplier: number;
@@ -57,12 +59,42 @@ const emptyCostItem: CostItemDraft = {
   usedQuantity: "",
 };
 
+const saleUnitOptions = [
+  {
+    value: "unidade",
+    label: "Unidade",
+    hint: "Vela, sabonete, difusor ou peça vendida individualmente.",
+  },
+  {
+    value: "kit",
+    label: "Kit",
+    hint: "Conjunto fechado vendido como um único produto.",
+  },
+  {
+    value: "caixa",
+    label: "Caixa",
+    hint: "Caixa pronta com uma ou mais peças dentro.",
+  },
+  {
+    value: "pacote",
+    label: "Pacote",
+    hint: "Sachês, tags, amostras ou itens agrupados.",
+  },
+  {
+    value: "duzia",
+    label: "Dúzia",
+    hint: "Lote de 12 peças vendido junto.",
+  },
+];
+
 export function ProductForm({
+  categories = [],
   minimumMultiplier,
   product,
   recommendedMultiplier,
 }: ProductFormProps) {
   const [step, setStep] = useState(0);
+  const [stepMessage, setStepMessage] = useState<string | null>(null);
   const [state, action, isPending] = useActionState(saveProductAction, {
     status: "idle" as const,
     message: null,
@@ -87,6 +119,7 @@ export function ProductForm({
   }, [payload]);
 
   function updateField(name: keyof ProductFormDraft, value: string) {
+    setStepMessage(null);
     setForm((current) => ({ ...current, [name]: value }));
   }
 
@@ -95,6 +128,7 @@ export function ProductForm({
     name: keyof CostItemDraft,
     value: string,
   ) {
+    setStepMessage(null);
     setCostItems((current) =>
       current.map((item, itemIndex) =>
         itemIndex === index ? { ...item, [name]: value } : item,
@@ -103,7 +137,25 @@ export function ProductForm({
   }
 
   function removeCostItem(index: number) {
+    setStepMessage(null);
     setCostItems((current) => current.filter((_, itemIndex) => itemIndex !== index));
+  }
+
+  function goToStep(nextStep: number) {
+    if (nextStep <= step) {
+      setStepMessage(null);
+      setStep(nextStep);
+      return;
+    }
+
+    const error = getProductFormStepError(step, form, costItems);
+    if (error) {
+      setStepMessage(error);
+      return;
+    }
+
+    setStepMessage(null);
+    setStep(nextStep);
   }
 
   return (
@@ -129,7 +181,7 @@ export function ProductForm({
                     : "bg-[color:var(--color-card-border)]"
                 }`}
                 key={item}
-                onClick={() => setStep(item)}
+                onClick={() => goToStep(item)}
                 type="button"
               />
             ))}
@@ -138,7 +190,11 @@ export function ProductForm({
 
         <div className="mt-5">
           {step === 0 ? (
-            <ProductFields form={form} updateField={updateField} />
+            <ProductFields
+              categories={categories}
+              form={form}
+              updateField={updateField}
+            />
           ) : null}
           {step === 1 ? (
             <CostFields
@@ -162,6 +218,12 @@ export function ProductForm({
           ) : null}
         </div>
 
+        {stepMessage ? (
+          <p className="mt-4 rounded-[var(--radius-sm)] bg-[rgba(160,82,70,0.12)] px-3 py-2 text-sm font-medium text-[color:var(--color-danger)]">
+            {stepMessage}
+          </p>
+        ) : null}
+
         {state.message ? (
           <p className="mt-4 rounded-[var(--radius-sm)] bg-[rgba(160,82,70,0.12)] px-3 py-2 text-sm font-semibold text-[color:var(--color-danger)]">
             {state.message}
@@ -172,7 +234,7 @@ export function ProductForm({
           <Button
             disabled={step === 0}
             leftIcon={<ArrowLeft className="h-4 w-4" />}
-            onClick={() => setStep((current) => Math.max(0, current - 1))}
+            onClick={() => goToStep(Math.max(0, step - 1))}
             type="button"
             variant="secondary"
           >
@@ -180,7 +242,7 @@ export function ProductForm({
           </Button>
           {step < 2 ? (
             <Button
-              onClick={() => setStep((current) => Math.min(2, current + 1))}
+              onClick={() => goToStep(Math.min(2, step + 1))}
               rightIcon={<ArrowRight className="h-4 w-4" />}
               type="button"
             >
@@ -210,9 +272,11 @@ export function ProductForm({
 }
 
 function ProductFields({
+  categories,
   form,
   updateField,
 }: {
+  categories: string[];
   form: ProductFormDraft;
   updateField: (name: keyof ProductFormDraft, value: string) => void;
 }) {
@@ -221,30 +285,146 @@ function ProductFields({
       <Input
         label="Nome do produto"
         onChange={(event) => updateField("name", event.target.value)}
+        placeholder="Ex.: Vela aromática lavanda 180g"
         value={form.name}
       />
-      <Input
-        label="Categoria"
-        onChange={(event) => updateField("category", event.target.value)}
+      <CategoryField
+        categories={categories}
         value={form.category}
+        onChange={(value) => updateField("category", value)}
       />
-      <Input
-        label="Unidade de venda"
-        onChange={(event) => updateField("saleUnit", event.target.value)}
+      <SaleUnitField
         value={form.saleUnit}
+        onChange={(value) => updateField("saleUnit", value)}
       />
       <Input
         inputMode="numeric"
         label="Rendimento do lote"
+        hint="Informe quantas unidades vendáveis saem de uma produção completa. Ex.: se uma receita rende 12 velas prontas, coloque 12."
         onChange={(event) => updateField("batchYield", event.target.value)}
+        placeholder="Ex.: 12"
         value={form.batchYield}
       />
       <div className="md:col-span-2">
         <Textarea
           label="Descrição"
+          placeholder="Informações úteis sobre aroma, tamanho, composição ou observações de produção."
           onChange={(event) => updateField("description", event.target.value)}
           value={form.description}
         />
+      </div>
+    </div>
+  );
+}
+
+function CategoryField({
+  categories,
+  onChange,
+  value,
+}: {
+  categories: string[];
+  onChange: (value: string) => void;
+  value: string;
+}) {
+  const normalizedCategories = categories.filter(Boolean);
+  const [isCreating, setIsCreating] = useState(
+    () =>
+      normalizedCategories.length === 0 ||
+      (Boolean(value) && !normalizedCategories.includes(value)),
+  );
+
+  return (
+    <div className="md:col-span-2">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm font-semibold text-[color:var(--color-cream)]">
+          Categoria
+        </p>
+        {normalizedCategories.length > 0 ? (
+          <button
+            className="text-xs font-medium text-[color:var(--color-gold)] hover:text-[color:var(--color-cream)]"
+            onClick={() => {
+              setIsCreating((current) => !current);
+              if (!isCreating) {
+                onChange("");
+              }
+            }}
+            type="button"
+          >
+            {isCreating ? "Escolher existente" : "Criar categoria"}
+          </button>
+        ) : null}
+      </div>
+
+      {!isCreating && normalizedCategories.length > 0 ? (
+        <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {normalizedCategories.map((category) => (
+            <button
+              className={cn(
+                "min-h-11 rounded-[var(--radius-sm)] border px-3 py-2 text-left text-sm font-medium transition",
+                value === category
+                  ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)] text-[color:var(--color-cream)]"
+                  : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] text-[color:var(--color-text-muted)] hover:border-[color:var(--color-gold)] hover:text-[color:var(--color-cream)]",
+              )}
+              key={category}
+              onClick={() => onChange(category)}
+              type="button"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <Input
+          hint="Use algo simples, como Velas, Sabonetes, Difusores, Kits ou Presentes. Depois essa categoria aparece como opção."
+          onChange={(event) => onChange(event.target.value)}
+          placeholder="Ex.: Velas"
+          value={value}
+        />
+      )}
+
+      {normalizedCategories.length === 0 ? (
+        <p className="mt-2 text-xs text-[color:var(--color-text-muted)]">
+          Essa será a primeira categoria salva no seu ateliê.
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function SaleUnitField({
+  onChange,
+  value,
+}: {
+  onChange: (value: string) => void;
+  value: string;
+}) {
+  return (
+    <div className="md:col-span-2">
+      <p className="text-sm font-semibold text-[color:var(--color-cream)]">
+        Unidade de venda
+      </p>
+      <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {saleUnitOptions.map((option) => (
+          <button
+            aria-pressed={value === option.value}
+            className={cn(
+              "min-h-[76px] rounded-[var(--radius-sm)] border px-3 py-2 text-left transition",
+              value === option.value
+                ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)]"
+                : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] hover:border-[color:var(--color-gold)]",
+            )}
+            key={option.value}
+            onClick={() => onChange(option.value)}
+            type="button"
+          >
+            <span className="block text-sm font-medium text-[color:var(--color-cream)]">
+              {option.label}
+            </span>
+            <span className="mt-1 block text-xs leading-5 text-[color:var(--color-text-muted)]">
+              {option.hint}
+            </span>
+          </button>
+        ))}
       </div>
     </div>
   );
@@ -491,6 +671,57 @@ function PriceFields({
       </div>
     </div>
   );
+}
+
+export function getProductFormStepError(
+  step: number,
+  form: ProductFormDraft,
+  costItems: CostItemDraft[],
+) {
+  if (step === 0) {
+    if (!form.name.trim()) {
+      return "Informe o nome do produto para continuar.";
+    }
+
+    if (!form.saleUnit.trim()) {
+      return "Escolha uma unidade de venda para continuar.";
+    }
+
+    const batchYield = Number(form.batchYield.replace(",", "."));
+    if (!Number.isFinite(batchYield) || batchYield <= 0) {
+      return "Informe quantas unidades prontas esse lote rende.";
+    }
+
+    return null;
+  }
+
+  if (step === 1) {
+    if (costItems.length === 0) {
+      return "Adicione pelo menos um material ou custo do produto.";
+    }
+
+    const incompleteIndex = costItems.findIndex((item) => {
+      const purchaseQuantity = Number(item.purchaseQuantity.replace(",", "."));
+      const usedQuantity = Number(item.usedQuantity.replace(",", "."));
+      const purchasePriceCents = parseCurrencyInput(item.purchasePrice);
+
+      return (
+        !item.name.trim() ||
+        !item.unitMeasure.trim() ||
+        !Number.isFinite(purchaseQuantity) ||
+        purchaseQuantity <= 0 ||
+        !Number.isFinite(usedQuantity) ||
+        usedQuantity <= 0 ||
+        purchasePriceCents <= 0
+      );
+    });
+
+    if (incompleteIndex >= 0) {
+      return `Complete o custo ${incompleteIndex + 1}: item, unidade, quantidade comprada, quantidade usada e preço da compra.`;
+    }
+  }
+
+  return null;
 }
 
 function productToForm(

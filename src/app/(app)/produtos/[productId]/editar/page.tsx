@@ -4,6 +4,7 @@ import { ProductForm } from "@/components/products/product-form";
 import {
   getProductDetail,
   getProductPricingSettings,
+  listProductCategories,
 } from "@/features/products/queries";
 
 type EditProductPageProps = {
@@ -14,7 +15,8 @@ type EditProductPageProps = {
 
 export default async function EditProductPage({ params }: EditProductPageProps) {
   const { productId } = await params;
-  const [product, settings] = await Promise.all([
+  const [categories, product, settings] = await Promise.all([
+    listProductCategories(),
     getProductDetail(productId),
     getProductPricingSettings(),
   ]);
@@ -37,6 +39,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
         </h1>
       </div>
       <ProductForm
+        categories={categories}
         minimumMultiplier={settings.minimumMultiplier}
         product={product}
         recommendedMultiplier={settings.recommendedMultiplier}
