@@ -13,7 +13,7 @@ export function Select({ children, className, hint, id, label, ...props }: Selec
   return (
     <div className="block">
       {label ? (
-        <label className="text-sm font-semibold text-[color:var(--color-cream)]" htmlFor={selectId}>
+        <label className="text-sm font-medium text-[color:var(--color-cream)]" htmlFor={selectId}>
           {label}
         </label>
       ) : null}

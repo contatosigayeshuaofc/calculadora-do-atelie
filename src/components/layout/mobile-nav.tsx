@@ -23,15 +23,16 @@ export function MobileNav() {
           <Link
             aria-current={isActive ? "page" : undefined}
             className={[
-              "flex h-12 flex-col items-center justify-center gap-1 rounded-[var(--radius-sm)] text-[10px] font-bold transition",
-              isActive ? "bg-[color:var(--color-gold)] text-[color:var(--color-ink)]" : "text-[color:var(--color-text-muted)] hover:bg-[rgba(196,168,130,0.12)]",
+              "flex h-12 min-w-0 flex-col items-center justify-center gap-0.5 rounded-[var(--radius-sm)] px-1 text-[10px] font-medium leading-none transition",
+              isActive
+                ? "bg-[color:var(--color-gold)] text-[color:var(--color-ink)]"
+                : "text-[color:var(--color-text-muted)] hover:bg-[rgba(196,168,130,0.12)]",
             ].join(" ")}
             href={item.href as never}
             key={item.href}
           >
-            <span aria-hidden="true" className="text-base">{item.emoji}</span>
-            <Icon className="sr-only" aria-hidden="true" />
-            <span>{item.label}</span>
+            <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className="max-w-full truncate">{item.label}</span>
           </Link>
         );
       })}

@@ -18,27 +18,29 @@ export function AppHeader({ atelierName }: AppHeaderProps) {
 
   return (
     <header className="relative border-b border-[rgba(196,168,130,0.22)] pb-5">
-      <div className="min-h-14 px-12 text-center sm:px-32">
+      <div className="flex min-h-11 items-center justify-end sm:absolute sm:right-0 sm:top-0">
+        <div className="flex items-center gap-1.5">
+          <Button aria-label="Buscar no ateliê" size="icon" variant="ghost">
+            <Search className="h-4 w-4" aria-hidden="true" />
+          </Button>
+          <Button aria-label="Notificações" size="icon" variant="secondary">
+            <Bell className="h-4 w-4" aria-hidden="true" />
+          </Button>
+          <form action={signOutAction}>
+            <Button aria-label="Sair" size="icon" type="submit" variant="ghost">
+              <LogOut className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          </form>
+        </div>
+      </div>
+
+      <div className="mt-3 min-h-14 text-center sm:mt-0 sm:px-36">
         <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-gold)]">
           {displayAtelierName}
         </p>
         <h1 className="mt-2 text-3xl font-medium leading-none text-[color:var(--color-cream)] sm:text-4xl">
           {title}
         </h1>
-      </div>
-
-      <div className="absolute right-0 top-0 flex items-center gap-1.5">
-        <Button aria-label="Buscar no ateliê" size="icon" variant="ghost">
-          <Search className="h-4 w-4" aria-hidden="true" />
-        </Button>
-        <Button aria-label="Notificações" size="icon" variant="secondary">
-          <Bell className="h-4 w-4" aria-hidden="true" />
-        </Button>
-        <form action={signOutAction}>
-          <Button aria-label="Sair" size="icon" type="submit" variant="ghost">
-            <LogOut className="h-4 w-4" aria-hidden="true" />
-          </Button>
-        </form>
       </div>
     </header>
   );

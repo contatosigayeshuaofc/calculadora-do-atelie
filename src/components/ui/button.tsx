@@ -17,7 +17,7 @@ const sizeClasses: Record<ButtonSize, string> = {
   sm: "h-9 px-3 text-xs",
   md: "h-11 px-4 text-sm",
   lg: "h-12 px-5 text-sm",
-  icon: "h-10 w-10 p-0",
+  icon: "h-11 w-11 p-0",
 };
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -43,7 +43,7 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex shrink-0 items-center justify-center gap-2 rounded-[var(--radius-sm)] font-semibold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(104,98,70,0.2)] disabled:pointer-events-none disabled:opacity-55",
+        "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-sm)] font-medium transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(104,98,70,0.2)] disabled:pointer-events-none disabled:opacity-55",
         variantClasses[variant],
         sizeClasses[size],
         className,

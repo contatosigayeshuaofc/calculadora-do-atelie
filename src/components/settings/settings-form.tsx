@@ -111,11 +111,11 @@ export function SettingsForm({ settings }: SettingsFormProps) {
               <LifeBuoy className="h-4 w-4" aria-hidden="true" />
             </span>
             <div>
-              <p className="font-semibold text-[color:var(--color-cream)]">
+              <p className="font-medium text-[color:var(--color-cream)]">
                 Suporte
               </p>
               <a
-                className="mt-1 inline-block break-all font-semibold text-[color:var(--color-gold)]"
+                className="mt-1 inline-flex min-h-11 items-center break-all font-medium text-[color:var(--color-gold)]"
                 href="mailto:suporte@ateliearomatico.site"
               >
                 suporte@ateliearomatico.site

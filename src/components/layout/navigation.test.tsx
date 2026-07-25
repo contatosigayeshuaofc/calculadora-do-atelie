@@ -58,10 +58,10 @@ describe("app navigation", () => {
     expect(screen.queryByRole("link", { name: /admin/i })).not.toBeInTheDocument();
   });
 
-  it("shows the brand with accent and member-area emoji mark", () => {
+  it("shows the brand with accent and an accessible visual mark", () => {
     render(<Sidebar />);
 
     expect(screen.getByText("Ateliê")).toBeInTheDocument();
-    expect(screen.getAllByText("🌿").length).toBeGreaterThan(0);
+    expect(screen.getByText("Lucrativo")).toBeInTheDocument();
   });
 });

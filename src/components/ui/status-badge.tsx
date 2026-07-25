@@ -19,7 +19,7 @@ type StatusBadgeProps = {
 
 export function StatusBadge({ children, className, tone = "neutral" }: StatusBadgeProps) {
   return (
-    <span className={cn("inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-bold leading-none", toneClasses[tone], className)}>
+    <span className={cn("inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium leading-none", toneClasses[tone], className)}>
       {children}
     </span>
   );

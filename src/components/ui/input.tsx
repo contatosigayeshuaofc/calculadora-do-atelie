@@ -14,7 +14,7 @@ export function Input({ className, error, hint, id, label, ...props }: InputProp
   return (
     <div className="block">
       {label ? (
-        <label className="text-sm font-semibold text-[color:var(--color-cream)]" htmlFor={inputId}>
+        <label className="text-sm font-medium text-[color:var(--color-cream)]" htmlFor={inputId}>
           {label}
         </label>
       ) : null}

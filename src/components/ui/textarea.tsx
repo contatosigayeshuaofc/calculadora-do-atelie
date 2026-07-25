@@ -13,7 +13,7 @@ export function Textarea({ className, hint, id, label, ...props }: TextareaProps
   return (
     <div className="block">
       {label ? (
-        <label className="text-sm font-semibold text-[color:var(--color-cream)]" htmlFor={textareaId}>
+        <label className="text-sm font-medium text-[color:var(--color-cream)]" htmlFor={textareaId}>
           {label}
         </label>
       ) : null}

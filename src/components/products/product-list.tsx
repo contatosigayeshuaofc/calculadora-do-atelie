@@ -46,7 +46,7 @@ export function ProductList({
             placeholder="Buscar por nome ou categoria"
           />
         </label>
-        <label className="flex h-11 items-center gap-2 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] px-3 text-sm font-semibold text-[color:var(--color-cream)]">
+        <label className="flex h-11 items-center gap-2 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] px-3 text-sm font-medium text-[color:var(--color-cream)]">
           <input
             defaultChecked={includeArchived}
             name="arquivados"
@@ -132,7 +132,7 @@ function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div>
       <p className="text-xs text-[color:var(--color-text-muted)]">{label}</p>
-      <p className="font-semibold text-[color:var(--color-cream)]">
+      <p className="font-medium text-[color:var(--color-cream)]">
         {formatCurrency(value)}
       </p>
     </div>
