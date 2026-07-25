@@ -18,12 +18,12 @@ export function SettingsForm({ settings }: SettingsFormProps) {
 
   return (
     <form action={action} className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
-      <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] sm:p-5">
-        <div className="border-b border-[color:var(--color-clay-beige)] pb-4">
+      <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
+        <div className="border-b border-[color:var(--color-card-border)] pb-4">
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
-            Perfil do atelie
+            Perfil do ateliê
           </p>
-          <h1 className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
+          <h1 className="mt-1 text-2xl font-black text-[color:var(--color-cream)]">
             Dados do perfil
           </h1>
         </div>
@@ -37,14 +37,14 @@ export function SettingsForm({ settings }: SettingsFormProps) {
           />
           <Input
             defaultValue={settings.atelierName ?? ""}
-            hint="Aparece no topo do aplicativo para identificar seu atelie."
-            label="Nome do atelie"
+            hint="Aparece no topo do aplicativo para identificar seu ateliê."
+            label="Nome do ateliê"
             name="atelierName"
           />
           <Input
             className="md:col-span-2"
             defaultValue={settings.whatsapp ?? ""}
-            hint="Salvo como contato do atelie, sem abrir conversa automaticamente."
+            hint="Salvo como contato do ateliê, sem abrir conversa automaticamente."
             label="WhatsApp"
             name="whatsapp"
           />
@@ -52,34 +52,34 @@ export function SettingsForm({ settings }: SettingsFormProps) {
       </section>
 
       <aside className="space-y-5">
-        <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] sm:p-5">
+        <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
-            Precificacao
+            Precificação
           </p>
-          <h2 className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
+          <h2 className="mt-1 text-2xl font-black text-[color:var(--color-cream)]">
             Multiplicadores
           </h2>
           <div className="mt-5 grid gap-4">
             <Input
               defaultValue={String(settings.minimumMultiplier).replace(".", ",")}
-              hint="Usado para calcular o preco minimo de novos produtos."
+              hint="Usado para calcular o preço mínimo de novos produtos."
               inputMode="decimal"
-              label="Multiplicador minimo"
+              label="Multiplicador mínimo"
               name="minimumMultiplier"
               required
             />
             <Input
               defaultValue={String(settings.recommendedMultiplier).replace(".", ",")}
-              hint="Usado para calcular o preco recomendado de novos produtos."
+              hint="Usado para calcular o preço recomendado de novos produtos."
               inputMode="decimal"
               label="Multiplicador recomendado"
               name="recommendedMultiplier"
               required
             />
           </div>
-          <div className="mt-5 rounded-[var(--radius-sm)] bg-[color:var(--color-soft-cream)] p-4 text-sm leading-6 text-[color:var(--color-text-muted)]">
+          <div className="mt-5 rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.12)] p-4 text-sm leading-6 text-[color:var(--color-text-muted)]">
             Exemplo: se uma unidade custa R$ 10,00, multiplicador 1,5 sugere
-            minimo de R$ 15,00 e multiplicador 2 sugere R$ 20,00.
+            mínimo de R$ 15,00 e multiplicador 2 sugere R$ 20,00.
           </div>
         </section>
 
@@ -104,17 +104,17 @@ export function SettingsForm({ settings }: SettingsFormProps) {
           </p>
         ) : null}
 
-        <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 text-sm leading-6 text-[color:var(--color-text-muted)] shadow-[var(--shadow-soft)] sm:p-5">
+        <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 text-sm leading-6 text-[color:var(--color-text-muted)] shadow-[var(--shadow-floating)] sm:p-5">
           <div className="flex items-start gap-3">
-            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(104,98,70,0.1)] text-[color:var(--color-olive)]">
+            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.18)] text-[color:var(--color-gold)]">
               <LifeBuoy className="h-4 w-4" aria-hidden="true" />
             </span>
             <div>
-              <p className="font-semibold text-[color:var(--color-warm-graphite)]">
+              <p className="font-semibold text-[color:var(--color-cream)]">
                 Suporte
               </p>
               <a
-                className="mt-1 inline-block break-all font-semibold text-[color:var(--color-olive)]"
+                className="mt-1 inline-block break-all font-semibold text-[color:var(--color-gold)]"
                 href="mailto:suporte@ateliearomatico.site"
               >
                 suporte@ateliearomatico.site

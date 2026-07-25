@@ -12,7 +12,7 @@ export function MobileNav() {
 
   return (
     <nav
-      aria-label="Navegacao mobile"
+      aria-label="Navegação mobile"
       className="atelier-rail fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 grid grid-cols-5 rounded-[var(--radius-lg)] border p-1.5 lg:hidden"
     >
       {mobileItems.map((item) => {
@@ -24,12 +24,13 @@ export function MobileNav() {
             aria-current={isActive ? "page" : undefined}
             className={[
               "flex h-12 flex-col items-center justify-center gap-1 rounded-[var(--radius-sm)] text-[10px] font-bold transition",
-              isActive ? "bg-[color:var(--color-olive)] text-white" : "text-[color:var(--color-text-muted)] hover:bg-[rgba(201,191,177,0.26)]",
+              isActive ? "bg-[color:var(--color-gold)] text-[color:var(--color-ink)]" : "text-[color:var(--color-text-muted)] hover:bg-[rgba(196,168,130,0.12)]",
             ].join(" ")}
             href={item.href as never}
             key={item.href}
           >
-            <Icon className="h-4 w-4" aria-hidden="true" />
+            <span aria-hidden="true" className="text-base">{item.emoji}</span>
+            <Icon className="sr-only" aria-hidden="true" />
             <span>{item.label}</span>
           </Link>
         );

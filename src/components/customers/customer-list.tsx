@@ -18,7 +18,7 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
             Clientes
           </p>
           <h1 className="mt-1 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
-            Relacionamento e historico
+            Relacionamento e histórico
           </h1>
         </div>
         <Link href="/clientes/novo">
@@ -28,7 +28,7 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
         </Link>
       </div>
 
-      <form className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-3 shadow-[var(--shadow-soft)] md:grid-cols-[1fr_auto]">
+      <form className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)] md:grid-cols-[1fr_auto]">
         <label className="relative block">
           <Search
             aria-hidden="true"
@@ -55,7 +55,7 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
               </Button>
             </Link>
           }
-          description="Cadastre suas clientes para acompanhar historico, preferencia e recorrencia de compra."
+          description="Cadastre suas clientes para acompanhar histórico, preferência e recorrência de compra."
           icon={<Users className="h-5 w-5" aria-hidden="true" />}
           title="Nenhuma cliente encontrada"
         />
@@ -63,7 +63,7 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
         <div className="grid gap-3">
           {customers.map((customer) => (
             <article
-              className="grid gap-4 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] md:grid-cols-[1fr_auto]"
+              className="grid gap-4 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] md:grid-cols-[1fr_auto]"
               key={customer.id}
             >
               <div>
@@ -81,7 +81,7 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
                     value={formatCurrency(customer.summary.totalSpentCents)}
                   />
                   <Metric
-                    label="Ultima compra"
+                    label="Última compra"
                     value={formatDate(customer.summary.lastOrderDate)}
                   />
                 </div>
@@ -116,7 +116,7 @@ function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="text-xs text-[color:var(--color-text-muted)]">{label}</p>
-      <p className="font-semibold text-[color:var(--color-warm-graphite)]">
+      <p className="font-semibold text-[color:var(--color-cream)]">
         {value}
       </p>
     </div>

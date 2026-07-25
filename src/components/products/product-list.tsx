@@ -23,7 +23,7 @@ export function ProductList({
             Produtos
           </p>
           <h1 className="mt-1 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
-            Catalogo precificado
+            Catálogo precificado
           </h1>
         </div>
         <Link href="/produtos/novo">
@@ -33,7 +33,7 @@ export function ProductList({
         </Link>
       </div>
 
-      <form className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-3 shadow-[var(--shadow-soft)] md:grid-cols-[1fr_auto_auto]">
+      <form className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)] md:grid-cols-[1fr_auto_auto]">
         <label className="relative block">
           <Search
             aria-hidden="true"
@@ -46,7 +46,7 @@ export function ProductList({
             placeholder="Buscar por nome ou categoria"
           />
         </label>
-        <label className="flex h-11 items-center gap-2 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] px-3 text-sm font-semibold text-[color:var(--color-warm-graphite)]">
+        <label className="flex h-11 items-center gap-2 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] px-3 text-sm font-semibold text-[color:var(--color-cream)]">
           <input
             defaultChecked={includeArchived}
             name="arquivados"
@@ -69,7 +69,7 @@ export function ProductList({
               </Button>
             </Link>
           }
-          description="Cadastre sua primeira peca para calcular custo, preco minimo e preco recomendado."
+          description="Cadastre sua primeira peça para calcular custo, preço mínimo e preço recomendado."
           icon={<Archive className="h-5 w-5" aria-hidden="true" />}
           title="Nenhum produto encontrado"
         />
@@ -77,7 +77,7 @@ export function ProductList({
         <div className="grid gap-3">
           {products.map((product) => (
             <article
-              className="grid gap-4 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] md:grid-cols-[1fr_auto]"
+              className="grid gap-4 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] md:grid-cols-[1fr_auto]"
               key={product.id}
             >
               <div>
@@ -94,7 +94,7 @@ export function ProductList({
                 </p>
                 <div className="mt-4 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
                   <Metric label="Custo" value={product.unit_cost_cents} />
-                  <Metric label="Minimo" value={product.minimum_price_cents} />
+                  <Metric label="Mínimo" value={product.minimum_price_cents} />
                   <Metric
                     label="Recomendado"
                     value={product.recommended_price_cents}
@@ -132,7 +132,7 @@ function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div>
       <p className="text-xs text-[color:var(--color-text-muted)]">{label}</p>
-      <p className="font-semibold text-[color:var(--color-warm-graphite)]">
+      <p className="font-semibold text-[color:var(--color-cream)]">
         {formatCurrency(value)}
       </p>
     </div>

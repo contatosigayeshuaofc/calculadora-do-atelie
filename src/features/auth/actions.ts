@@ -46,7 +46,7 @@ export async function signInAction(_: AuthActionState, formData: FormData): Prom
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
 
   if (error) {
-    return errorState("E-mail ou senha nao conferem.");
+    return errorState("E-mail ou senha não conferem.");
   }
 
   const {
@@ -54,7 +54,7 @@ export async function signInAction(_: AuthActionState, formData: FormData): Prom
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return errorState("Nao foi possivel confirmar sua sessao. Tente novamente.");
+    return errorState("Não foi possível confirmar sua sessão. Tente novamente.");
   }
 
   if (canAdminAccess(user.email, parseAdminEmails(process.env.ADMIN_EMAILS))) {
@@ -99,7 +99,7 @@ export async function signUpAction(_: AuthActionState, formData: FormData): Prom
   });
 
   if (error) {
-    return errorState("Nao foi possivel criar sua conta agora. Verifique os dados e tente de novo.");
+    return errorState("Não foi possível criar sua conta agora. Verifique os dados e tente de novo.");
   }
 
   redirect("/aguardando-liberacao" as never);
@@ -111,7 +111,7 @@ export async function forgotPasswordAction(_: AuthActionState, formData: FormDat
   });
 
   if (!parsed.success) {
-    return errorState(parsed.error.issues[0]?.message ?? "Digite um e-mail valido.");
+    return errorState(parsed.error.issues[0]?.message ?? "Digite um e-mail válido.");
   }
 
   const supabase = await createClient();
@@ -126,11 +126,11 @@ export async function forgotPasswordAction(_: AuthActionState, formData: FormDat
   });
 
   if (error) {
-    return errorState("Nao foi possivel enviar o link. Tente novamente em alguns minutos.");
+    return errorState("Não foi possível enviar o link. Tente novamente em alguns minutos.");
   }
 
   return {
-    message: "Enviamos o link de recuperacao para o seu e-mail.",
+    message: "Enviamos o link de recuperação para o seu e-mail.",
     status: "success",
   };
 }
@@ -154,11 +154,11 @@ export async function resetPasswordAction(_: AuthActionState, formData: FormData
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
 
   if (error) {
-    return errorState("Nao foi possivel atualizar sua senha. Abra o link mais recente enviado por e-mail.");
+    return errorState("Não foi possível atualizar sua senha. Abra o link mais recente enviado por e-mail.");
   }
 
   return {
-    message: "Senha atualizada. Agora voce ja pode entrar novamente.",
+    message: "Senha atualizada. Agora você já pode entrar novamente.",
     status: "success",
   };
 }

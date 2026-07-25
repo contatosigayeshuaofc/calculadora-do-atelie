@@ -109,24 +109,24 @@ export function ProductForm({
   return (
     <form action={action} className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
       <input name="payload" type="hidden" value={JSON.stringify(payload)} />
-      <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] sm:p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--color-clay-beige)] pb-4">
+      <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--color-card-border)] pb-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
               Etapa {step + 1} de 3
             </p>
             <h1 className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
-              {["Produto", "Custos", "Preco"][step]}
+              {["Produto", "Custos", "Preço"][step]}
             </h1>
           </div>
-          <div className="flex gap-1 rounded-[var(--radius-sm)] bg-[color:var(--color-soft-cream)] p-1">
+          <div className="flex gap-1 rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.12)] p-1">
             {[0, 1, 2].map((item) => (
               <button
                 aria-label={`Ir para etapa ${item + 1}`}
                 className={`h-2.5 w-9 rounded-full ${
                   item === step
-                    ? "bg-[color:var(--color-olive)]"
-                    : "bg-[color:var(--color-clay-beige)]"
+                    ? "bg-[color:var(--color-gold)]"
+                    : "bg-[color:var(--color-card-border)]"
                 }`}
                 key={item}
                 onClick={() => setStep(item)}
@@ -201,8 +201,8 @@ export function ProductForm({
       {pricing ? (
         <PriceSummary result={pricing} />
       ) : (
-        <aside className="rounded-[var(--radius-sm)] border border-dashed border-[color:var(--color-clay-beige)] bg-white p-4 text-sm text-[color:var(--color-text-muted)]">
-          Preencha os dados para ver o resumo de preco.
+        <aside className="rounded-[var(--radius-sm)] border border-dashed border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 text-sm text-[color:var(--color-text-muted)] shadow-[var(--shadow-floating)]">
+          Preencha os dados para ver o resumo de preço.
         </aside>
       )}
     </form>
@@ -241,7 +241,7 @@ function ProductFields({
       />
       <div className="md:col-span-2">
         <Textarea
-          label="Descricao"
+          label="Descrição"
           onChange={(event) => updateField("description", event.target.value)}
           value={form.description}
         />
@@ -309,9 +309,9 @@ function CostItemFields({
   const suggestion = getCostItemMarketSuggestion(item.name);
 
   return (
-    <div className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] p-4">
+    <div className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] p-4">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <p className="text-sm font-bold text-[color:var(--color-warm-graphite)]">
+        <p className="text-sm font-bold text-[color:var(--color-cream)]">
           Custo {index + 1}
         </p>
         {costItemsLength > 1 ? (
@@ -365,7 +365,7 @@ function CostItemFields({
           className="md:col-span-2"
           hint={suggestion.purchasePriceHint}
           inputMode="decimal"
-          label="Preco da compra"
+          label="Preço da compra"
           onBlur={(event) =>
             updateCostItem(
               index,
@@ -444,7 +444,7 @@ function PriceFields({
       />
       <Input
         inputMode="decimal"
-        label="Multiplicador minimo"
+        label="Multiplicador mínimo"
         onChange={(event) => updateField("minimumMultiplier", event.target.value)}
         value={form.minimumMultiplier}
       />
@@ -457,10 +457,10 @@ function PriceFields({
         value={form.recommendedMultiplier}
       />
       {product ? (
-        <div className="md:col-span-2 rounded-[var(--radius-sm)] bg-[color:var(--color-soft-cream)] p-4 text-sm text-[color:var(--color-text-muted)]">
-          Produtos ja salvos mantem os precos atuais. Use o botao abaixo
+        <div className="md:col-span-2 rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.12)] p-4 text-sm text-[color:var(--color-text-muted)]">
+          Produtos já salvos mantêm os preços atuais. Use o botão abaixo
           somente se quiser recalcular este produto com os multiplicadores das
-          configuracoes.
+          configurações.
           <Button
             className="mt-3"
             leftIcon={<Calculator className="h-4 w-4" />}
@@ -474,7 +474,7 @@ function PriceFields({
       ) : null}
       <Input
         inputMode="decimal"
-        label="Preco praticado"
+        label="Preço praticado"
         onBlur={(event) =>
           updateField(
             "sellingPrice",
@@ -484,9 +484,9 @@ function PriceFields({
         onChange={(event) => updateField("sellingPrice", event.target.value)}
         value={form.sellingPrice}
       />
-      <div className="rounded-[var(--radius-sm)] bg-[color:var(--color-soft-cream)] p-4 text-sm text-[color:var(--color-text-muted)]">
+      <div className="rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.12)] p-4 text-sm text-[color:var(--color-text-muted)]">
         {pricing
-          ? `Preco recomendado: ${formatCurrency(pricing.recommendedPriceCents)}`
+          ? `Preço recomendado: ${formatCurrency(pricing.recommendedPriceCents)}`
           : "O recomendado aparece assim que os custos estiverem completos."}
       </div>
     </div>

@@ -1,12 +1,3 @@
-import {
-  Banknote,
-  CircleDollarSign,
-  Clock3,
-  PackageCheck,
-  ReceiptText,
-  TrendingUp,
-  Users,
-} from "lucide-react";
 import { StatusBadge } from "@/components/ui";
 import { formatCurrency } from "@/lib/currency/format-currency";
 import type { DashboardSummary } from "@/features/dashboard/types";
@@ -18,73 +9,71 @@ type SummaryCardsProps = {
 export function SummaryCards({ summary }: SummaryCardsProps) {
   const cards = [
     {
-      icon: CircleDollarSign,
+      icon: "💰",
       label: "Faturamento",
       value: formatCurrency(summary.revenueCents),
     },
     {
-      icon: TrendingUp,
-      label: "Lucro liquido",
+      icon: "✨",
+      label: "Lucro líquido",
       value: formatCurrency(summary.estimatedProfitCents),
     },
     {
-      icon: PackageCheck,
-      label: "Pecas vendidas",
+      icon: "📦",
+      label: "Peças vendidas",
       value: String(summary.itemQuantity),
     },
     {
-      icon: Users,
+      icon: "🤍",
       label: "Clientes",
       value: String(summary.customerCount),
     },
     {
-      icon: ReceiptText,
+      icon: "🧾",
       label: "Vendas",
       value: String(summary.orderCount),
     },
     {
-      icon: Banknote,
-      label: "Ticket medio",
+      icon: "🏷️",
+      label: "Ticket médio",
       value: formatCurrency(summary.averageTicketCents),
     },
     {
-      icon: Clock3,
+      icon: "⏳",
       label: "Valores pendentes",
       value: formatCurrency(summary.pendingAmountCents),
     },
     {
-      icon: Clock3,
+      icon: "🌿",
       label: "Em andamento",
       value: String(summary.activeOrderCount),
     },
   ];
 
   return (
-    <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+    <section aria-label="Resumo do mês" className="atelier-floating-card grid gap-3 md:grid-cols-2 xl:grid-cols-4">
       {cards.map((card) => {
-        const Icon = card.icon;
-
         return (
           <article
-            className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)]"
+            className="rounded-[var(--radius-md)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]"
             key={card.label}
           >
             <div className="flex items-center justify-between gap-3">
-              <p className="text-sm font-semibold text-[color:var(--color-text-muted)]">
+              <p className="text-xs font-bold uppercase text-[color:var(--color-text-muted)]">
                 {card.label}
               </p>
-              <span className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(104,98,70,0.1)] text-[color:var(--color-olive)]">
-                <Icon className="h-4 w-4" aria-hidden="true" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.18)] text-lg">
+                <span aria-hidden="true">{card.icon}</span>
               </span>
             </div>
-            <p className="mt-4 font-serif text-3xl leading-none text-[color:var(--color-warm-graphite)]">
+            <p className="mt-4 text-3xl font-black leading-none text-[color:var(--color-cream)]">
               {card.value}
             </p>
           </article>
         );
       })}
       {summary.pendingAmountIsApproximate ? (
-        <div className="md:col-span-2 xl:col-span-3">
+        <div className="md:col-span-2 xl:col-span-4">
           <StatusBadge tone="warning">
             Pendentes incluem o total dos pagamentos parciais no MVP
           </StatusBadge>

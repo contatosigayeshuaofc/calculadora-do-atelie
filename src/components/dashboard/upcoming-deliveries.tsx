@@ -11,14 +11,14 @@ type UpcomingDeliveriesProps = {
 
 export function UpcomingDeliveries({ deliveries }: UpcomingDeliveriesProps) {
   return (
-    <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)]">
-      <h2 className="font-serif text-2xl text-[color:var(--color-warm-graphite)]">
-        Proximas entregas
+    <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
+      <h2 className="text-2xl font-black text-[color:var(--color-cream)]">
+        Próximas entregas
       </h2>
       {deliveries.length === 0 ? (
         <EmptyState
           className="mt-4"
-          description="Nenhuma entrega marcada para os proximos sete dias."
+          description="Nenhuma entrega marcada para os próximos sete dias."
           icon={<CalendarClock className="h-5 w-5" aria-hidden="true" />}
           title="Agenda tranquila"
         />
@@ -26,13 +26,13 @@ export function UpcomingDeliveries({ deliveries }: UpcomingDeliveriesProps) {
         <div className="mt-4 grid gap-3">
           {deliveries.map((sale) => (
             <article
-              className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-[rgba(248,246,241,0.56)] p-3 sm:grid-cols-[1fr_auto]"
+              className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.34)] p-3 sm:grid-cols-[1fr_auto]"
               key={sale.id}
             >
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <p className="font-semibold text-[color:var(--color-warm-graphite)]">
-                    {sale.customerName ?? "Cliente nao informado"}
+                  <p className="font-semibold text-[color:var(--color-cream)]">
+                    {sale.customerName ?? "Cliente não informado"}
                   </p>
                   <OrderStatusBadge status={sale.status} />
                 </div>

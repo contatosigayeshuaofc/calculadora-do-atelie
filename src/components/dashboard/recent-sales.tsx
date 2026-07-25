@@ -11,8 +11,8 @@ type RecentSalesProps = {
 
 export function RecentSales({ sales }: RecentSalesProps) {
   return (
-    <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)]">
-      <h2 className="font-serif text-2xl text-[color:var(--color-warm-graphite)]">
+    <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
+      <h2 className="text-2xl font-black text-[color:var(--color-cream)]">
         Vendas recentes
       </h2>
       {sales.length === 0 ? (
@@ -20,18 +20,18 @@ export function RecentSales({ sales }: RecentSalesProps) {
           className="mt-4"
           description="Registre uma venda para acompanhar faturamento, lucro e entrega por aqui."
           icon={<ReceiptText className="h-5 w-5" aria-hidden="true" />}
-          title="Nenhuma venda neste mes"
+          title="Nenhuma venda neste mês"
         />
       ) : (
         <div className="mt-4 grid gap-3">
           {sales.map((sale) => (
             <article
-              className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-[rgba(248,246,241,0.56)] p-3 sm:grid-cols-[1fr_auto]"
+              className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.34)] p-3 sm:grid-cols-[1fr_auto]"
               key={sale.id}
             >
               <div>
-                <p className="font-semibold text-[color:var(--color-warm-graphite)]">
-                  {sale.customerName ?? "Cliente nao informado"}
+                <p className="font-semibold text-[color:var(--color-cream)]">
+                  {sale.customerName ?? "Cliente não informado"}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <OrderStatusBadge status={sale.status} />

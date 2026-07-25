@@ -31,7 +31,7 @@ export function SaleList({
             Vendas
           </p>
           <h1 className="mt-1 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
-            Pedidos do atelie
+            Pedidos do ateliê
           </h1>
         </div>
         <Link href="/vendas/nova">
@@ -41,7 +41,7 @@ export function SaleList({
         </Link>
       </div>
 
-      <form className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-3 shadow-[var(--shadow-soft)] lg:grid-cols-[1fr_190px_190px_auto]">
+      <form className="grid gap-3 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)] lg:grid-cols-[1fr_190px_190px_auto]">
         <label className="relative block">
           <Search
             aria-hidden="true"
@@ -51,7 +51,7 @@ export function SaleList({
             className="atelier-field h-11 w-full rounded-[var(--radius-sm)] pl-9 pr-3 text-sm"
             defaultValue={search}
             name="busca"
-            placeholder="Buscar por cliente ou codigo"
+            placeholder="Buscar por cliente ou código"
           />
         </label>
         <Select defaultValue={status} name="status">
@@ -92,7 +92,7 @@ export function SaleList({
         <div className="grid gap-3">
           {sales.map((sale) => (
             <article
-              className="grid gap-4 rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)] lg:grid-cols-[1fr_auto]"
+              className="grid gap-4 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] lg:grid-cols-[1fr_auto]"
               key={sale.id}
             >
               <div>
@@ -104,7 +104,7 @@ export function SaleList({
                   <PaymentStatusBadge status={sale.payment_status} />
                 </div>
                 <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">
-                  {sale.customer_name ?? "Cliente nao informado"} - {sale.item_count} item(ns)
+                  {sale.customer_name ?? "Cliente não informado"} - {sale.item_count} item(ns)
                 </p>
                 <div className="mt-4 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
                   <Metric label="Pedido" value={formatDate(sale.order_date)} />
@@ -138,7 +138,7 @@ function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="text-xs text-[color:var(--color-text-muted)]">{label}</p>
-      <p className="font-semibold text-[color:var(--color-warm-graphite)]">
+      <p className="font-semibold text-[color:var(--color-cream)]">
         {value}
       </p>
     </div>

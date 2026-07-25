@@ -63,10 +63,10 @@ export function SignUpForm() {
   return (
     <form action={formAction} className="space-y-4">
       <Input autoComplete="name" label="Nome" name="fullName" placeholder="Seu nome" />
-      <Input label="Nome do atelie" name="atelierName" placeholder="Ex: Atelie da Ana" />
+      <Input label="Nome do ateliê" name="atelierName" placeholder="Ex: Ateliê da Ana" />
       <Input autoComplete="tel" label="WhatsApp" name="whatsapp" placeholder="(00) 00000-0000" />
       <Input autoComplete="email" label="E-mail" name="email" placeholder="voce@email.com" type="email" />
-      <Input autoComplete="new-password" hint="Minimo de 6 caracteres." label="Senha" name="password" placeholder="Crie uma senha" type="password" />
+      <Input autoComplete="new-password" hint="Mínimo de 6 caracteres." label="Senha" name="password" placeholder="Crie uma senha" type="password" />
       <ActionMessage message={state.message} status={state.status} />
       <Button
         className="w-full"

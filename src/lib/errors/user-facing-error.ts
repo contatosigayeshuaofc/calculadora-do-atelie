@@ -1,4 +1,4 @@
-const DEFAULT_USER_FACING_ERROR = "Nao foi possivel concluir a acao. Tente novamente.";
+const DEFAULT_USER_FACING_ERROR = "Não foi possível concluir a ação. Tente novamente.";
 
 export const technicalErrorPattern =
   /(?:NEXT_PUBLIC_|SUPABASE_|[a-z]+_[a-z_]+|[A-Z]{2,}_|permission denied|duplicate key|violates|schema cache|invalid input syntax|relation |function |table |column |uuid|JSON|SQL|PostgREST|PGRST|AuthApiError|[{}[\]`"])/i;

@@ -6,10 +6,10 @@ type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-[color:var(--color-olive)] text-white shadow-sm hover:bg-[color:var(--color-olive-dark)]",
+  primary: "bg-[color:var(--color-gold)] text-[color:var(--color-ink)] shadow-sm hover:bg-[#d2b892]",
   secondary:
-    "border border-[color:var(--color-clay-beige)] bg-[rgba(248,246,241,0.82)] text-[color:var(--color-warm-graphite)] hover:bg-white",
-  ghost: "text-[color:var(--color-warm-graphite)] hover:bg-[rgba(201,191,177,0.28)]",
+    "border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] text-[color:var(--color-cream)] hover:bg-[color:var(--color-coffee-soft)]",
+  ghost: "text-[color:var(--color-cream)] hover:bg-[rgba(196,168,130,0.12)]",
   danger: "bg-[color:var(--color-danger)] text-white shadow-sm hover:bg-[#88443b]",
 };
 

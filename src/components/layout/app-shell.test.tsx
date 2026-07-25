@@ -14,4 +14,10 @@ describe("AppShell", () => {
       "pb-[calc(7rem+env(safe-area-inset-bottom))]",
     );
   });
+
+  it("uses the member-area visual shell", () => {
+    render(<AppShell>Conteudo principal</AppShell>);
+
+    expect(screen.getByTestId("app-shell-main")).toHaveClass("atelier-member-surface");
+  });
 });

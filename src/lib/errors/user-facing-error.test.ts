@@ -23,7 +23,7 @@ describe("getUserFacingErrorMessage", () => {
     for (const message of messages) {
       const friendly = getUserFacingErrorMessage(new Error(message));
 
-      expect(friendly).toBe("Nao foi possivel concluir a acao. Tente novamente.");
+      expect(friendly).toBe("Não foi possível concluir a ação. Tente novamente.");
       expect(friendly).not.toMatch(technicalErrorPattern);
     }
   });

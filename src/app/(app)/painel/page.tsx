@@ -12,7 +12,7 @@ const quickActions = [
   { href: "/vendas/nova", label: "Registrar venda", icon: ReceiptText },
   { href: "/produtos/novo", label: "Novo produto", icon: PackagePlus },
   { href: "/clientes/novo", label: "Novo cliente", icon: Users },
-  { href: "/produtos/novo", label: "Calcular preco", icon: Calculator },
+  { href: "/produtos/novo", label: "Calcular preço", icon: Calculator },
 ];
 
 export default async function DashboardPage() {
@@ -25,11 +25,11 @@ export default async function DashboardPage() {
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Painel
           </p>
-          <h1 className="mt-1 font-serif text-3xl text-[color:var(--color-warm-graphite)]">
-            Resultado do atelie
+          <h1 className="mt-1 text-3xl font-black text-[color:var(--color-cream)]">
+            Resultado do ateliê
           </h1>
           <p className="mt-2 text-sm leading-6 text-[color:var(--color-text-muted)]">
-            Periodo de {formatDate(summary.periodStart)} ate{" "}
+            Período de {formatDate(summary.periodStart)} até{" "}
             {formatDate(summary.periodEnd)}. Lucro exibido como estimativa
             comercial.
           </p>

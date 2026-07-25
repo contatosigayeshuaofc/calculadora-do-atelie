@@ -20,9 +20,21 @@ describe("AppHeader", () => {
     expect(screen.getByRole("heading", { name: "Vendas" })).toBeInTheDocument();
   });
 
-  it("has an accessible search field name", () => {
-    render(<AppHeader atelierName="Atelie da Ana" />);
+  it("normalizes the common atelier spelling when the profile was saved without accent", () => {
+    render(<AppHeader atelierName="Atelie Lucrativo" />);
 
-    expect(screen.getByRole("searchbox", { name: "Buscar no atelie" })).toBeInTheDocument();
+    expect(screen.getByText("Ateliê Lucrativo")).toBeInTheDocument();
+  });
+
+  it("has an accessible search field name", () => {
+    render(<AppHeader atelierName="Ateliê da Ana" />);
+
+    expect(screen.getByRole("searchbox", { name: "Buscar no ateliê" })).toBeInTheDocument();
+  });
+
+  it("uses the accented default app name", () => {
+    render(<AppHeader />);
+
+    expect(screen.getByText("Calculadora do Ateliê")).toBeInTheDocument();
   });
 });

@@ -30,7 +30,7 @@ export function getSupabaseAdminEnv(): SupabaseAdminEnv | null {
 }
 
 export const missingSupabaseMessage =
-  "O acesso ainda esta sendo preparado. Entre em contato com o suporte se precisar de ajuda.";
+  "O acesso ainda está sendo preparado. Entre em contato com o suporte se precisar de ajuda.";
 
 export const missingSupabaseAdminMessage =
-  "O painel administrativo ainda esta sendo preparado. Verifique as configuracoes internas antes de continuar.";
+  "O painel administrativo ainda está sendo preparado. Verifique as configurações internas antes de continuar.";

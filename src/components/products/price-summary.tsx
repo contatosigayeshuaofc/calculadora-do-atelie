@@ -11,14 +11,14 @@ export function PriceSummary({ result }: PriceSummaryProps) {
   const warning = result.isBelowMinimumPrice;
 
   return (
-    <aside className="rounded-[var(--radius-sm)] border border-[color:var(--color-clay-beige)] bg-white p-4 shadow-[var(--shadow-soft)]">
+    <aside className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Resumo
           </p>
-          <h2 className="mt-1 font-serif text-2xl text-[color:var(--color-warm-graphite)]">
-            Preco sugerido
+          <h2 className="mt-1 text-2xl font-black text-[color:var(--color-cream)]">
+            Preço sugerido
           </h2>
         </div>
         {warning ? (
@@ -35,8 +35,8 @@ export function PriceSummary({ result }: PriceSummaryProps) {
       </div>
 
       <dl className="mt-5 grid grid-cols-2 gap-3 text-sm">
-        <SummaryItem label="Custo unitario" value={result.unitCostCents} />
-        <SummaryItem label="Preco minimo" value={result.minimumPriceCents} />
+        <SummaryItem label="Custo unitário" value={result.unitCostCents} />
+        <SummaryItem label="Preço mínimo" value={result.minimumPriceCents} />
         <SummaryItem
           label="Recomendado"
           value={result.recommendedPriceCents}
@@ -53,8 +53,8 @@ export function PriceSummary({ result }: PriceSummaryProps) {
         )}
       >
         {warning
-          ? "O preco praticado esta abaixo do minimo calculado."
-          : "O preco praticado cobre o minimo calculado."}
+          ? "O preço praticado está abaixo do mínimo calculado."
+          : "O preço praticado cobre o mínimo calculado."}
       </div>
     </aside>
   );
@@ -62,9 +62,9 @@ export function PriceSummary({ result }: PriceSummaryProps) {
 
 function SummaryItem({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-[var(--radius-sm)] bg-[color:var(--color-soft-cream)] p-3">
+    <div className="rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.12)] p-3">
       <dt className="text-xs text-[color:var(--color-text-muted)]">{label}</dt>
-      <dd className="mt-1 font-semibold text-[color:var(--color-warm-graphite)]">
+      <dd className="mt-1 font-semibold text-[color:var(--color-cream)]">
         {formatCurrency(value)}
       </dd>
     </div>

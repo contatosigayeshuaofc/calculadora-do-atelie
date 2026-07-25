@@ -4,6 +4,11 @@
   --font-cinzel: Georgia, "Times New Roman", serif;
   --font-cormorant: Georgia, "Times New Roman", serif;
   --font-montserrat: "Segoe UI", Arial, sans-serif;
+  --color-ink: #181512;
+  --color-coffee: #211d19;
+  --color-coffee-soft: #302a25;
+  --color-gold: #c4a882;
+  --color-cream: #ede8e0;
   --color-ivory: #f4f0e8;
   --color-paper: #ece8e1;
   --color-plaster-white: #f8f6f1;
@@ -16,7 +21,9 @@
   --color-clay-beige: #c9bfb1;
   --color-clay-soft: #ddd5c9;
   --color-warm-graphite: #3e3a34;
-  --color-text-muted: #6f675e;
+  --color-text-muted: #b7aea5;
+  --color-card: rgba(48, 42, 37, 0.82);
+  --color-card-border: rgba(196, 168, 130, 0.24);
   --color-success: #5c7552;
   --color-warning: #a27432;
   --color-danger: #9b4f45;
@@ -24,9 +31,10 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --shadow-soft: 0 18px 60px rgba(62, 58, 52, 0.08);
-  --shadow-raised: 0 24px 80px rgba(62, 58, 52, 0.12);
-  --focus-ring: 0 0 0 4px rgba(104, 98, 70, 0.18);
+  --shadow-soft: 0 18px 60px rgba(0, 0, 0, 0.18);
+  --shadow-raised: 0 24px 80px rgba(0, 0, 0, 0.28);
+  --shadow-floating: 0 22px 50px rgba(0, 0, 0, 0.32), inset 0 2px 0 rgba(255, 255, 255, 0.035);
+  --focus-ring: 0 0 0 4px rgba(196, 168, 130, 0.22);
 }
 
 * {
@@ -35,16 +43,16 @@
 
 html {
   min-height: 100%;
-  background: var(--color-ivory);
+  background: var(--color-ink);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(155, 121, 63, 0.12), transparent 28rem),
-    linear-gradient(180deg, var(--color-ivory), var(--color-paper));
-  color: var(--color-warm-graphite);
+    radial-gradient(circle at top left, rgba(196, 168, 130, 0.16), transparent 28rem),
+    linear-gradient(180deg, var(--color-ink), #120f0d);
+  color: var(--color-cream);
   font-family: var(--font-montserrat);
   font-feature-settings: "kern";
 }
@@ -75,7 +83,7 @@ select {
 }
 
 ::selection {
-  background: rgba(104, 98, 70, 0.22);
+  background: rgba(196, 168, 130, 0.34);
 }
 
 .atelier-shell {
@@ -86,32 +94,43 @@ select {
 .atelier-panel {
   width: min(100%, 1080px);
   margin: 0 auto;
-  border: 1px solid rgba(201, 191, 177, 0.78);
+  border: 1px solid var(--color-card-border);
   border-radius: var(--radius-lg);
-  background: rgba(248, 246, 241, 0.88);
+  background: var(--color-card);
   box-shadow: var(--shadow-soft);
 }
 
 .atelier-app-bg {
   min-height: 100vh;
   background:
-    linear-gradient(90deg, rgba(104, 98, 70, 0.08) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(155, 121, 63, 0.1), transparent 24rem),
-    var(--color-ivory);
+    linear-gradient(90deg, rgba(196, 168, 130, 0.07) 1px, transparent 1px),
+    radial-gradient(circle at top left, rgba(196, 168, 130, 0.18), transparent 25rem),
+    linear-gradient(180deg, var(--color-ink), #100d0b);
   background-size: 44px 44px, auto, auto;
 }
 
 .atelier-rail {
-  border-color: rgba(201, 191, 177, 0.74);
-  background: rgba(248, 246, 241, 0.86);
-  box-shadow: var(--shadow-soft);
+  border-color: var(--color-card-border);
+  background: rgba(24, 21, 18, 0.82);
+  box-shadow: var(--shadow-floating);
   backdrop-filter: blur(16px);
 }
 
+.atelier-member-surface {
+  border-color: var(--color-card-border);
+  background: rgba(24, 21, 18, 0.72);
+  box-shadow: var(--shadow-floating);
+  backdrop-filter: blur(18px);
+}
+
+.atelier-floating-card {
+  border-radius: var(--radius-lg);
+}
+
 .atelier-field {
-  border: 1px solid var(--color-clay-beige);
-  background: rgba(255, 255, 255, 0.7);
-  color: var(--color-warm-graphite);
+  border: 1px solid var(--color-card-border);
+  background: rgba(48, 42, 37, 0.74);
+  color: var(--color-cream);
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease,
@@ -119,19 +138,19 @@ select {
 }
 
 .atelier-field::placeholder {
-  color: rgba(111, 103, 94, 0.72);
+  color: var(--color-text-muted);
 }
 
 .atelier-field:focus {
-  border-color: var(--color-olive);
+  border-color: var(--color-gold);
   box-shadow: var(--focus-ring);
   outline: none;
 }
 
 .atelier-field:disabled {
   cursor: not-allowed;
-  background: rgba(236, 232, 225, 0.72);
-  color: rgba(111, 103, 94, 0.72);
+  background: rgba(33, 29, 25, 0.72);
+  color: var(--color-text-muted);
 }
 
 .atelier-skeleton {
