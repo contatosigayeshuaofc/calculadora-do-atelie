@@ -87,6 +87,16 @@ const saleUnitOptions = [
   },
 ];
 
+const materialUnitOptions = [
+  { value: "g", label: "g" },
+  { value: "kg", label: "kg" },
+  { value: "ml", label: "ml" },
+  { value: "L", label: "L" },
+  { value: "un", label: "un" },
+  { value: "m", label: "m" },
+  { value: "cm", label: "cm" },
+];
+
 export function ProductForm({
   categories = [],
   minimumMultiplier,
@@ -95,6 +105,7 @@ export function ProductForm({
 }: ProductFormProps) {
   const [step, setStep] = useState(0);
   const [stepMessage, setStepMessage] = useState<string | null>(null);
+  const [isStepChanging, setIsStepChanging] = useState(false);
   const [state, action, isPending] = useActionState(saveProductAction, {
     status: "idle" as const,
     message: null,
@@ -155,7 +166,9 @@ export function ProductForm({
     }
 
     setStepMessage(null);
+    setIsStepChanging(true);
     setStep(nextStep);
+    window.setTimeout(() => setIsStepChanging(false), 250);
   }
 
   return (
@@ -219,7 +232,7 @@ export function ProductForm({
         </div>
 
         {stepMessage ? (
-          <p className="mt-4 rounded-[var(--radius-sm)] bg-[rgba(160,82,70,0.12)] px-3 py-2 text-sm font-medium text-[color:var(--color-danger)]">
+          <p className="mt-4 rounded-[var(--radius-sm)] bg-[rgba(160,82,70,0.12)] px-3 py-2 text-sm font-medium text-[color:var(--color-danger)]" role="alert">
             {stepMessage}
           </p>
         ) : null}
@@ -242,6 +255,7 @@ export function ProductForm({
           </Button>
           {step < 2 ? (
             <Button
+              isLoading={isStepChanging}
               onClick={() => goToStep(Math.min(2, step + 1))}
               rightIcon={<ArrowRight className="h-4 w-4" />}
               type="button"
@@ -400,30 +414,35 @@ function SaleUnitField({
 }) {
   return (
     <div className="md:col-span-2">
-      <p className="text-sm font-semibold text-[color:var(--color-cream)]">
+      <p className="text-sm font-medium text-[color:var(--color-cream)]">
         Unidade de venda
       </p>
-      <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" role="radiogroup" aria-label="Unidade de venda">
         {saleUnitOptions.map((option) => (
-          <button
-            aria-pressed={value === option.value}
+          <label
             className={cn(
-              "min-h-[76px] rounded-[var(--radius-sm)] border px-3 py-2 text-left transition",
+              "min-h-[76px] cursor-pointer rounded-[var(--radius-sm)] border px-3 py-2 text-left transition",
               value === option.value
                 ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)]"
                 : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] hover:border-[color:var(--color-gold)]",
             )}
             key={option.value}
-            onClick={() => onChange(option.value)}
-            type="button"
           >
+            <input
+              checked={value === option.value}
+              className="sr-only"
+              name="saleUnitChoice"
+              onChange={() => onChange(option.value)}
+              type="radio"
+              value={option.value}
+            />
             <span className="block text-sm font-medium text-[color:var(--color-cream)]">
               {option.label}
             </span>
             <span className="mt-1 block text-xs leading-5 text-[color:var(--color-text-muted)]">
               {option.hint}
             </span>
-          </button>
+          </label>
         ))}
       </div>
     </div>
@@ -515,12 +534,9 @@ function CostItemFields({
           }
           value={item.name}
         />
-        <Input
-          hint="Use a mesma unidade da compra e do consumo: g, ml, un, m ou cm."
-          label="Unidade"
-          onChange={(event) =>
-            updateCostItem(index, "unitMeasure", event.target.value)
-          }
+        <MaterialUnitField
+          index={index}
+          onChange={(value) => updateCostItem(index, "unitMeasure", value)}
           value={item.unitMeasure}
         />
         <Input
@@ -558,6 +574,50 @@ function CostItemFields({
           }
           value={item.purchasePrice}
         />
+      </div>
+    </div>
+  );
+}
+
+function MaterialUnitField({
+  index,
+  onChange,
+  value,
+}: {
+  index: number;
+  onChange: (value: string) => void;
+  value: string;
+}) {
+  return (
+    <div>
+      <p className="text-sm font-medium text-[color:var(--color-cream)]">
+        Unidade
+      </p>
+      <p className="mt-1 text-xs leading-5 text-[color:var(--color-text-muted)]">
+        Use a mesma unidade da compra e do consumo.
+      </p>
+      <div className="mt-2 grid grid-cols-4 gap-1.5 sm:grid-cols-3 md:grid-cols-4">
+        {materialUnitOptions.map((option) => (
+          <label
+            className={cn(
+              "flex h-9 cursor-pointer items-center justify-center rounded-[var(--radius-sm)] border text-xs font-medium transition",
+              value === option.value
+                ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)] text-[color:var(--color-cream)]"
+                : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] text-[color:var(--color-text-muted)] hover:border-[color:var(--color-gold)] hover:text-[color:var(--color-cream)]",
+            )}
+            key={option.value}
+          >
+            <input
+              checked={value === option.value}
+              className="sr-only"
+              name={`materialUnitChoice-${index}`}
+              onChange={() => onChange(option.value)}
+              type="radio"
+              value={option.value}
+            />
+            {option.label}
+          </label>
+        ))}
       </div>
     </div>
   );
@@ -735,8 +795,8 @@ function productToForm(
       name: "",
       category: "",
       description: "",
-      saleUnit: "unidade",
-      batchYield: "1",
+      saleUnit: "",
+      batchYield: "",
       packagingCostPerUnit: "",
       additionalBatchCost: "",
       sellingPrice: "",
