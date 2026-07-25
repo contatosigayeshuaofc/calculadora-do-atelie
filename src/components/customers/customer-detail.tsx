@@ -50,7 +50,6 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
         <InfoCard label="WhatsApp" value={customer.whatsapp} />
         <InfoCard label="Instagram" value={customer.instagram} />
         <InfoCard label="Cidade" value={customer.city} />
-        <InfoCard label="Aniversário" value={formatDate(customer.birthday)} />
       </section>
 
       {customer.notes ? (

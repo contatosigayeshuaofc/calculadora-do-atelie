@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
+import { normalizeBrazilianWhatsapp, onlyPhoneDigits } from "@/lib/forms/phone-input";
 
 const optionalTrimmedString = z
   .string()
@@ -12,7 +13,10 @@ export const customerFormSchema = z
   .object({
     customerId: z.string().uuid().optional().or(z.literal("")),
     name: z.string().trim().min(1, "Informe o nome da cliente."),
-    whatsapp: optionalTrimmedString,
+    whatsapp: optionalTrimmedString.refine(
+      (value) => !value || onlyPhoneDigits(value).length >= 10,
+      "Informe um WhatsApp com DDD.",
+    ),
     instagram: optionalTrimmedString,
     city: optionalTrimmedString,
     birthday: optionalTrimmedString,
@@ -21,10 +25,10 @@ export const customerFormSchema = z
   .transform((value) => ({
     customerId: value.customerId || undefined,
     name: value.name,
-    whatsapp: value.whatsapp,
+    whatsapp: normalizeBrazilianWhatsapp(value.whatsapp),
     instagram: value.instagram,
     city: value.city,
-    birthday: value.birthday,
+    birthday: null,
     notes: value.notes,
   }));
 

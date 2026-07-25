@@ -10,7 +10,7 @@ describe("parseCustomerFormData", () => {
       parseCustomerFormData({
         customerId: "",
         name: "  Maria Clara  ",
-        whatsapp: " (11) 99999-9999 ",
+        whatsapp: " (11) texto 99999-9999 ",
         instagram: " @mariaatelie ",
         city: "",
         birthday: "",
@@ -33,6 +33,15 @@ describe("parseCustomerFormData", () => {
         name: " ",
       }),
     ).toThrow("Informe o nome da cliente.");
+  });
+
+  test("requires DDD when WhatsApp has an incomplete number", () => {
+    expect(() =>
+      parseCustomerFormData({
+        name: "Maria",
+        whatsapp: "999",
+      }),
+    ).toThrow("Informe um WhatsApp com DDD.");
   });
 });
 

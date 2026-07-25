@@ -6,6 +6,7 @@ import { ArrowLeft, Save } from "lucide-react";
 import { Button, Input, Textarea } from "@/components/ui";
 import { saveCustomerAction } from "@/features/customers/actions";
 import type { CustomerRow } from "@/features/customers/types";
+import { formatBrazilianWhatsapp } from "@/lib/forms/phone-input";
 
 type CustomerFormProps = {
   customer?: CustomerRow | null;
@@ -17,7 +18,6 @@ type CustomerFormDraft = {
   whatsapp: string;
   instagram: string;
   city: string;
-  birthday: string;
   notes: string;
 };
 
@@ -30,7 +30,7 @@ export function CustomerForm({ customer }: CustomerFormProps) {
     customerToForm(customer),
   );
   const payload = useMemo(
-    () => ({ ...form, customerId: customer?.id ?? "" }),
+    () => ({ ...form, customerId: customer?.id ?? "", birthday: "" }),
     [customer?.id, form],
   );
 
@@ -65,7 +65,11 @@ export function CustomerForm({ customer }: CustomerFormProps) {
           hint="Opcional. Fica salvo como contato da cliente, sem abrir conversa automaticamente."
           inputMode="tel"
           label="WhatsApp"
-          onChange={(event) => updateField("whatsapp", event.target.value)}
+          maxLength={15}
+          onChange={(event) =>
+            updateField("whatsapp", formatBrazilianWhatsapp(event.target.value))
+          }
+          placeholder="(00) 00000-0000"
           value={form.whatsapp}
         />
         <Input
@@ -78,12 +82,6 @@ export function CustomerForm({ customer }: CustomerFormProps) {
           label="Cidade"
           onChange={(event) => updateField("city", event.target.value)}
           value={form.city}
-        />
-        <Input
-          label="Aniversário"
-          onChange={(event) => updateField("birthday", event.target.value)}
-          type="date"
-          value={form.birthday}
         />
         <Textarea
           className="md:col-span-2"
@@ -120,10 +118,9 @@ function customerToForm(customer: CustomerRow | null | undefined): CustomerFormD
   return {
     customerId: customer?.id ?? "",
     name: customer?.name ?? "",
-    whatsapp: customer?.whatsapp ?? "",
+    whatsapp: formatBrazilianWhatsapp(customer?.whatsapp ?? ""),
     instagram: customer?.instagram ?? "",
     city: customer?.city ?? "",
-    birthday: customer?.birthday ?? "",
     notes: customer?.notes ?? "",
   };
 }
