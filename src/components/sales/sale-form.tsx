@@ -14,6 +14,10 @@ import {
 } from "@/features/sales/types";
 import { formatCurrency } from "@/lib/currency/format-currency";
 import { parseCurrencyInput } from "@/lib/currency/parse-currency-input";
+import {
+  formatCurrencyFromDigits,
+  sanitizeIntegerInput,
+} from "@/lib/forms/numeric-input";
 
 type SaleFormProps = {
   customers: SaleCustomerOption[];
@@ -202,20 +206,25 @@ export function SaleForm({ customers, products }: SaleFormProps) {
               <Input
                 inputMode="numeric"
                 label="Qtd"
-                onChange={(event) => updateItem(index, "quantity", event.target.value)}
+                onChange={(event) =>
+                  updateItem(
+                    index,
+                    "quantity",
+                    sanitizeIntegerInput(event.target.value),
+                  )
+                }
                 value={item.quantity}
               />
               <Input
                 inputMode="decimal"
                 label="Preço unitário"
-                onBlur={(event) =>
+                onChange={(event) =>
                   updateItem(
                     index,
                     "unitPrice",
-                    formatCurrency(parseCurrencyInput(event.target.value)),
+                    formatCurrencyFromDigits(event.target.value),
                   )
                 }
-                onChange={(event) => updateItem(index, "unitPrice", event.target.value)}
                 value={item.unitPrice}
               />
               <div className="flex items-end">
@@ -250,22 +259,17 @@ export function SaleForm({ customers, products }: SaleFormProps) {
           <Input
             inputMode="decimal"
             label="Desconto"
-            onBlur={(event) =>
-              updateField("discount", formatCurrency(parseCurrencyInput(event.target.value)))
+            onChange={(event) =>
+              updateField("discount", formatCurrencyFromDigits(event.target.value))
             }
-            onChange={(event) => updateField("discount", event.target.value)}
             value={form.discount}
           />
           <Input
             inputMode="decimal"
             label="Taxa de entrega"
-            onBlur={(event) =>
-              updateField(
-                "deliveryFee",
-                formatCurrency(parseCurrencyInput(event.target.value)),
-              )
+            onChange={(event) =>
+              updateField("deliveryFee", formatCurrencyFromDigits(event.target.value))
             }
-            onChange={(event) => updateField("deliveryFee", event.target.value)}
             value={form.deliveryFee}
           />
           <Select

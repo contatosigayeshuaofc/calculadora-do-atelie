@@ -17,6 +17,11 @@ import {
 import { Button, Input, Textarea } from "@/components/ui";
 import { formatCurrency } from "@/lib/currency/format-currency";
 import { parseCurrencyInput } from "@/lib/currency/parse-currency-input";
+import {
+  formatCurrencyFromDigits,
+  sanitizeDecimalInput,
+  sanitizeIntegerInput,
+} from "@/lib/forms/numeric-input";
 import { saveProductAction } from "@/features/products/actions";
 import { PriceSummary } from "./price-summary";
 import { cn } from "@/lib/cn";
@@ -174,6 +179,11 @@ export function ProductForm({
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
       <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
+        {isStepChanging || isPending ? (
+          <LoadingOverlay
+            label={isPending ? "Salvando produto..." : "Carregando próxima etapa..."}
+          />
+        ) : null}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--color-card-border)] pb-4">
           <div>
             <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
@@ -254,6 +264,7 @@ export function ProductForm({
           </Button>
           {step < 2 ? (
             <Button
+              className="w-full sm:w-auto"
               isLoading={isStepChanging}
               onClick={() => goToStep(Math.min(2, step + 1))}
               rightIcon={<ArrowRight className="h-4 w-4" />}
@@ -265,6 +276,7 @@ export function ProductForm({
             <form action={action}>
               <input name="payload" type="hidden" value={JSON.stringify(payload)} />
               <Button
+                className="w-full sm:w-auto"
                 isLoading={isPending}
                 leftIcon={<Save className="h-4 w-4" />}
                 type="submit"
@@ -283,6 +295,23 @@ export function ProductForm({
           Preencha os dados para ver o resumo de preço.
         </aside>
       )}
+    </div>
+  );
+}
+
+function LoadingOverlay({ label }: { label: string }) {
+  return (
+    <div
+      aria-live="polite"
+      className="fixed inset-0 z-50 grid place-items-center bg-[rgba(13,11,10,0.62)] px-4 backdrop-blur-sm"
+      role="status"
+    >
+      <div className="w-full max-w-xs rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-5 text-center shadow-[var(--shadow-floating)]">
+        <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-[rgba(196,168,130,0.24)] border-t-[color:var(--color-gold)]" />
+        <p className="mt-3 text-sm font-medium text-[color:var(--color-cream)]">
+          {label}
+        </p>
+      </div>
     </div>
   );
 }
@@ -317,7 +346,9 @@ function ProductFields({
         inputMode="numeric"
         label="Rendimento do lote"
         hint="Informe quantas unidades vendáveis saem de uma produção completa. Ex.: se uma receita rende 12 velas prontas, coloque 12."
-        onChange={(event) => updateField("batchYield", event.target.value)}
+        onChange={(event) =>
+          updateField("batchYield", sanitizeIntegerInput(event.target.value))
+        }
         placeholder="Ex.: 12"
         value={form.batchYield}
       />
@@ -541,7 +572,11 @@ function CostItemFields({
           inputMode="decimal"
           label="Qtd comprada"
           onChange={(event) =>
-            updateCostItem(index, "purchaseQuantity", event.target.value)
+            updateCostItem(
+              index,
+              "purchaseQuantity",
+              sanitizeDecimalInput(event.target.value),
+            )
           }
           value={item.purchaseQuantity}
         />
@@ -550,7 +585,11 @@ function CostItemFields({
           inputMode="decimal"
           label="Qtd usada"
           onChange={(event) =>
-            updateCostItem(index, "usedQuantity", event.target.value)
+            updateCostItem(
+              index,
+              "usedQuantity",
+              sanitizeDecimalInput(event.target.value),
+            )
           }
           value={item.usedQuantity}
         />
@@ -559,15 +598,12 @@ function CostItemFields({
           hint={suggestion.purchasePriceHint}
           inputMode="decimal"
           label="Preço da compra"
-          onBlur={(event) =>
+          onChange={(event) =>
             updateCostItem(
               index,
               "purchasePrice",
-              formatCurrency(parseCurrencyInput(event.target.value)),
+              formatCurrencyFromDigits(event.target.value),
             )
-          }
-          onChange={(event) =>
-            updateCostItem(index, "purchasePrice", event.target.value)
           }
           value={item.purchasePrice}
         />
@@ -647,14 +683,11 @@ function PriceFields({
         hint={packagingCostSuggestion}
         inputMode="decimal"
         label="Custo de embalagem por unidade"
-        onBlur={(event) =>
+        onChange={(event) =>
           updateField(
             "packagingCostPerUnit",
-            formatCurrency(parseCurrencyInput(event.target.value)),
+            formatCurrencyFromDigits(event.target.value),
           )
-        }
-        onChange={(event) =>
-          updateField("packagingCostPerUnit", event.target.value)
         }
         value={form.packagingCostPerUnit}
       />
@@ -662,28 +695,30 @@ function PriceFields({
         hint={otherBatchCostSuggestion}
         inputMode="decimal"
         label="Outros custos do lote"
-        onBlur={(event) =>
+        onChange={(event) =>
           updateField(
             "additionalBatchCost",
-            formatCurrency(parseCurrencyInput(event.target.value)),
+            formatCurrencyFromDigits(event.target.value),
           )
-        }
-        onChange={(event) =>
-          updateField("additionalBatchCost", event.target.value)
         }
         value={form.additionalBatchCost}
       />
       <Input
         inputMode="decimal"
         label="Multiplicador mínimo"
-        onChange={(event) => updateField("minimumMultiplier", event.target.value)}
+        onChange={(event) =>
+          updateField("minimumMultiplier", sanitizeDecimalInput(event.target.value))
+        }
         value={form.minimumMultiplier}
       />
       <Input
         inputMode="decimal"
         label="Multiplicador recomendado"
         onChange={(event) =>
-          updateField("recommendedMultiplier", event.target.value)
+          updateField(
+            "recommendedMultiplier",
+            sanitizeDecimalInput(event.target.value),
+          )
         }
         value={form.recommendedMultiplier}
       />
@@ -706,13 +741,9 @@ function PriceFields({
       <Input
         inputMode="decimal"
         label="Preço praticado"
-        onBlur={(event) =>
-          updateField(
-            "sellingPrice",
-            formatCurrency(parseCurrencyInput(event.target.value)),
-          )
+        onChange={(event) =>
+          updateField("sellingPrice", formatCurrencyFromDigits(event.target.value))
         }
-        onChange={(event) => updateField("sellingPrice", event.target.value)}
         value={form.sellingPrice}
       />
       <div className="rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.12)] p-4 text-sm text-[color:var(--color-text-muted)]">

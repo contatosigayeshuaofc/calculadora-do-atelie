@@ -91,4 +91,68 @@ describe("ProductForm", () => {
     expect(screen.getByText("Custo 1")).toBeInTheDocument();
     expect(screen.getByLabelText("Item")).toBeInTheDocument();
   });
+
+  it("removes text from numeric fields and formats money as cents while typing", () => {
+    render(
+      <ProductForm
+        categories={[]}
+        minimumMultiplier={1.5}
+        recommendedMultiplier={2}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText("Nome do produto"), {
+      target: { value: "Vela teste" },
+    });
+    fireEvent.click(screen.getByRole("radio", { name: /Unidade/ }));
+    fireEvent.change(screen.getByPlaceholderText("Ex.: 12"), {
+      target: { value: "12 unidades" },
+    });
+
+    expect(screen.getByPlaceholderText("Ex.: 12")).toHaveValue("12");
+
+    fireEvent.click(screen.getByRole("button", { name: "Continuar" }));
+    fireEvent.change(screen.getByLabelText("Qtd comprada"), {
+      target: { value: "1000g" },
+    });
+    fireEvent.change(screen.getByLabelText("Qtd usada"), {
+      target: { value: "100,5g" },
+    });
+    fireEvent.change(screen.getByLabelText("Preço da compra"), {
+      target: { value: "123" },
+    });
+
+    expect(screen.getByLabelText("Qtd comprada")).toHaveValue("1000");
+    expect(screen.getByLabelText("Qtd usada")).toHaveValue("100,5");
+    expect(normalizeSpace(screen.getByLabelText("Preço da compra").getAttribute("value") ?? "")).toBe(
+      "R$ 1,23",
+    );
+  });
+
+  it("shows a loading screen when advancing to the next step", () => {
+    render(
+      <ProductForm
+        categories={[]}
+        minimumMultiplier={1.5}
+        recommendedMultiplier={2}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText("Nome do produto"), {
+      target: { value: "Vela teste" },
+    });
+    fireEvent.click(screen.getByRole("radio", { name: /Unidade/ }));
+    fireEvent.change(screen.getByPlaceholderText("Ex.: 12"), {
+      target: { value: "12" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Continuar" }));
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Carregando próxima etapa...",
+    );
+  });
 });
+
+function normalizeSpace(value: string) {
+  return value.replace(/\s/g, " ");
+}
