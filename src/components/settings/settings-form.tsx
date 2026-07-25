@@ -99,6 +99,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
                 ? "bg-[rgba(104,98,70,0.12)] text-[color:var(--color-olive)]"
                 : "bg-[rgba(160,82,70,0.12)] text-[color:var(--color-danger)]"
             }`}
+            role={state.status === "success" ? "status" : "alert"}
           >
             {state.message}
           </p>

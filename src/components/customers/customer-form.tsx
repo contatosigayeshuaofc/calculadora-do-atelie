@@ -95,7 +95,10 @@ export function CustomerForm({ customer }: CustomerFormProps) {
       </section>
 
       {state.message ? (
-        <p className="rounded-[var(--radius-sm)] bg-[rgba(160,82,70,0.12)] px-3 py-2 text-sm font-semibold text-[color:var(--color-danger)]">
+        <p
+          className="rounded-[var(--radius-sm)] bg-[rgba(160,82,70,0.12)] px-3 py-2 text-sm font-semibold text-[color:var(--color-danger)]"
+          role="alert"
+        >
           {state.message}
         </p>
       ) : null}

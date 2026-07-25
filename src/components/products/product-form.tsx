@@ -421,34 +421,26 @@ function SaleUnitField({
       </p>
       <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" role="radiogroup" aria-label="Unidade de venda">
         {saleUnitOptions.map((option) => (
-          <label
-            className="cursor-pointer"
+          <button
+            aria-checked={value === option.value}
             key={option.value}
+            onClick={() => onChange(option.value)}
+            role="radio"
+            type="button"
+            className={cn(
+              "block min-h-[76px] rounded-[var(--radius-sm)] border px-3 py-2 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(196,168,130,0.22)]",
+              value === option.value
+                ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)]"
+                : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] hover:border-[color:var(--color-gold)]",
+            )}
           >
-            <input
-              checked={value === option.value}
-              className="peer sr-only"
-              name="saleUnitChoice"
-              onChange={() => onChange(option.value)}
-              type="radio"
-              value={option.value}
-            />
-            <span
-              className={cn(
-                "block min-h-[76px] rounded-[var(--radius-sm)] border px-3 py-2 text-left transition peer-checked:border-[color:var(--color-gold)] peer-checked:bg-[rgba(196,168,130,0.18)]",
-                value === option.value
-                  ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)]"
-                  : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] hover:border-[color:var(--color-gold)]",
-              )}
-            >
-              <span className="block text-sm font-medium text-[color:var(--color-cream)]">
-                {option.label}
-              </span>
-              <span className="mt-1 block text-xs leading-5 text-[color:var(--color-text-muted)]">
-                {option.hint}
-              </span>
+            <span className="block text-sm font-medium text-[color:var(--color-cream)]">
+              {option.label}
             </span>
-          </label>
+            <span className="mt-1 block text-xs leading-5 text-[color:var(--color-text-muted)]">
+              {option.hint}
+            </span>
+          </button>
         ))}
       </div>
     </div>
@@ -541,7 +533,6 @@ function CostItemFields({
           value={item.name}
         />
         <MaterialUnitField
-          index={index}
           onChange={(value) => updateCostItem(index, "unitMeasure", value)}
           value={item.unitMeasure}
         />
@@ -586,11 +577,9 @@ function CostItemFields({
 }
 
 function MaterialUnitField({
-  index,
   onChange,
   value,
 }: {
-  index: number;
   onChange: (value: string) => void;
   value: string;
 }) {
@@ -604,29 +593,21 @@ function MaterialUnitField({
       </p>
       <div className="mt-2 grid grid-cols-4 gap-1.5 sm:grid-cols-3 md:grid-cols-4">
         {materialUnitOptions.map((option) => (
-          <label
-            className="cursor-pointer"
+          <button
+            aria-checked={value === option.value}
             key={option.value}
+            onClick={() => onChange(option.value)}
+            role="radio"
+            type="button"
+            className={cn(
+              "flex h-9 items-center justify-center rounded-[var(--radius-sm)] border text-xs font-medium transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(196,168,130,0.22)]",
+              value === option.value
+                ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)] text-[color:var(--color-cream)]"
+                : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] text-[color:var(--color-text-muted)] hover:border-[color:var(--color-gold)] hover:text-[color:var(--color-cream)]",
+            )}
           >
-            <input
-              checked={value === option.value}
-              className="peer sr-only"
-              name={`materialUnitChoice-${index}`}
-              onChange={() => onChange(option.value)}
-              type="radio"
-              value={option.value}
-            />
-            <span
-              className={cn(
-                "flex h-9 items-center justify-center rounded-[var(--radius-sm)] border text-xs font-medium transition peer-checked:border-[color:var(--color-gold)] peer-checked:bg-[rgba(196,168,130,0.18)] peer-checked:text-[color:var(--color-cream)]",
-                value === option.value
-                  ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)] text-[color:var(--color-cream)]"
-                  : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] text-[color:var(--color-text-muted)] hover:border-[color:var(--color-gold)] hover:text-[color:var(--color-cream)]",
-              )}
-            >
-              {option.label}
-            </span>
-          </label>
+            {option.label}
+          </button>
         ))}
       </div>
     </div>

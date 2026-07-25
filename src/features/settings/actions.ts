@@ -55,7 +55,7 @@ export async function saveSettingsAction(
     revalidatePath("/painel");
 
     return {
-      message: "Configuracoes salvas. Novos produtos ja usam esses multiplicadores.",
+      message: "Configurações salvas. Novos produtos já usam esses multiplicadores.",
       status: "success",
     };
   } catch (error) {

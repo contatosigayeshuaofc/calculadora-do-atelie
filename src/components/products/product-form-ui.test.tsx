@@ -31,8 +31,11 @@ describe("ProductForm", () => {
 
     fireEvent.click(kitOption);
 
-    expect(kitOption).toBeChecked();
-    expect(screen.getByRole("radio", { name: /Unidade/ })).not.toBeChecked();
+    expect(kitOption).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("radio", { name: /Unidade/ })).toHaveAttribute(
+      "aria-checked",
+      "false",
+    );
   });
 
   it("shows a friendly message when continuing without filling the first step", () => {
