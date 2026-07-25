@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { SignInForm } from "@/features/auth/auth-forms";
+import { canAdminAccess, parseAdminEmails } from "@/features/admin/schemas";
 import { getAccessDecision } from "@/features/auth/access";
 import { missingSupabaseMessage } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
@@ -26,7 +27,9 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
     } = await supabase.auth.getUser();
 
     if (user) {
-      const decision = await getAccessDecision(supabase, user);
+      const decision = await getAccessDecision(supabase, user, {
+        isAdmin: canAdminAccess(user.email, parseAdminEmails(process.env.ADMIN_EMAILS)),
+      });
       redirect(decision.destination as never);
     }
   }

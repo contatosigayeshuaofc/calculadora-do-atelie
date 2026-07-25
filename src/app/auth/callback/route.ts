@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { canAdminAccess, parseAdminEmails } from "@/features/admin/schemas";
 import { getAccessDecision } from "@/features/auth/access";
 import { createClient } from "@/lib/supabase/server";
 
@@ -28,6 +29,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/redefinir-senha", request.url));
   }
 
-  const decision = await getAccessDecision(supabase, user);
+  const decision = await getAccessDecision(supabase, user, {
+    isAdmin: canAdminAccess(user.email, parseAdminEmails(process.env.ADMIN_EMAILS)),
+  });
   return NextResponse.redirect(new URL(decision.destination, request.url));
 }

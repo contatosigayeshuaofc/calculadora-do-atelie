@@ -57,11 +57,9 @@ export async function signInAction(_: AuthActionState, formData: FormData): Prom
     return errorState("Não foi possível confirmar sua sessão. Tente novamente.");
   }
 
-  if (canAdminAccess(user.email, parseAdminEmails(process.env.ADMIN_EMAILS))) {
-    redirect("/admin" as never);
-  }
-
-  const decision = await getAccessDecision(supabase, user);
+  const decision = await getAccessDecision(supabase, user, {
+    isAdmin: canAdminAccess(user.email, parseAdminEmails(process.env.ADMIN_EMAILS)),
+  });
   redirect(decision.destination as never);
 }
 

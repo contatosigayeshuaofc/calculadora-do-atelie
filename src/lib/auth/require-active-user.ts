@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { canAdminAccess, parseAdminEmails } from "@/features/admin/schemas";
 import { getAccessDecision } from "@/features/auth/access";
 import { createClient } from "@/lib/supabase/server";
 
@@ -17,7 +18,9 @@ export async function requireActiveUser() {
     redirect("/entrar");
   }
 
-  const decision = await getAccessDecision(supabase, user);
+  const decision = await getAccessDecision(supabase, user, {
+    isAdmin: canAdminAccess(user.email, parseAdminEmails(process.env.ADMIN_EMAILS)),
+  });
 
   if (decision.status !== "active") {
     redirect(decision.destination as never);
