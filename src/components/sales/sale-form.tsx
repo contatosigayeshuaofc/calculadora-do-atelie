@@ -8,6 +8,7 @@ import { calculateSaleTotals } from "@/features/sales/calculations";
 import { orderStatuses, paymentStatuses } from "@/features/sales/schemas";
 import {
   orderStatusLabels,
+  paymentMethodOptions,
   paymentStatusLabels,
   type SaleCustomerOption,
   type SaleProductOption,
@@ -283,11 +284,20 @@ export function SaleForm({ customers, products }: SaleFormProps) {
               </option>
             ))}
           </Select>
-          <Input
+          <Select
             label="Forma de pagamento"
             onChange={(event) => updateField("paymentMethod", event.target.value)}
             value={form.paymentMethod}
-          />
+          >
+            <option value="">Selecione a forma</option>
+            <optgroup label="Formas de pagamento">
+              {paymentMethodOptions.map((method) => (
+                <option key={method.value} value={method.value}>
+                  {method.label}
+                </option>
+              ))}
+            </optgroup>
+          </Select>
           <Textarea
             className="md:col-span-2"
             label="Observações"

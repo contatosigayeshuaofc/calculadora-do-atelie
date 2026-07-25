@@ -36,8 +36,8 @@ export function calculateDashboardMetrics({
   const periodSales = sales.filter(
     (sale) => sale.orderDate >= periodStart && sale.orderDate <= periodEnd,
   );
-  const financialSales = periodSales.filter((sale) =>
-    financialStatuses.has(sale.status),
+  const financialSales = periodSales.filter(
+    (sale) => financialStatuses.has(sale.status) && sale.paymentStatus === "paid",
   );
   const nonCanceledSales = periodSales.filter((sale) => sale.status !== "canceled");
 
@@ -55,7 +55,7 @@ export function calculateDashboardMetrics({
       .filter((customerId): customerId is string => Boolean(customerId)),
   ).size;
   const pendingSales = nonCanceledSales.filter(
-    (sale) => sale.paymentStatus !== "paid",
+    (sale) => financialStatuses.has(sale.status) && sale.paymentStatus !== "paid",
   );
   const pendingAmountCents = sum(pendingSales.map((sale) => sale.totalCents));
 

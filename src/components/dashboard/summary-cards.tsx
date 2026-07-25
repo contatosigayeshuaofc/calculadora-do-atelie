@@ -40,7 +40,7 @@ export function SummaryCards({ summary }: SummaryCardsProps) {
     },
     {
       icon: "⏳",
-      label: "Valores pendentes",
+      label: "Pagamentos pendentes",
       value: formatCurrency(summary.pendingAmountCents),
     },
     {

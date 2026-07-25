@@ -27,6 +27,7 @@ describe("SummaryCards", () => {
     expect(screen.getByText("Lucro líquido")).toBeInTheDocument();
     expect(screen.getByText("Peças vendidas")).toBeInTheDocument();
     expect(screen.getByText("Ticket médio")).toBeInTheDocument();
+    expect(screen.getByText("Pagamentos pendentes")).toBeInTheDocument();
   });
 
   it("uses floating member-area cards with emoji icons", () => {

@@ -128,6 +128,38 @@ describe("calculateDashboardMetrics", () => {
     expect(dashboard.pendingAmountCents).toBe(30000);
     expect(dashboard.activeOrderCount).toBe(3);
     expect(dashboard.pendingAmountIsApproximate).toBe(true);
+    expect(dashboard.revenueCents).toBe(30000);
+    expect(dashboard.orderCount).toBe(1);
+  });
+
+  test("only includes paid sales in revenue and profit totals", () => {
+    const dashboard = calculateDashboardMetrics({
+      periodEnd: "2026-07-31",
+      periodStart: "2026-07-01",
+      sales: [
+        {
+          ...baseSale,
+          estimatedProfitCents: 4000,
+          paymentStatus: "unpaid",
+          status: "confirmed",
+          totalCents: 10000,
+        },
+        {
+          ...baseSale,
+          customerId: "customer-2",
+          estimatedProfitCents: 6000,
+          paymentStatus: "paid",
+          status: "confirmed",
+          totalCents: 15000,
+        },
+      ],
+      today: "2026-07-24",
+    });
+
+    expect(dashboard.revenueCents).toBe(15000);
+    expect(dashboard.estimatedProfitCents).toBe(6000);
+    expect(dashboard.itemQuantity).toBe(2);
+    expect(dashboard.pendingAmountCents).toBe(10000);
   });
 
   test("ranks products by quantity and customers by valid revenue", () => {

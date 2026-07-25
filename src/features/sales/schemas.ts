@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { OrderStatus, PaymentStatus } from "@/types/database";
 import { parseCurrencyInput } from "@/lib/currency/parse-currency-input";
 import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
+import { paymentMethodOptions } from "./types";
 
 export const orderStatuses = [
   "quote",
@@ -31,6 +32,20 @@ const optionalText = z
   .default("")
   .transform((value) => value || null);
 
+const paymentMethodValues = new Set<string>(
+  paymentMethodOptions.map((method) => method.value),
+);
+const paymentMethod = z
+  .string()
+  .trim()
+  .optional()
+  .default("")
+  .refine(
+    (value) => value === "" || paymentMethodValues.has(value),
+    "Selecione uma forma de pagamento válida.",
+  )
+  .transform((value) => value || null);
+
 export const saleItemFormSchema = z.object({
   productId: z.string().uuid("Selecione um produto."),
   quantity: z.coerce
@@ -48,7 +63,7 @@ export const saleFormSchema = z
     deliveryDate: z.string().optional().default(""),
     status: z.enum(orderStatuses),
     paymentStatus: z.enum(paymentStatuses),
-    paymentMethod: optionalText,
+    paymentMethod,
     discount: moneyFromString,
     deliveryFee: moneyFromString,
     notes: optionalText,
@@ -88,7 +103,7 @@ export const saleUpdateSchema = z
     deliveryDate: z.string().optional().default(""),
     status: z.enum(orderStatuses),
     paymentStatus: z.enum(paymentStatuses),
-    paymentMethod: optionalText,
+    paymentMethod,
     notes: optionalText,
   })
   .superRefine((value, context) => {

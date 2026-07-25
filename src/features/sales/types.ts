@@ -8,6 +8,13 @@ export type SaleListItem = SaleRow & {
   item_count: number;
 };
 
+export const paymentMethodOptions = [
+  { label: "Cartão de crédito", value: "Cartão de crédito" },
+  { label: "Pix", value: "Pix" },
+  { label: "Dinheiro", value: "Dinheiro" },
+  { label: "Boleto", value: "Boleto" },
+] as const;
+
 export type SaleDetail = SaleRow & {
   customer: Database["public"]["Tables"]["customers"]["Row"] | null;
   sale_items: SaleItemRow[];
