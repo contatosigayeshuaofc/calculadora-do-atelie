@@ -24,10 +24,27 @@ type DashboardSaleItemRow = {
   subtotal_cents: number;
 };
 
-export async function getDashboardSummary(): Promise<DashboardSummary> {
+type DashboardSummaryFilters = {
+  periodEnd?: string;
+  periodStart?: string;
+};
+
+export async function getDashboardSummary({
+  periodEnd: requestedPeriodEnd,
+  periodStart: requestedPeriodStart,
+}: DashboardSummaryFilters = {}): Promise<DashboardSummary> {
   const { supabase } = await requireActiveUser();
   const today = getTodayText();
-  const { periodStart, periodEnd } = getCurrentMonthPeriod(today);
+  const defaultPeriod = getCurrentMonthPeriod(today);
+  const rawPeriodStart = isDateText(requestedPeriodStart)
+    ? requestedPeriodStart
+    : defaultPeriod.periodStart;
+  const rawPeriodEnd = isDateText(requestedPeriodEnd)
+    ? requestedPeriodEnd
+    : defaultPeriod.periodEnd;
+  const periodStart =
+    rawPeriodStart <= rawPeriodEnd ? rawPeriodStart : rawPeriodEnd;
+  const periodEnd = rawPeriodStart <= rawPeriodEnd ? rawPeriodEnd : rawPeriodStart;
   const deliveryEnd = addDays(today, 7);
 
   const [periodResponse, deliveryResponse] = await Promise.all([
@@ -116,6 +133,10 @@ function getCurrentMonthPeriod(today: string) {
     periodEnd: periodEndDate.toISOString().slice(0, 10),
     periodStart,
   };
+}
+
+function isDateText(value: string | undefined): value is string {
+  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
 }
 
 function addDays(dateText: string, days: number) {

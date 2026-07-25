@@ -26,10 +26,12 @@ describe("AppHeader", () => {
     expect(screen.getByText("Ateliê Lucrativo")).toBeInTheDocument();
   });
 
-  it("has an accessible search field name", () => {
+  it("keeps top actions as compact accessible icon buttons", () => {
     render(<AppHeader atelierName="Ateliê da Ana" />);
 
-    expect(screen.getByRole("searchbox", { name: "Buscar no ateliê" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Buscar no ateliê" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Notificações" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Sair" })).toBeInTheDocument();
   });
 
   it("uses the accented default app name", () => {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Eye, Plus, Search, ShoppingBag } from "lucide-react";
+import { Edit3, Eye, Plus, Search, ShoppingBag } from "lucide-react";
 import { Button, EmptyState, Select } from "@/components/ui";
 import type { SaleListItem } from "@/features/sales/types";
 import {
@@ -123,6 +123,14 @@ export function SaleList({
                     leftIcon={<Eye className="h-4 w-4" />}
                     size="icon"
                     variant="secondary"
+                  />
+                </Link>
+                <Link href={`/vendas/${sale.id}/editar` as never}>
+                  <Button
+                    aria-label="Editar venda"
+                    leftIcon={<Edit3 className="h-4 w-4" />}
+                    size="icon"
+                    variant="ghost"
                   />
                 </Link>
               </div>

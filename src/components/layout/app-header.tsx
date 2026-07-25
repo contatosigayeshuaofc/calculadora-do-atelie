@@ -17,19 +17,20 @@ export function AppHeader({ atelierName }: AppHeaderProps) {
   const displayAtelierName = formatAtelierName(atelierName);
 
   return (
-    <header className="flex flex-col gap-4 border-b border-[rgba(196,168,130,0.22)] pb-5 sm:items-center">
-      <div className="w-full text-center">
+    <header className="relative border-b border-[rgba(196,168,130,0.22)] pb-5">
+      <div className="min-h-14 px-12 text-center sm:px-32">
         <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-gold)]">
           {displayAtelierName}
         </p>
-        <h1 className="mt-2 text-3xl font-medium leading-none text-[color:var(--color-cream)] sm:text-4xl">{title}</h1>
+        <h1 className="mt-2 text-3xl font-medium leading-none text-[color:var(--color-cream)] sm:text-4xl">
+          {title}
+        </h1>
       </div>
 
-      <div className="flex w-full items-center justify-center gap-2 sm:justify-end">
-        <label className="atelier-field hidden h-10 min-w-64 items-center gap-2 rounded-[var(--radius-sm)] px-3 md:flex">
-          <Search className="h-4 w-4 text-[color:var(--color-text-muted)]" aria-hidden="true" />
-          <input aria-label="Buscar no ateliê" className="w-full bg-transparent text-sm outline-none placeholder:text-[color:var(--color-text-muted)]" placeholder="Buscar no ateliê" type="search" />
-        </label>
+      <div className="absolute right-0 top-0 flex items-center gap-1.5">
+        <Button aria-label="Buscar no ateliê" size="icon" variant="ghost">
+          <Search className="h-4 w-4" aria-hidden="true" />
+        </Button>
         <Button aria-label="Notificações" size="icon" variant="secondary">
           <Bell className="h-4 w-4" aria-hidden="true" />
         </Button>

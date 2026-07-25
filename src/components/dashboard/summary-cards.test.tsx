@@ -30,7 +30,7 @@ describe("SummaryCards", () => {
     expect(screen.getByText("Pagamentos pendentes")).toBeInTheDocument();
   });
 
-  it("uses floating member-area cards with emoji icons", () => {
+  it("uses compact floating member-area cards with emoji icons", () => {
     render(<SummaryCards summary={summary} />);
 
     expect(screen.getByLabelText("Resumo do mês")).toHaveClass("atelier-floating-card");

@@ -1,6 +1,6 @@
 import { StatusBadge } from "@/components/ui";
-import { formatCurrency } from "@/lib/currency/format-currency";
 import type { DashboardSummary } from "@/features/dashboard/types";
+import { formatCurrency } from "@/lib/currency/format-currency";
 
 type SummaryCardsProps = {
   summary: DashboardSummary;
@@ -51,29 +51,34 @@ export function SummaryCards({ summary }: SummaryCardsProps) {
   ];
 
   return (
-    <section aria-label="Resumo do mês" className="atelier-floating-card grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-      {cards.map((card) => {
-        return (
-          <article
-            className="rounded-[var(--radius-md)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]"
-            key={card.label}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-xs font-normal uppercase text-[color:var(--color-text-muted)]">
+    <section aria-label="Resumo do mês" className="atelier-floating-card">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:grid-cols-8">
+        {cards.map((card) => {
+          return (
+            <article
+              className="min-h-28 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)]"
+              key={card.label}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span
+                  className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.16)] text-base"
+                  aria-hidden="true"
+                >
+                  {card.icon}
+                </span>
+              </div>
+              <p className="mt-3 text-[11px] font-normal uppercase leading-4 text-[color:var(--color-text-muted)]">
                 {card.label}
               </p>
-              <span className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.18)] text-lg">
-                <span aria-hidden="true">{card.icon}</span>
-              </span>
-            </div>
-            <p className="mt-4 text-3xl font-medium leading-none text-[color:var(--color-cream)]">
-              {card.value}
-            </p>
-          </article>
-        );
-      })}
+              <p className="mt-1 break-words text-xl font-medium leading-6 text-[color:var(--color-cream)]">
+                {card.value}
+              </p>
+            </article>
+          );
+        })}
+      </div>
       {summary.pendingAmountIsApproximate ? (
-        <div className="md:col-span-2 xl:col-span-4">
+        <div className="mt-3">
           <StatusBadge tone="warning">
             Pendentes incluem o total dos pagamentos parciais no MVP
           </StatusBadge>
