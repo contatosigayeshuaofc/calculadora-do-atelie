@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
-function loadEnvFile(fileName) {
+function loadEnvFile(fileName, { override = true } = {}) {
   const filePath = resolve(process.cwd(), fileName);
 
   if (!existsSync(filePath)) {
@@ -19,7 +19,7 @@ function loadEnvFile(fileName) {
     const [key, ...valueParts] = trimmed.split("=");
     const value = valueParts.join("=").trim().replace(/^['"]|['"]$/g, "");
 
-    if (key && process.env[key] == null) {
+    if (key && (override || process.env[key] == null)) {
       process.env[key] = value;
     }
   }
@@ -82,8 +82,9 @@ function runStep(supabaseBin, step) {
 }
 
 try {
-  loadEnvFile(".env.local");
-  loadEnvFile(".env");
+  const shouldOverrideEnv = process.env.SUPABASE_ACTIVATE_DRY_RUN !== "1";
+  loadEnvFile(".env.local", { override: shouldOverrideEnv });
+  loadEnvFile(".env", { override: shouldOverrideEnv });
 
   const steps = buildSteps();
   const supabaseBin = getSupabaseBin();
