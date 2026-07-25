@@ -51,6 +51,22 @@ describe("ProductForm", () => {
     );
   });
 
+  it("keeps the continue action out of the final submit form", () => {
+    render(
+      <ProductForm
+        categories={[]}
+        minimumMultiplier={1.5}
+        recommendedMultiplier={2}
+      />,
+    );
+
+    expect(screen.getByRole("button", { name: "Continuar" })).toHaveAttribute(
+      "type",
+      "button",
+    );
+    expect(document.querySelector("form")).not.toBeInTheDocument();
+  });
+
   it("moves from product basics to costs when required fields are complete", () => {
     render(
       <ProductForm

@@ -172,8 +172,7 @@ export function ProductForm({
   }
 
   return (
-    <form action={action} className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
-      <input name="payload" type="hidden" value={JSON.stringify(payload)} />
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
       <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--color-card-border)] pb-4">
           <div>
@@ -263,13 +262,16 @@ export function ProductForm({
               Continuar
             </Button>
           ) : (
-            <Button
-              isLoading={isPending}
-              leftIcon={<Save className="h-4 w-4" />}
-              type="submit"
-            >
-              Salvar produto
-            </Button>
+            <form action={action}>
+              <input name="payload" type="hidden" value={JSON.stringify(payload)} />
+              <Button
+                isLoading={isPending}
+                leftIcon={<Save className="h-4 w-4" />}
+                type="submit"
+              >
+                Salvar produto
+              </Button>
+            </form>
           )}
         </div>
       </section>
@@ -281,7 +283,7 @@ export function ProductForm({
           Preencha os dados para ver o resumo de preço.
         </aside>
       )}
-    </form>
+    </div>
   );
 }
 
@@ -420,27 +422,31 @@ function SaleUnitField({
       <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" role="radiogroup" aria-label="Unidade de venda">
         {saleUnitOptions.map((option) => (
           <label
-            className={cn(
-              "min-h-[76px] cursor-pointer rounded-[var(--radius-sm)] border px-3 py-2 text-left transition",
-              value === option.value
-                ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)]"
-                : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] hover:border-[color:var(--color-gold)]",
-            )}
+            className="cursor-pointer"
             key={option.value}
           >
             <input
               checked={value === option.value}
-              className="sr-only"
+              className="peer sr-only"
               name="saleUnitChoice"
               onChange={() => onChange(option.value)}
               type="radio"
               value={option.value}
             />
-            <span className="block text-sm font-medium text-[color:var(--color-cream)]">
-              {option.label}
-            </span>
-            <span className="mt-1 block text-xs leading-5 text-[color:var(--color-text-muted)]">
-              {option.hint}
+            <span
+              className={cn(
+                "block min-h-[76px] rounded-[var(--radius-sm)] border px-3 py-2 text-left transition peer-checked:border-[color:var(--color-gold)] peer-checked:bg-[rgba(196,168,130,0.18)]",
+                value === option.value
+                  ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)]"
+                  : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] hover:border-[color:var(--color-gold)]",
+              )}
+            >
+              <span className="block text-sm font-medium text-[color:var(--color-cream)]">
+                {option.label}
+              </span>
+              <span className="mt-1 block text-xs leading-5 text-[color:var(--color-text-muted)]">
+                {option.hint}
+              </span>
             </span>
           </label>
         ))}
@@ -599,23 +605,27 @@ function MaterialUnitField({
       <div className="mt-2 grid grid-cols-4 gap-1.5 sm:grid-cols-3 md:grid-cols-4">
         {materialUnitOptions.map((option) => (
           <label
-            className={cn(
-              "flex h-9 cursor-pointer items-center justify-center rounded-[var(--radius-sm)] border text-xs font-medium transition",
-              value === option.value
-                ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)] text-[color:var(--color-cream)]"
-                : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] text-[color:var(--color-text-muted)] hover:border-[color:var(--color-gold)] hover:text-[color:var(--color-cream)]",
-            )}
+            className="cursor-pointer"
             key={option.value}
           >
             <input
               checked={value === option.value}
-              className="sr-only"
+              className="peer sr-only"
               name={`materialUnitChoice-${index}`}
               onChange={() => onChange(option.value)}
               type="radio"
               value={option.value}
             />
-            {option.label}
+            <span
+              className={cn(
+                "flex h-9 items-center justify-center rounded-[var(--radius-sm)] border text-xs font-medium transition peer-checked:border-[color:var(--color-gold)] peer-checked:bg-[rgba(196,168,130,0.18)] peer-checked:text-[color:var(--color-cream)]",
+                value === option.value
+                  ? "border-[color:var(--color-gold)] bg-[rgba(196,168,130,0.18)] text-[color:var(--color-cream)]"
+                  : "border-[color:var(--color-card-border)] bg-[rgba(24,21,18,0.3)] text-[color:var(--color-text-muted)] hover:border-[color:var(--color-gold)] hover:text-[color:var(--color-cream)]",
+              )}
+            >
+              {option.label}
+            </span>
           </label>
         ))}
       </div>
