@@ -19,7 +19,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
   return (
     <form action={action} className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
       <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
-        <div className="border-b border-[color:var(--color-card-border)] pb-4">
+        <div className="border-b border-[color:var(--color-card-border)] pb-4 text-center">
           <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Perfil do ateliê
           </p>
@@ -53,10 +53,10 @@ export function SettingsForm({ settings }: SettingsFormProps) {
 
       <aside className="space-y-5">
         <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
-          <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+          <p className="text-center text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Precificação
           </p>
-          <h2 className="mt-1 text-2xl font-medium text-[color:var(--color-cream)]">
+          <h2 className="mt-1 text-center text-2xl font-medium text-[color:var(--color-cream)]">
             Multiplicadores
           </h2>
           <div className="mt-5 grid gap-4">

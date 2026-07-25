@@ -38,14 +38,14 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
       <section className="atelier-panel overflow-hidden">
         <div className="grid min-h-[720px] grid-cols-1 lg:grid-cols-[0.92fr_1.08fr]">
           <aside className="flex flex-col justify-between border-b border-[color:var(--color-card-border)] bg-[color:var(--color-coffee)] p-8 lg:border-b-0 lg:border-r">
-            <div>
+            <div className="text-center">
               <p className="text-xs font-medium tracking-[0.24em] text-[color:var(--color-gold)]">
                 ATELIÊ AROMÁTICO LUCRATIVO
               </p>
               <h1 className="mt-8 text-4xl font-medium leading-tight text-[color:var(--color-cream)] sm:text-5xl">
                 Calculadora do Ateliê
               </h1>
-              <p className="mt-5 max-w-md text-base leading-7 text-[color:var(--color-text-muted)]">
+              <p className="mx-auto mt-5 max-w-md text-base leading-7 text-[color:var(--color-text-muted)]">
                 Cadastre sua peça uma vez, descubra quanto ela custa e acompanhe suas vendas com clareza.
               </p>
             </div>

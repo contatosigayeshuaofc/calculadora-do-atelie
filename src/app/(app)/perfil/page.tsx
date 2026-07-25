@@ -6,7 +6,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="space-y-5">
-      <div>
+      <div className="text-center">
         <p className="text-sm font-semibold text-[color:var(--color-text-muted)]">
           Perfil
         </p>
