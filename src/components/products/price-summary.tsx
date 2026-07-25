@@ -14,10 +14,10 @@ export function PriceSummary({ result }: PriceSummaryProps) {
     <aside className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+          <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Resumo
           </p>
-          <h2 className="mt-1 text-2xl font-black text-[color:var(--color-cream)]">
+          <h2 className="mt-1 text-2xl font-medium text-[color:var(--color-cream)]">
             Preço sugerido
           </h2>
         </div>

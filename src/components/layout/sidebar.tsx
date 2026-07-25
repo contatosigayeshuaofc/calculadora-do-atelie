@@ -15,10 +15,10 @@ export function Sidebar() {
           <span aria-hidden="true">🌿</span>
         </span>
         <span>
-          <span className="block text-[10px] font-black uppercase tracking-[0.2em] text-[color:var(--color-gold)]">
+          <span className="block text-[10px] font-medium uppercase tracking-[0.2em] text-[color:var(--color-gold)]">
             Ateliê
           </span>
-          <span className="block text-2xl font-black leading-6 text-[color:var(--color-cream)]">Lucrativo</span>
+          <span className="block text-2xl font-medium leading-6 text-[color:var(--color-cream)]">Lucrativo</span>
         </span>
       </Link>
 
@@ -48,7 +48,7 @@ export function Sidebar() {
       </nav>
 
       <div className="mt-auto rounded-[var(--radius-md)] border border-[color:var(--color-card-border)] bg-[rgba(48,42,37,0.88)] p-4 shadow-[var(--shadow-floating)]">
-        <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-gold)]">Piloto</p>
+        <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-gold)]">Piloto</p>
         <p className="mt-2 text-sm leading-6 text-[color:var(--color-text-muted)]">Acesso liberado manualmente após a compra.</p>
       </div>
     </aside>

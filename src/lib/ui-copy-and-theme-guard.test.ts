@@ -62,5 +62,9 @@ describe("copy and dark member-area theme guard", () => {
     for (const copy of legacyVisibleCopy) {
       expect(source).not.toContain(copy);
     }
+
+    expect(source).not.toContain("font-black");
+    expect(source).not.toContain("font-bold uppercase");
+    expect(source).not.toContain("font-semibold uppercase");
   });
 });

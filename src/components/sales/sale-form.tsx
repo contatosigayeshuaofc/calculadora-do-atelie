@@ -132,10 +132,10 @@ export function SaleForm({ customers, products }: SaleFormProps) {
       <input name="payload" type="hidden" value={JSON.stringify(payload)} />
       <section className="space-y-5 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+          <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Nova venda
           </p>
-          <h1 className="mt-1 font-black text-2xl text-[color:var(--color-cream)]">
+          <h1 className="mt-1 font-medium text-2xl text-[color:var(--color-cream)]">
             Registrar pedido
           </h1>
         </div>
@@ -309,7 +309,7 @@ export function SaleForm({ customers, products }: SaleFormProps) {
       </section>
 
       <aside className="h-fit rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
-        <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+        <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
           Resumo
         </p>
         {calculation ? (

@@ -14,10 +14,10 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
     <div className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+          <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Clientes
           </p>
-          <h1 className="mt-1 font-black text-3xl text-[color:var(--color-cream)]">
+          <h1 className="mt-1 font-medium text-3xl text-[color:var(--color-cream)]">
             Relacionamento e histórico
           </h1>
         </div>
@@ -67,7 +67,7 @@ export function CustomerList({ customers, search = "" }: CustomerListProps) {
               key={customer.id}
             >
               <div>
-                <h2 className="font-black text-xl text-[color:var(--color-cream)]">
+                <h2 className="font-medium text-xl text-[color:var(--color-cream)]">
                   {customer.name}
                 </h2>
                 <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">

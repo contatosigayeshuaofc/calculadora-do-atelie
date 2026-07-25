@@ -10,10 +10,10 @@ export function SaleDetail({ sale }: { sale: SaleDetailType }) {
     <div className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+          <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Pedido #{sale.id.slice(0, 8)}
           </p>
-          <h1 className="mt-1 text-3xl font-black text-[color:var(--color-cream)]">
+          <h1 className="mt-1 text-3xl font-medium text-[color:var(--color-cream)]">
             {sale.customer?.name ?? "Cliente não informado"}
           </h1>
         </div>
@@ -45,7 +45,7 @@ export function SaleDetail({ sale }: { sale: SaleDetailType }) {
       </section>
 
       <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
-        <h2 className="text-2xl font-black text-[color:var(--color-cream)]">
+        <h2 className="text-2xl font-medium text-[color:var(--color-cream)]">
           Produtos vendidos
         </h2>
         <div className="mt-4 divide-y divide-[color:var(--color-card-border)]">

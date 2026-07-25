@@ -20,8 +20,8 @@ export function CreateUserForm() {
     <form action={formAction} className="atelier-panel p-5 sm:p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[color:var(--color-muted-lavender)]">Novo acesso</p>
-          <h2 className="mt-2 text-3xl font-black leading-none text-[color:var(--color-cream)]">
+          <p className="text-xs font-normal uppercase tracking-[0.16em] text-[color:var(--color-muted-lavender)]">Novo acesso</p>
+          <h2 className="mt-2 text-3xl font-medium leading-none text-[color:var(--color-cream)]">
             Cadastrar cliente manualmente
           </h2>
         </div>

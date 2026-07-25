@@ -39,10 +39,10 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
         <div className="grid min-h-[720px] grid-cols-1 lg:grid-cols-[0.92fr_1.08fr]">
           <aside className="flex flex-col justify-between border-b border-[color:var(--color-card-border)] bg-[color:var(--color-coffee)] p-8 lg:border-b-0 lg:border-r">
             <div>
-              <p className="text-xs font-black tracking-[0.24em] text-[color:var(--color-gold)]">
+              <p className="text-xs font-medium tracking-[0.24em] text-[color:var(--color-gold)]">
                 ATELIÊ AROMÁTICO LUCRATIVO
               </p>
-              <h1 className="mt-8 text-5xl font-black leading-[0.95] text-[color:var(--color-cream)] sm:text-6xl">
+              <h1 className="mt-8 text-4xl font-medium leading-tight text-[color:var(--color-cream)] sm:text-5xl">
                 Calculadora do Ateliê
               </h1>
               <p className="mt-5 max-w-md text-base leading-7 text-[color:var(--color-text-muted)]">
@@ -66,7 +66,7 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
                 <span aria-hidden="true" className="text-2xl">🧮</span>
               </div>
 
-              <h2 className="text-4xl font-black text-[color:var(--color-cream)]">
+              <h2 className="text-4xl font-medium text-[color:var(--color-cream)]">
                 Entre no seu ateliê
               </h2>
               <p className="mt-3 text-sm leading-6 text-[color:var(--color-text-muted)]">Entre com seu e-mail e senha para acessar sua calculadora.</p>
@@ -91,7 +91,7 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
               </div>
 
               <div className="mt-8 border-t border-[color:var(--color-card-border)] pt-8">
-                <h3 className="text-3xl font-black leading-tight text-[color:var(--color-cream)]">Criar acesso</h3>
+                <h3 className="text-3xl font-medium leading-tight text-[color:var(--color-cream)]">Criar acesso</h3>
                 <p className="mb-5 mt-1 text-sm leading-6 text-[color:var(--color-text-muted)]">
                   Cadastre seus dados para entrar na fila de liberação manual.
                 </p>

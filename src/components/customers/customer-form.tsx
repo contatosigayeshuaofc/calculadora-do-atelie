@@ -49,7 +49,7 @@ export function CustomerForm({ customer }: CustomerFormProps) {
           <ArrowLeft className="h-4 w-4" />
           Voltar para clientes
         </Link>
-        <h1 className="mt-3 text-3xl font-black text-[color:var(--color-cream)]">
+        <h1 className="mt-3 text-3xl font-medium text-[color:var(--color-cream)]">
           {customer ? "Editar cliente" : "Nova cliente"}
         </h1>
       </div>

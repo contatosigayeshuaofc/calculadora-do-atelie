@@ -59,14 +59,14 @@ export function SummaryCards({ summary }: SummaryCardsProps) {
             key={card.label}
           >
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs font-bold uppercase text-[color:var(--color-text-muted)]">
+              <p className="text-xs font-normal uppercase text-[color:var(--color-text-muted)]">
                 {card.label}
               </p>
               <span className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.18)] text-lg">
                 <span aria-hidden="true">{card.icon}</span>
               </span>
             </div>
-            <p className="mt-4 text-3xl font-black leading-none text-[color:var(--color-cream)]">
+            <p className="mt-4 text-3xl font-medium leading-none text-[color:var(--color-cream)]">
               {card.value}
             </p>
           </article>

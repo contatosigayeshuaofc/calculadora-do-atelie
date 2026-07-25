@@ -19,10 +19,10 @@ export function AppHeader({ atelierName }: AppHeaderProps) {
   return (
     <header className="flex flex-col gap-4 border-b border-[rgba(196,168,130,0.22)] pb-5 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[color:var(--color-gold)]">
+        <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-gold)]">
           {displayAtelierName}
         </p>
-        <h1 className="mt-2 text-4xl font-black leading-none text-[color:var(--color-cream)] sm:text-5xl">{title}</h1>
+        <h1 className="mt-2 text-3xl font-medium leading-none text-[color:var(--color-cream)] sm:text-4xl">{title}</h1>
       </div>
 
       <div className="flex items-center gap-2">

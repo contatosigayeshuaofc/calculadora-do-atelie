@@ -19,7 +19,7 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
           >
             Voltar para clientes
           </Link>
-          <h1 className="mt-3 text-3xl font-black text-[color:var(--color-cream)]">
+          <h1 className="mt-3 text-3xl font-medium text-[color:var(--color-cream)]">
             {customer.name}
           </h1>
           <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">
@@ -55,7 +55,7 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
 
       {customer.notes ? (
         <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+          <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Observações
           </p>
           <p className="mt-2 text-sm leading-6 text-[color:var(--color-cream)]">
@@ -78,7 +78,7 @@ function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
       <p className="text-xs text-[color:var(--color-text-muted)]">{label}</p>
-      <p className="mt-1 text-2xl font-black text-[color:var(--color-cream)]">
+      <p className="mt-1 text-2xl font-medium text-[color:var(--color-cream)]">
         {value}
       </p>
     </div>
@@ -88,7 +88,7 @@ function Metric({ label, value }: { label: string; value: string }) {
 function InfoCard({ label, value }: { label: string; value: string | null }) {
   return (
     <div className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
-      <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+      <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
         {label}
       </p>
       <p className="mt-2 text-sm font-semibold text-[color:var(--color-cream)]">

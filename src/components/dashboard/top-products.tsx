@@ -10,7 +10,7 @@ type TopProductsProps = {
 export function TopProducts({ products }: TopProductsProps) {
   return (
     <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
-      <h2 className="text-2xl font-black text-[color:var(--color-cream)]">
+      <h2 className="text-2xl font-medium text-[color:var(--color-cream)]">
         Mais vendidos
       </h2>
       {products.length === 0 ? (

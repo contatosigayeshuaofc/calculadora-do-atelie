@@ -14,7 +14,7 @@ export default async function NewProductPage() {
         >
           Voltar para produtos
         </Link>
-        <h1 className="mt-3 font-black text-3xl text-[color:var(--color-cream)]">
+        <h1 className="mt-3 font-medium text-3xl text-[color:var(--color-cream)]">
           Novo produto
         </h1>
       </div>

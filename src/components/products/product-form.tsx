@@ -112,10 +112,10 @@ export function ProductForm({
       <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--color-card-border)] pb-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+            <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
               Etapa {step + 1} de 3
             </p>
-            <h1 className="mt-1 font-black text-2xl text-[color:var(--color-cream)]">
+            <h1 className="mt-1 font-medium text-2xl text-[color:var(--color-cream)]">
               {["Produto", "Custos", "Preço"][step]}
             </h1>
           </div>

@@ -22,10 +22,10 @@ export default async function DashboardPage() {
     <div className="space-y-6">
       <section className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+          <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
             Painel
           </p>
-          <h1 className="mt-1 text-3xl font-black text-[color:var(--color-cream)]">
+          <h1 className="mt-1 text-3xl font-medium text-[color:var(--color-cream)]">
             Resultado do ateliê
           </h1>
           <p className="mt-2 text-sm leading-6 text-[color:var(--color-text-muted)]">

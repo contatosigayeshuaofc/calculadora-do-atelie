@@ -25,8 +25,8 @@ export function PilotReadinessCard() {
     <section className="atelier-panel mt-6 overflow-hidden">
       <div className="border-b border-[color:var(--color-card-border)] p-5 sm:flex sm:items-start sm:justify-between sm:gap-4 sm:p-6">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[color:var(--color-gold)]">Liberação do MVP</p>
-          <h2 className="mt-2 text-3xl font-black leading-none text-[color:var(--color-cream)]">
+          <p className="text-xs font-normal uppercase tracking-[0.16em] text-[color:var(--color-gold)]">Liberação do MVP</p>
+          <h2 className="mt-2 text-3xl font-medium leading-none text-[color:var(--color-cream)]">
             Status do piloto
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--color-text-muted)]">

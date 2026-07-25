@@ -12,7 +12,7 @@ type RecentSalesProps = {
 export function RecentSales({ sales }: RecentSalesProps) {
   return (
     <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
-      <h2 className="text-2xl font-black text-[color:var(--color-cream)]">
+      <h2 className="text-2xl font-medium text-[color:var(--color-cream)]">
         Vendas recentes
       </h2>
       {sales.length === 0 ? (

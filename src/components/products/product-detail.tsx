@@ -24,7 +24,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             Voltar para produtos
           </Link>
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            <h1 className="text-3xl font-black text-[color:var(--color-cream)]">
+            <h1 className="text-3xl font-medium text-[color:var(--color-cream)]">
               {product.name}
             </h1>
             <StatusBadge tone={product.is_active ? "success" : "neutral"}>
@@ -72,7 +72,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
       </section>
 
       <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
-        <h2 className="text-2xl font-black text-[color:var(--color-cream)]">
+        <h2 className="text-2xl font-medium text-[color:var(--color-cream)]">
           Custos do lote
         </h2>
         <div className="mt-4 overflow-x-auto">
@@ -118,7 +118,7 @@ function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)]">
       <p className="text-xs text-[color:var(--color-text-muted)]">{label}</p>
-      <p className="mt-1 text-2xl font-black text-[color:var(--color-cream)]">
+      <p className="mt-1 text-2xl font-medium text-[color:var(--color-cream)]">
         {formatCurrency(value)}
       </p>
     </div>

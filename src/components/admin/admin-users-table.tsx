@@ -49,8 +49,8 @@ export function AdminUsersTable({ users }: { users: AdminUserSummary[] }) {
   return (
     <section className="atelier-panel overflow-hidden">
       <div className="border-b border-[color:var(--color-card-border)] p-5 sm:p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[color:var(--color-gold)]">Análise de acessos</p>
-        <h2 className="mt-2 text-3xl font-black leading-none text-[color:var(--color-cream)]">
+        <p className="text-xs font-normal uppercase tracking-[0.16em] text-[color:var(--color-gold)]">Análise de acessos</p>
+        <h2 className="mt-2 text-3xl font-medium leading-none text-[color:var(--color-cream)]">
           Usuários cadastrados
         </h2>
       </div>
@@ -105,11 +105,11 @@ function AdminUserRow({ user }: { user: AdminUserSummary }) {
 
       <div className="grid grid-cols-2 gap-3 text-sm sm:block sm:space-y-1">
         <p>
-          <span className="block text-xs font-bold uppercase tracking-[0.1em] text-[color:var(--color-gold)]">Ateliê</span>
+          <span className="block text-xs font-normal uppercase tracking-[0.1em] text-[color:var(--color-gold)]">Ateliê</span>
           <span className="text-[color:var(--color-cream)]">{user.atelierName || "Não informado"}</span>
         </p>
         <p>
-          <span className="block text-xs font-bold uppercase tracking-[0.1em] text-[color:var(--color-gold)]">WhatsApp</span>
+          <span className="block text-xs font-normal uppercase tracking-[0.1em] text-[color:var(--color-gold)]">WhatsApp</span>
           <span className="text-[color:var(--color-cream)]">{user.whatsapp || "Não informado"}</span>
         </p>
       </div>

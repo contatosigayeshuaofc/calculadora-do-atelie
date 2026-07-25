@@ -35,10 +35,10 @@ export function SaleEditForm({ sale }: { sale: SaleDetail }) {
     <form action={action} className="max-w-3xl space-y-5 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 shadow-[var(--shadow-floating)] sm:p-5">
       <input name="payload" type="hidden" value={JSON.stringify(payload)} />
       <div>
-        <p className="text-xs font-bold uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
+        <p className="text-xs font-normal uppercase tracking-[0.12em] text-[color:var(--color-text-muted)]">
           Pedido #{sale.id.slice(0, 8)}
         </p>
-        <h1 className="mt-1 font-black text-2xl text-[color:var(--color-cream)]">
+        <h1 className="mt-1 font-medium text-2xl text-[color:var(--color-cream)]">
           Editar acompanhamento
         </h1>
       </div>

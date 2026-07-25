@@ -27,7 +27,7 @@ export function Dialog({ children, description, onClose, open, title }: DialogPr
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="font-black text-3xl leading-tight text-[color:var(--color-cream)]" id="atelier-dialog-title">
+            <h2 className="font-medium text-3xl leading-tight text-[color:var(--color-cream)]" id="atelier-dialog-title">
               {title}
             </h2>
             {description ? <p className="mt-1 text-sm leading-6 text-[color:var(--color-text-muted)]">{description}</p> : null}

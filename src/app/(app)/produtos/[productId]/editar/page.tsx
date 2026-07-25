@@ -32,7 +32,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
         >
           Voltar para o produto
         </Link>
-        <h1 className="mt-3 font-black text-3xl text-[color:var(--color-cream)]">
+        <h1 className="mt-3 font-medium text-3xl text-[color:var(--color-cream)]">
           Editar produto
         </h1>
       </div>
