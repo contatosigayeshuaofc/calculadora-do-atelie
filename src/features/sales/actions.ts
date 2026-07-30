@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { calculateSaleTotals } from "@/features/sales/calculations";
 import { requireActiveUser } from "@/lib/auth/require-active-user";
+import { enforceRateLimit, rateLimitPolicies } from "@/lib/rate-limit";
 import type { Json } from "@/types/database";
 import {
   getSaleFormError,
@@ -19,6 +20,8 @@ export async function saveSaleAction(
   let saleId: string;
 
   try {
+    await enforceRateLimit(rateLimitPolicies.userWrite);
+
     const payload = formData.get("payload");
 
     if (typeof payload !== "string") {
@@ -108,6 +111,8 @@ export async function updateSaleAction(
   let saleId: string;
 
   try {
+    await enforceRateLimit(rateLimitPolicies.userWrite);
+
     const payload = formData.get("payload");
 
     if (typeof payload !== "string") {

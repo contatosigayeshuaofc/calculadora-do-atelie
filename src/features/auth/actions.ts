@@ -7,6 +7,7 @@ import { canAdminAccess, parseAdminEmails } from "@/features/admin/schemas";
 import { forgotPasswordSchema, resetPasswordSchema, signInSchema, signUpSchema } from "@/features/auth/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { missingSupabaseMessage } from "@/lib/supabase/env";
+import { enforceRateLimit, rateLimitPolicies, RateLimitError } from "@/lib/rate-limit";
 
 export type AuthActionState = {
   message: string;
@@ -27,7 +28,25 @@ async function getOrigin() {
   return headerStore.get("origin") ?? "http://localhost:3000";
 }
 
+async function getRateLimitState(policy: typeof rateLimitPolicies[keyof typeof rateLimitPolicies]) {
+  try {
+    await enforceRateLimit(policy);
+    return null;
+  } catch (error) {
+    if (error instanceof RateLimitError) {
+      return errorState(error.message);
+    }
+
+    throw error;
+  }
+}
+
 export async function signInAction(_: AuthActionState, formData: FormData): Promise<AuthActionState> {
+  const rateLimitState = await getRateLimitState(rateLimitPolicies.signIn);
+  if (rateLimitState) {
+    return rateLimitState;
+  }
+
   const parsed = signInSchema.safeParse({
     email: getString(formData, "email"),
     password: getString(formData, "password"),
@@ -64,6 +83,11 @@ export async function signInAction(_: AuthActionState, formData: FormData): Prom
 }
 
 export async function signUpAction(_: AuthActionState, formData: FormData): Promise<AuthActionState> {
+  const rateLimitState = await getRateLimitState(rateLimitPolicies.signUp);
+  if (rateLimitState) {
+    return rateLimitState;
+  }
+
   const parsed = signUpSchema.safeParse({
     atelierName: getString(formData, "atelierName"),
     email: getString(formData, "email"),
@@ -104,6 +128,11 @@ export async function signUpAction(_: AuthActionState, formData: FormData): Prom
 }
 
 export async function forgotPasswordAction(_: AuthActionState, formData: FormData): Promise<AuthActionState> {
+  const rateLimitState = await getRateLimitState(rateLimitPolicies.authRecovery);
+  if (rateLimitState) {
+    return rateLimitState;
+  }
+
   const parsed = forgotPasswordSchema.safeParse({
     email: getString(formData, "email"),
   });
@@ -134,6 +163,11 @@ export async function forgotPasswordAction(_: AuthActionState, formData: FormDat
 }
 
 export async function resetPasswordAction(_: AuthActionState, formData: FormData): Promise<AuthActionState> {
+  const rateLimitState = await getRateLimitState(rateLimitPolicies.authRecovery);
+  if (rateLimitState) {
+    return rateLimitState;
+  }
+
   const parsed = resetPasswordSchema.safeParse({
     confirmPassword: getString(formData, "confirmPassword"),
     password: getString(formData, "password"),

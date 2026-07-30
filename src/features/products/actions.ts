@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { calculateProductPricing } from "@/features/pricing/calculate-product-pricing";
 import { requireActiveUser } from "@/lib/auth/require-active-user";
+import { enforceRateLimit, rateLimitPolicies } from "@/lib/rate-limit";
 import type { Json } from "@/types/database";
 import {
   buildProductPricingInput,
@@ -19,6 +20,8 @@ export async function saveProductAction(
   let productId: string;
 
   try {
+    await enforceRateLimit(rateLimitPolicies.userWrite);
+
     const payload = formData.get("payload");
 
     if (typeof payload !== "string") {
@@ -82,6 +85,8 @@ export async function restoreProductAction(formData: FormData) {
 }
 
 async function setProductActive(formData: FormData, isActive: boolean) {
+  await enforceRateLimit(rateLimitPolicies.userWrite);
+
   const productId = formData.get("productId");
 
   if (typeof productId !== "string") {

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/require-active-user";
+import { enforceRateLimit, rateLimitPolicies } from "@/lib/rate-limit";
 import {
   getCustomerFormError,
   parseCustomerFormData,
@@ -16,6 +17,8 @@ export async function saveCustomerAction(
   let customerId: string;
 
   try {
+    await enforceRateLimit(rateLimitPolicies.userWrite);
+
     const payload = formData.get("payload");
 
     if (typeof payload !== "string") {

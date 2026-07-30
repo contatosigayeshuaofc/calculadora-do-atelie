@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/auth/require-admin-user";
 import { missingSupabaseAdminMessage } from "@/lib/supabase/env";
+import { enforceRateLimit, rateLimitPolicies } from "@/lib/rate-limit";
 import { getAdminFormError, parseCreateUserFormData, parseUpdateAccessFormData } from "./schemas";
 import type { AdminActionState } from "./types";
 
@@ -20,6 +21,8 @@ export async function createManualUserAction(
   formData: FormData,
 ): Promise<AdminActionState> {
   try {
+    await enforceRateLimit(rateLimitPolicies.adminWrite);
+
     const input = parseCreateUserFormData({
       atelierName: getString(formData, "atelierName"),
       email: getString(formData, "email"),
@@ -92,6 +95,8 @@ export async function updateUserAccessAction(
   formData: FormData,
 ): Promise<AdminActionState> {
   try {
+    await enforceRateLimit(rateLimitPolicies.adminWrite);
+
     const input = parseUpdateAccessFormData({
       accessStatus: getString(formData, "accessStatus"),
       userId: getString(formData, "userId"),

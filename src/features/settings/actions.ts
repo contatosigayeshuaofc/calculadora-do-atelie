@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireActiveUser } from "@/lib/auth/require-active-user";
+import { enforceRateLimit, rateLimitPolicies } from "@/lib/rate-limit";
 import { getSettingsFormError, parseSettingsFormData } from "./schemas";
 import type { SettingsActionState } from "./types";
 
@@ -15,6 +16,8 @@ export async function saveSettingsAction(
   formData: FormData,
 ): Promise<SettingsActionState> {
   try {
+    await enforceRateLimit(rateLimitPolicies.userWrite);
+
     const settings = parseSettingsFormData({
       atelierName: getString(formData, "atelierName"),
       currencyCode: getString(formData, "currencyCode"),
