@@ -126,7 +126,9 @@ Observacao para Windows: o OpenNext pode precisar criar symlinks durante `pnpm c
    ```bash
    wrangler login
    ```
-2. Configure as variaveis de producao no painel da Cloudflare ou via `wrangler secret put`.
+2. Configure as variaveis de producao no painel da Cloudflare, via `wrangler secret put` ou como GitHub Secrets quando usar o workflow `.github/workflows/deploy-cloudflare.yml`.
+   - `CLOUDFLARE_ACCOUNT_ID`
+   - `CLOUDFLARE_API_TOKEN`
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
@@ -144,9 +146,10 @@ Observacao para Windows: o OpenNext pode precisar criar symlinks durante `pnpm c
    ```bash
    pnpm cf:deploy
    ```
-6. Abra `/entrar` no dominio final.
-7. Teste login de administrador, cadastro de cliente, aprovacao, produto, cliente, venda e dashboard.
-8. No Supabase Auth, ajuste as URLs permitidas quando o dominio final estiver definido:
+6. Alternativa recomendada no Windows: suba o projeto para um repositorio GitHub, cadastre os secrets acima em Settings > Secrets and variables > Actions e deixe o workflow `Deploy Cloudflare` publicar em Ubuntu.
+7. Abra `/entrar` no dominio final.
+8. Teste login de administrador, cadastro de cliente, aprovacao, produto, cliente, venda e dashboard.
+9. No Supabase Auth, ajuste as URLs permitidas quando o dominio final estiver definido:
    - Site URL: dominio final da Cloudflare.
    - Redirect URLs: dominio final com `/auth/callback`.
 

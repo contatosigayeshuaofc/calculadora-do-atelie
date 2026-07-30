@@ -97,6 +97,8 @@ pnpm cf:deploy
 
 No painel da Cloudflare, configure as variaveis de ambiente de producao:
 
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
@@ -107,6 +109,8 @@ No painel da Cloudflare, configure as variaveis de ambiente de producao:
 - `ADMIN_BOOTSTRAP_ATELIER`
 
 Use `SUPABASE_PROJECT_REF` e `SUPABASE_DB_PASSWORD` somente em ambiente seguro quando precisar aplicar migrations. Nao exponha essas variaveis no navegador.
+
+Tambem existe um workflow em `.github/workflows/deploy-cloudflare.yml`. Quando este projeto estiver em um repositorio GitHub com os secrets acima configurados, cada envio para `master` ou `main` roda as validacoes em Linux e publica na Cloudflare. Esse caminho evita o bloqueio de symlink que pode acontecer no Windows durante o build do OpenNext.
 
 Confira o checklist completo em `docs/deploy-checklist.md`.
 
