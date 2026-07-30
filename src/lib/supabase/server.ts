@@ -23,7 +23,7 @@ export async function createClient() {
             cookieStore.set(name, value, options);
           });
         } catch {
-          // Server Components cannot always write cookies; src/proxy.ts refreshes the session.
+          // Server Components cannot always write cookies; src/middleware.ts refreshes the session.
         }
       },
     },

@@ -7,6 +7,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "cf:build": "node scripts/with-cloudflare-env.mjs opennextjs-cloudflare build",
+    "cf:preview": "node scripts/with-cloudflare-env.mjs opennextjs-cloudflare build && node scripts/with-cloudflare-env.mjs opennextjs-cloudflare preview",
+    "cf:deploy": "node scripts/with-cloudflare-env.mjs opennextjs-cloudflare build && node scripts/with-cloudflare-env.mjs opennextjs-cloudflare deploy",
+    "cf:upload": "node scripts/with-cloudflare-env.mjs opennextjs-cloudflare build && node scripts/with-cloudflare-env.mjs opennextjs-cloudflare upload",
+    "cf:typegen": "node scripts/with-cloudflare-env.mjs wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
@@ -32,6 +37,7 @@
     "zod": "latest"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "1.18.1",
     "@playwright/test": "latest",
     "@tailwindcss/postcss": "latest",
     "@testing-library/jest-dom": "latest",
@@ -46,6 +52,7 @@
     "supabase": "^2.109.1",
     "tailwindcss": "latest",
     "typescript": "6.0.3",
-    "vitest": "latest"
+    "vitest": "latest",
+    "wrangler": "latest"
   }
 }

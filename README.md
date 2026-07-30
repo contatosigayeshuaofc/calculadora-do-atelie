@@ -10,8 +10,9 @@ Aplicativo web para artesas calcularem custos, definirem precos, registrarem cli
 - Supabase Auth e PostgreSQL
 - Zod e React Hook Form
 - Vitest, React Testing Library e Playwright
+- Cloudflare Workers com OpenNext
 
-## Como Rodar
+## Como Rodar Localmente
 
 ```bash
 pnpm install
@@ -41,48 +42,32 @@ ADMIN_BOOTSTRAP_ATELIER=Atelie Lucrativo
 
 Use a publishable key no campo `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. A chave secreta ou `service_role` deve ficar somente no servidor, em `SUPABASE_SERVICE_ROLE_KEY`.
 
-Use `SUPABASE_PROJECT_REF` e `SUPABASE_DB_PASSWORD` apenas para conectar a Supabase CLI e aplicar as migrations no banco real.
+Use `SUPABASE_PROJECT_REF` e `SUPABASE_DB_PASSWORD` apenas em ambiente seguro para aplicar migrations no banco real.
 
 ## Migrations do Banco
 
-As migrations precisam ser aplicadas no Supabase real antes do primeiro teste com clientes:
+As migrations precisam estar aplicadas no Supabase real antes do primeiro teste com clientes:
 
 1. `20260724112802_initial_schema.sql`
 2. `20260724124300_product_pricing_rpc.sql`
 3. `20260724143000_sales_rpc.sql`
 4. `20260724152000_admin_access_review.sql`
 5. `20260724154500_harden_public_api_surface.sql`
+6. `20260724223508_revoke_rls_auto_enable_execute.sql`
+7. `20260724223624_harden_profile_update_rpc.sql`
+8. `20260730182811_allow_supported_currency_codes.sql`
 
-Com Supabase CLI instalado e projeto conectado:
+Com Supabase CLI instalada e projeto conectado:
 
 ```bash
 pnpm supabase:check
 pnpm supabase:activate
 ```
-
-Se a CLI pedir login, rode `supabase login` uma vez e execute `pnpm supabase:activate` novamente.
-
- Por dentro, esse script conecta o projeto, executa `supabase db push` e confere `supabase migration list`.
 
 Depois gere os tipos atualizados:
 
 ```bash
 supabase gen types typescript --linked --schema public > src/types/database.ts
-```
-
-## Scripts
-
-```bash
-pnpm typecheck
-pnpm lint
-pnpm test
-pnpm env:check
-pnpm supabase:check
-pnpm supabase:activate
-pnpm pilot:check
-pnpm build
-pnpm test:e2e
-pnpm admin:create
 ```
 
 ## Administrador
@@ -95,27 +80,55 @@ Para criar ou atualizar esse usuario no Supabase real, preencha `ADMIN_BOOTSTRAP
 pnpm admin:create
 ```
 
-A senha do administrador deve ficar apenas no `.env.local` ou no painel seguro do provedor. Ela nao deve ser commitada.
+A senha do administrador deve ficar apenas no `.env.local` ou nas variaveis secretas da Cloudflare. Ela nao deve ser commitada.
 
-## Deploy na Vercel
+## Deploy na Cloudflare
 
-Antes do deploy, confira o checklist completo em `docs/deploy-checklist.md`.
+O app esta preparado para Cloudflare Workers usando OpenNext.
 
-Para ativar o Supabase real passo a passo, siga tambem `docs/supabase-go-live-guide.md`.
+Scripts principais:
+
+```bash
+pnpm build
+pnpm cf:build
+pnpm cf:preview
+pnpm cf:deploy
+```
+
+No painel da Cloudflare, configure as variaveis de ambiente de producao:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `ADMIN_EMAILS`
+- `ADMIN_BOOTSTRAP_EMAIL`
+- `ADMIN_BOOTSTRAP_PASSWORD`
+- `ADMIN_BOOTSTRAP_NAME`
+- `ADMIN_BOOTSTRAP_ATELIER`
+
+Use `SUPABASE_PROJECT_REF` e `SUPABASE_DB_PASSWORD` somente em ambiente seguro quando precisar aplicar migrations. Nao exponha essas variaveis no navegador.
+
+Confira o checklist completo em `docs/deploy-checklist.md`.
 
 Para decidir se o MVP ja pode receber clientes reais, confira tambem `docs/pilot-readiness.md`.
 
-Na Vercel, configure as mesmas variaveis do `.env.local`. Marque `SUPABASE_SERVICE_ROLE_KEY` e `ADMIN_BOOTSTRAP_PASSWORD` como variaveis sensiveis quando o provedor oferecer essa opcao.
+## Validacao
 
-Depois rode as validacoes finais:
+Antes de publicar uma versao:
 
 ```bash
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
+pnpm cf:build
+pnpm test:e2e
 pnpm pilot:check
 ```
 
 ## Backup
 
-Antes de abrir para clientes reais, ative uma rotina de Backup no Supabase. No piloto, o minimo recomendado e revisar diariamente os backups automaticos do projeto e exportar um backup manual antes de grandes alteracoes no banco.
+Antes de abrir para clientes reais, ative uma rotina de backup no Supabase. No piloto, o minimo recomendado e revisar diariamente os backups automaticos do projeto e exportar um backup manual antes de grandes alteracoes no banco.
 
 ## Observacao
 

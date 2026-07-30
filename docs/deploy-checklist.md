@@ -1,4 +1,4 @@
-# Checklist de Deploy do MVP
+# Checklist de Deploy do MVP na Cloudflare
 
 Este checklist prepara a Calculadora do Atelie para sair do modo local e funcionar com clientes reais.
 
@@ -49,13 +49,16 @@ Para uma versao mais guiada da ativacao do Supabase real, use tambem `docs/supab
 
 ## 3. Aplicar migrations
 
-As migrations ficam em `supabase/migrations` e devem ser aplicadas nessa ordem:
+As migrations ficam em `supabase/migrations` e devem estar aplicadas nessa ordem:
 
 1. `20260724112802_initial_schema.sql`
 2. `20260724124300_product_pricing_rpc.sql`
 3. `20260724143000_sales_rpc.sql`
 4. `20260724152000_admin_access_review.sql`
 5. `20260724154500_harden_public_api_surface.sql`
+6. `20260724223508_revoke_rls_auto_enable_execute.sql`
+7. `20260724223624_harden_profile_update_rpc.sql`
+8. `20260730182811_allow_supported_currency_codes.sql`
 
 Com a Supabase CLI conectada ao projeto:
 
@@ -66,7 +69,7 @@ pnpm supabase:activate
 
 Se a CLI pedir login, rode `supabase login` uma vez e execute `pnpm supabase:activate` novamente.
 
- Por dentro, esse script conecta o projeto, executa `supabase db push` e confere `supabase migration list`.
+Por dentro, esse script conecta o projeto, executa `supabase db push` e confere `supabase migration list`.
 
 Depois gere os tipos do banco:
 
@@ -102,29 +105,50 @@ supabase gen types typescript --linked --schema public > src/types/database.ts
 ## 6. Rodar validacoes
 
 ```bash
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
+pnpm cf:build
+pnpm test:e2e
 pnpm pilot:check
 ```
 
 O teste E2E completo com dados reais so deve ser considerado final depois que o Supabase real estiver configurado e as migrations estiverem aplicadas.
 
-## 7. Deploy na Vercel
+## 7. Deploy na Cloudflare
 
-1. Conecte o repositorio na Vercel.
-2. Configure as variaveis de ambiente:
+O app usa Cloudflare Workers com OpenNext. Nao use export estatico para esse MVP, porque ele depende de Server Actions, cookies de autenticacao e Supabase no servidor.
+
+Observacao para Windows: o OpenNext pode precisar criar symlinks durante `pnpm cf:build`. Se o Windows bloquear essa permissao localmente, rode o build em WSL, em uma maquina Linux ou direto no ambiente de build da Cloudflare. O build padrao `pnpm build` continua validando o Next.js localmente.
+
+1. Faca login na Cloudflare pela CLI se for publicar pelo terminal.
+   ```bash
+   wrangler login
+   ```
+2. Configure as variaveis de producao no painel da Cloudflare ou via `wrangler secret put`.
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
-   - `SUPABASE_PROJECT_REF`
    - `ADMIN_EMAILS`
    - `ADMIN_BOOTSTRAP_EMAIL`
    - `ADMIN_BOOTSTRAP_PASSWORD`
    - `ADMIN_BOOTSTRAP_NAME`
    - `ADMIN_BOOTSTRAP_ATELIER`
-3. Nao envie `SUPABASE_DB_PASSWORD` para o navegador. Use somente em ambiente seguro quando precisar aplicar migrations.
-4. Confirme que variaveis secretas nao aparecem no navegador.
+3. Use `SUPABASE_PROJECT_REF` e `SUPABASE_DB_PASSWORD` somente em ambiente seguro quando precisar aplicar migrations. Elas nao precisam ir para o navegador.
+4. Gere o build Cloudflare.
+   ```bash
+   pnpm cf:build
+   ```
 5. Publique.
+   ```bash
+   pnpm cf:deploy
+   ```
 6. Abra `/entrar` no dominio final.
-7. Teste login de administrador, cadastro de cliente e aprovacao.
+7. Teste login de administrador, cadastro de cliente, aprovacao, produto, cliente, venda e dashboard.
+8. No Supabase Auth, ajuste as URLs permitidas quando o dominio final estiver definido:
+   - Site URL: dominio final da Cloudflare.
+   - Redirect URLs: dominio final com `/auth/callback`.
 
 ## 8. Backup
 
@@ -144,5 +168,8 @@ O MVP so deve ser liberado quando:
 - Login funcionando.
 - Aprovacao manual funcionando.
 - Produto, cliente, venda e painel funcionando.
+- Moeda salva e aplicada nos campos de valor.
 - Mensagens de erro amigaveis.
-- `pnpm pilot:check` aprovado.
+- Limite de requisicao ativo.
+- `pnpm typecheck`, `pnpm lint`, `pnpm test` e `pnpm build` aprovados localmente.
+- `pnpm cf:build` aprovado em WSL, Linux ou no ambiente de build da Cloudflare.

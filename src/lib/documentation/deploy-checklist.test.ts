@@ -43,6 +43,9 @@ describe("pilot deployment documentation", () => {
     expect(fullText).toContain("20260724143000_sales_rpc.sql");
     expect(fullText).toContain("20260724152000_admin_access_review.sql");
     expect(fullText).toContain("20260724154500_harden_public_api_surface.sql");
+    expect(fullText).toContain("20260724223508_revoke_rls_auto_enable_execute.sql");
+    expect(fullText).toContain("20260724223624_harden_profile_update_rpc.sql");
+    expect(fullText).toContain("20260730182811_allow_supported_currency_codes.sql");
 
     expect(fullText).toContain("pnpm admin:create");
     expect(fullText).toContain("pnpm supabase:check");
@@ -51,7 +54,9 @@ describe("pilot deployment documentation", () => {
     expect(fullText).toContain("supabase db push");
     expect(fullText).toContain("supabase gen types typescript");
     expect(fullText).toContain("Backup");
-    expect(fullText).toContain("Vercel");
+    expect(fullText).toContain("Cloudflare");
+    expect(fullText).toContain("pnpm cf:build");
+    expect(fullText).toContain("pnpm cf:deploy");
   });
 
   test("provides a non-technical Supabase go-live guide", () => {
