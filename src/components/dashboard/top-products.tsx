@@ -5,10 +5,11 @@ import type { DashboardTopProduct } from "@/features/dashboard/types";
 import { formatCurrency } from "@/lib/currency/format-currency";
 
 type TopProductsProps = {
+  currencyCode: string;
   products: DashboardTopProduct[];
 };
 
-export function TopProducts({ products }: TopProductsProps) {
+export function TopProducts({ currencyCode, products }: TopProductsProps) {
   return (
     <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)]">
       <h2 className="text-xl font-medium text-[color:var(--color-cream)]">
@@ -33,25 +34,15 @@ export function TopProducts({ products }: TopProductsProps) {
                   {index + 1}. {product.productName}
                 </p>
                 <p className="text-sm text-[color:var(--color-text-muted)]">
-                  {product.quantity} unidade(s) · {formatCurrency(product.totalCents)}
+                  {product.quantity} unidade(s) · {formatCurrency(product.totalCents, currencyCode)}
                 </p>
               </div>
               <div className="flex gap-2 sm:justify-end">
                 <Link href={`/produtos/${product.productId}` as never}>
-                  <Button
-                    aria-label={`Visualizar produto ${product.productName}`}
-                    leftIcon={<Eye className="h-4 w-4" />}
-                    size="icon"
-                    variant="secondary"
-                  />
+                  <Button aria-label={`Visualizar produto ${product.productName}`} leftIcon={<Eye className="h-4 w-4" />} size="icon" variant="secondary" />
                 </Link>
                 <Link href={`/produtos/${product.productId}/editar` as never}>
-                  <Button
-                    aria-label={`Editar produto ${product.productName}`}
-                    leftIcon={<Edit3 className="h-4 w-4" />}
-                    size="icon"
-                    variant="ghost"
-                  />
+                  <Button aria-label={`Editar produto ${product.productName}`} leftIcon={<Edit3 className="h-4 w-4" />} size="icon" variant="ghost" />
                 </Link>
               </div>
             </li>

@@ -1,4 +1,5 @@
 import { requireActiveUser } from "@/lib/auth/require-active-user";
+import { normalizeCurrencyCode } from "@/lib/currency/supported-currencies";
 import { calculateDashboardMetrics } from "./calculations";
 import type { DashboardSaleInput, DashboardSummary } from "./types";
 import type { OrderStatus, PaymentStatus } from "@/types/database";
@@ -33,7 +34,7 @@ export async function getDashboardSummary({
   periodEnd: requestedPeriodEnd,
   periodStart: requestedPeriodStart,
 }: DashboardSummaryFilters = {}): Promise<DashboardSummary> {
-  const { supabase } = await requireActiveUser();
+  const { supabase, user } = await requireActiveUser();
   const today = getTodayText();
   const defaultPeriod = getCurrentMonthPeriod(today);
   const rawPeriodStart = isDateText(requestedPeriodStart)
@@ -47,7 +48,7 @@ export async function getDashboardSummary({
   const periodEnd = rawPeriodStart <= rawPeriodEnd ? rawPeriodEnd : rawPeriodStart;
   const deliveryEnd = addDays(today, 7);
 
-  const [periodResponse, deliveryResponse] = await Promise.all([
+  const [periodResponse, deliveryResponse, settingsResponse] = await Promise.all([
     supabase
       .from("sales")
       .select(
@@ -65,6 +66,11 @@ export async function getDashboardSummary({
       .gte("delivery_date", today)
       .lte("delivery_date", deliveryEnd)
       .order("delivery_date", { ascending: true }),
+    supabase
+      .from("user_settings")
+      .select("currency_code")
+      .eq("user_id", user.id)
+      .maybeSingle(),
   ]);
 
   if (periodResponse.error) {
@@ -75,17 +81,24 @@ export async function getDashboardSummary({
     throw new Error(deliveryResponse.error.message);
   }
 
+  if (settingsResponse.error) {
+    throw new Error(settingsResponse.error.message);
+  }
+
   const sales = mergeSales([
     ...((periodResponse.data ?? []) as unknown as DashboardSaleRow[]),
     ...((deliveryResponse.data ?? []) as unknown as DashboardSaleRow[]),
   ]);
 
-  return calculateDashboardMetrics({
+  return {
+    ...calculateDashboardMetrics({
     periodEnd,
     periodStart,
     sales,
     today,
-  });
+    }),
+    currencyCode: normalizeCurrencyCode(settingsResponse.data?.currency_code),
+  };
 }
 
 function mergeSales(rows: DashboardSaleRow[]): DashboardSaleInput[] {

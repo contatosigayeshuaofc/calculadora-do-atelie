@@ -5,12 +5,14 @@ import { formatCurrency } from "@/lib/currency/format-currency";
 import type { ProductListItem } from "@/features/products/types";
 
 type ProductListProps = {
+  currencyCode: string;
   products: ProductListItem[];
   search?: string;
   includeArchived?: boolean;
 };
 
 export function ProductList({
+  currencyCode,
   includeArchived = false,
   products,
   search = "",
@@ -93,13 +95,14 @@ export function ProductList({
                   {product.category || "Sem categoria"} · {product.sale_unit}
                 </p>
                 <div className="mt-4 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
-                  <Metric label="Custo" value={product.unit_cost_cents} />
-                  <Metric label="Mínimo" value={product.minimum_price_cents} />
+                  <Metric currencyCode={currencyCode} label="Custo" value={product.unit_cost_cents} />
+                  <Metric currencyCode={currencyCode} label="Mínimo" value={product.minimum_price_cents} />
                   <Metric
+                    currencyCode={currencyCode}
                     label="Recomendado"
                     value={product.recommended_price_cents}
                   />
-                  <Metric label="Praticado" value={product.selling_price_cents} />
+                  <Metric currencyCode={currencyCode} label="Praticado" value={product.selling_price_cents} />
                 </div>
               </div>
               <div className="flex items-center gap-2 md:justify-end">
@@ -128,12 +131,20 @@ export function ProductList({
   );
 }
 
-function Metric({ label, value }: { label: string; value: number }) {
+function Metric({
+  currencyCode,
+  label,
+  value,
+}: {
+  currencyCode: string;
+  label: string;
+  value: number;
+}) {
   return (
     <div>
       <p className="text-xs text-[color:var(--color-text-muted)]">{label}</p>
       <p className="font-medium text-[color:var(--color-cream)]">
-        {formatCurrency(value)}
+        {formatCurrency(value, currencyCode)}
       </p>
     </div>
   );

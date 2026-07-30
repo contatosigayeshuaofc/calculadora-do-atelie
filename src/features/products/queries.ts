@@ -1,4 +1,5 @@
 import { requireActiveUser } from "@/lib/auth/require-active-user";
+import { normalizeCurrencyCode } from "@/lib/currency/supported-currencies";
 import type { ProductDetail, ProductListItem } from "./types";
 
 export type ProductListFilters = {
@@ -61,7 +62,7 @@ export async function getProductPricingSettings() {
   const { supabase, user } = await requireActiveUser();
   const { data, error } = await supabase
     .from("user_settings")
-    .select("minimum_price_multiplier, recommended_price_multiplier")
+    .select("currency_code, minimum_price_multiplier, recommended_price_multiplier")
     .eq("user_id", user.id)
     .maybeSingle();
 
@@ -70,6 +71,7 @@ export async function getProductPricingSettings() {
   }
 
   return {
+    currencyCode: normalizeCurrencyCode(data?.currency_code),
     minimumMultiplier: Number(data?.minimum_price_multiplier ?? 1.5),
     recommendedMultiplier: Number(data?.recommended_price_multiplier ?? 2),
   };

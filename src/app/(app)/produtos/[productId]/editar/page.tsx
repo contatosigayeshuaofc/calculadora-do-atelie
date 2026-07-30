@@ -40,6 +40,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
       </div>
       <ProductForm
         categories={categories}
+        currencyCode={settings.currencyCode}
         minimumMultiplier={settings.minimumMultiplier}
         product={product}
         recommendedMultiplier={settings.recommendedMultiplier}

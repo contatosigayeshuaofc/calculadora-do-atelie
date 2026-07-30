@@ -21,6 +21,7 @@ import {
 } from "@/lib/forms/numeric-input";
 
 type SaleFormProps = {
+  currencyCode: string;
   customers: SaleCustomerOption[];
   products: SaleProductOption[];
 };
@@ -49,7 +50,7 @@ const emptyItem: SaleItemDraft = {
   unitPrice: "",
 };
 
-export function SaleForm({ customers, products }: SaleFormProps) {
+export function SaleForm({ currencyCode, customers, products }: SaleFormProps) {
   const [state, action, isPending] = useActionState(saveSaleAction, {
     status: "idle" as const,
     message: null,
@@ -124,7 +125,7 @@ export function SaleForm({ customers, products }: SaleFormProps) {
               ...item,
               productId,
               unitPrice: product
-                ? formatCurrency(product.selling_price_cents)
+                ? formatCurrency(product.selling_price_cents, currencyCode)
                 : item.unitPrice,
             }
           : item,
@@ -223,7 +224,7 @@ export function SaleForm({ customers, products }: SaleFormProps) {
                   updateItem(
                     index,
                     "unitPrice",
-                    formatCurrencyFromDigits(event.target.value),
+                    formatCurrencyFromDigits(event.target.value, currencyCode),
                   )
                 }
                 value={item.unitPrice}
@@ -261,7 +262,7 @@ export function SaleForm({ customers, products }: SaleFormProps) {
             inputMode="decimal"
             label="Desconto"
             onChange={(event) =>
-              updateField("discount", formatCurrencyFromDigits(event.target.value))
+              updateField("discount", formatCurrencyFromDigits(event.target.value, currencyCode))
             }
             value={form.discount}
           />
@@ -269,7 +270,7 @@ export function SaleForm({ customers, products }: SaleFormProps) {
             inputMode="decimal"
             label="Taxa de entrega"
             onChange={(event) =>
-              updateField("deliveryFee", formatCurrencyFromDigits(event.target.value))
+              updateField("deliveryFee", formatCurrencyFromDigits(event.target.value, currencyCode))
             }
             value={form.deliveryFee}
           />
@@ -331,13 +332,13 @@ export function SaleForm({ customers, products }: SaleFormProps) {
         </p>
         {calculation ? (
           <div className="mt-3 space-y-3 text-sm">
-            <Row label="Subtotal" value={formatCurrency(calculation.subtotalCents)} />
-            <Row label="Desconto" value={formatCurrency(calculation.discountCents)} />
-            <Row label="Entrega" value={formatCurrency(calculation.deliveryFeeCents)} />
-            <Row label="Total" value={formatCurrency(calculation.totalCents)} strong />
+            <Row label="Subtotal" value={formatCurrency(calculation.subtotalCents, currencyCode)} />
+            <Row label="Desconto" value={formatCurrency(calculation.discountCents, currencyCode)} />
+            <Row label="Entrega" value={formatCurrency(calculation.deliveryFeeCents, currencyCode)} />
+            <Row label="Total" value={formatCurrency(calculation.totalCents, currencyCode)} strong />
             <Row
               label="Lucro estimado"
-              value={formatCurrency(calculation.estimatedProfitCents)}
+              value={formatCurrency(calculation.estimatedProfitCents, currencyCode)}
               strong
             />
           </div>

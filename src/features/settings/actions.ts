@@ -17,6 +17,7 @@ export async function saveSettingsAction(
   try {
     const settings = parseSettingsFormData({
       atelierName: getString(formData, "atelierName"),
+      currencyCode: getString(formData, "currencyCode"),
       fullName: getString(formData, "fullName"),
       minimumMultiplier: getString(formData, "minimumMultiplier"),
       recommendedMultiplier: getString(formData, "recommendedMultiplier"),
@@ -38,7 +39,7 @@ export async function saveSettingsAction(
       .from("user_settings")
       .upsert(
         {
-          currency_code: "BRL",
+          currency_code: settings.currencyCode,
           minimum_price_multiplier: settings.minimumMultiplier,
           recommended_price_multiplier: settings.recommendedMultiplier,
           user_id: user.id,
@@ -51,7 +52,9 @@ export async function saveSettingsAction(
     }
 
     revalidatePath("/configuracoes");
+    revalidatePath("/perfil");
     revalidatePath("/produtos/novo");
+    revalidatePath("/vendas/nova");
     revalidatePath("/painel");
 
     return {

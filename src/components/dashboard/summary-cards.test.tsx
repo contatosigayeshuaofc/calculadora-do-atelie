@@ -5,6 +5,7 @@ import { SummaryCards } from "./summary-cards";
 const summary = {
   activeOrderCount: 1,
   averageTicketCents: 2500,
+  currencyCode: "BRL",
   customerCount: 3,
   estimatedProfitCents: 4500,
   itemQuantity: 8,

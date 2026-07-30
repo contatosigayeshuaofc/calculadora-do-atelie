@@ -5,10 +5,11 @@ import type { DashboardTopCustomer } from "@/features/dashboard/types";
 import { formatCurrency } from "@/lib/currency/format-currency";
 
 type TopCustomersProps = {
+  currencyCode: string;
   customers: DashboardTopCustomer[];
 };
 
-export function TopCustomers({ customers }: TopCustomersProps) {
+export function TopCustomers({ currencyCode, customers }: TopCustomersProps) {
   return (
     <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)]">
       <h2 className="text-xl font-medium text-[color:var(--color-cream)]">
@@ -33,25 +34,15 @@ export function TopCustomers({ customers }: TopCustomersProps) {
                   {index + 1}. {customer.customerName}
                 </p>
                 <p className="text-sm text-[color:var(--color-text-muted)]">
-                  {customer.orderCount} pedido(s) · {formatCurrency(customer.totalCents)}
+                  {customer.orderCount} pedido(s) · {formatCurrency(customer.totalCents, currencyCode)}
                 </p>
               </div>
               <div className="flex gap-2 sm:justify-end">
                 <Link href={`/clientes/${customer.customerId}` as never}>
-                  <Button
-                    aria-label={`Visualizar cliente ${customer.customerName}`}
-                    leftIcon={<Eye className="h-4 w-4" />}
-                    size="icon"
-                    variant="secondary"
-                  />
+                  <Button aria-label={`Visualizar cliente ${customer.customerName}`} leftIcon={<Eye className="h-4 w-4" />} size="icon" variant="secondary" />
                 </Link>
                 <Link href={`/clientes/${customer.customerId}/editar` as never}>
-                  <Button
-                    aria-label={`Editar cliente ${customer.customerName}`}
-                    leftIcon={<Edit3 className="h-4 w-4" />}
-                    size="icon"
-                    variant="ghost"
-                  />
+                  <Button aria-label={`Editar cliente ${customer.customerName}`} leftIcon={<Edit3 className="h-4 w-4" />} size="icon" variant="ghost" />
                 </Link>
               </div>
             </li>

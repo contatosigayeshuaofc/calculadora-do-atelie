@@ -11,12 +11,12 @@ export function SummaryCards({ summary }: SummaryCardsProps) {
     {
       icon: "💰",
       label: "Faturamento",
-      value: formatCurrency(summary.revenueCents),
+      value: formatCurrency(summary.revenueCents, summary.currencyCode),
     },
     {
       icon: "✨",
       label: "Lucro líquido",
-      value: formatCurrency(summary.estimatedProfitCents),
+      value: formatCurrency(summary.estimatedProfitCents, summary.currencyCode),
     },
     {
       icon: "📦",
@@ -36,12 +36,12 @@ export function SummaryCards({ summary }: SummaryCardsProps) {
     {
       icon: "🏷️",
       label: "Ticket médio",
-      value: formatCurrency(summary.averageTicketCents),
+      value: formatCurrency(summary.averageTicketCents, summary.currencyCode),
     },
     {
       icon: "⏳",
       label: "Pagamentos pendentes",
-      value: formatCurrency(summary.pendingAmountCents),
+      value: formatCurrency(summary.pendingAmountCents, summary.currencyCode),
     },
     {
       icon: "🌿",
@@ -53,29 +53,25 @@ export function SummaryCards({ summary }: SummaryCardsProps) {
   return (
     <section aria-label="Resumo do mês" className="atelier-floating-card">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:grid-cols-8">
-        {cards.map((card) => {
-          return (
-            <article
-              className="min-h-28 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)]"
-              key={card.label}
+        {cards.map((card) => (
+          <article
+            className="min-h-28 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)]"
+            key={card.label}
+          >
+            <span
+              className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.16)] text-base"
+              aria-hidden="true"
             >
-              <div className="flex items-center justify-between gap-2">
-                <span
-                  className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.16)] text-base"
-                  aria-hidden="true"
-                >
-                  {card.icon}
-                </span>
-              </div>
-              <p className="mt-3 text-[11px] font-normal uppercase leading-4 text-[color:var(--color-text-muted)]">
-                {card.label}
-              </p>
-              <p className="mt-1 break-words text-xl font-medium leading-6 text-[color:var(--color-cream)]">
-                {card.value}
-              </p>
-            </article>
-          );
-        })}
+              {card.icon}
+            </span>
+            <p className="mt-3 text-[11px] font-normal uppercase leading-4 text-[color:var(--color-text-muted)]">
+              {card.label}
+            </p>
+            <p className="mt-1 break-words text-xl font-medium leading-6 text-[color:var(--color-cream)]">
+              {card.value}
+            </p>
+          </article>
+        ))}
       </div>
       {summary.pendingAmountIsApproximate ? (
         <div className="mt-3">

@@ -2,9 +2,11 @@
 
 import { useActionState } from "react";
 import { LifeBuoy, Save } from "lucide-react";
+import { Button, Input, Select } from "@/components/ui";
 import { saveSettingsAction } from "@/features/settings/actions";
 import type { AtelierSettings } from "@/features/settings/types";
-import { Button, Input } from "@/components/ui";
+import { formatCurrency } from "@/lib/currency/format-currency";
+import { supportedCurrencies } from "@/lib/currency/supported-currencies";
 
 type SettingsFormProps = {
   settings: AtelierSettings;
@@ -48,6 +50,20 @@ export function SettingsForm({ settings }: SettingsFormProps) {
             label="WhatsApp"
             name="whatsapp"
           />
+          <Select
+            className="md:col-span-2"
+            defaultValue={settings.currencyCode}
+            hint="Todos os campos de valor e relatórios passam a usar essa moeda."
+            label="Moeda de compra e venda"
+            name="currencyCode"
+            required
+          >
+            {supportedCurrencies.map((currency) => (
+              <option key={currency.code} value={currency.code}>
+                {currency.symbol} {currency.code} - {currency.label}
+              </option>
+            ))}
+          </Select>
         </div>
       </section>
 
@@ -78,8 +94,8 @@ export function SettingsForm({ settings }: SettingsFormProps) {
             />
           </div>
           <div className="mt-5 rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.12)] p-4 text-sm leading-6 text-[color:var(--color-text-muted)]">
-            Exemplo: se uma unidade custa R$ 10,00, multiplicador 1,5 sugere
-            mínimo de R$ 15,00 e multiplicador 2 sugere R$ 20,00.
+            Exemplo: se uma unidade custa {formatCurrency(1000, settings.currencyCode)}, multiplicador 1,5 sugere
+            mínimo de {formatCurrency(1500, settings.currencyCode)} e multiplicador 2 sugere {formatCurrency(2000, settings.currencyCode)}.
           </div>
         </section>
 
@@ -94,7 +110,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
 
         {state.message ? (
           <p
-            className={`rounded-[var(--radius-sm)] px-3 py-2 text-sm font-semibold ${
+            className={`rounded-[var(--radius-sm)] px-3 py-2 text-sm font-medium ${
               state.status === "success"
                 ? "bg-[rgba(104,98,70,0.12)] text-[color:var(--color-olive)]"
                 : "bg-[rgba(160,82,70,0.12)] text-[color:var(--color-danger)]"

@@ -1,13 +1,13 @@
 import { formatCurrency } from "@/lib/currency/format-currency";
 
-export function formatCurrencyFromDigits(value: string): string {
+export function formatCurrencyFromDigits(value: string, currencyCode?: string): string {
   const digits = value.replace(/\D/g, "");
 
   if (!digits) {
     return "";
   }
 
-  return formatCurrency(Number(digits));
+  return formatCurrency(Number(digits), currencyCode);
 }
 
 export function sanitizeDecimalInput(value: string): string {

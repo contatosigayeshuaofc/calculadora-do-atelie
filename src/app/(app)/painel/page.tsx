@@ -58,13 +58,13 @@ export default async function DashboardPage({
       <SummaryCards summary={summary} />
 
       <section className="grid gap-4 xl:grid-cols-[0.9fr_1.1fr]">
-        <UpcomingDeliveries deliveries={summary.upcomingDeliveries} />
-        <RecentSales sales={summary.recentSales} />
+        <UpcomingDeliveries currencyCode={summary.currencyCode} deliveries={summary.upcomingDeliveries} />
+        <RecentSales currencyCode={summary.currencyCode} sales={summary.recentSales} />
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <TopProducts products={summary.topProducts} />
-        <TopCustomers customers={summary.topCustomers} />
+        <TopProducts currencyCode={summary.currencyCode} products={summary.topProducts} />
+        <TopCustomers currencyCode={summary.currencyCode} customers={summary.topCustomers} />
       </section>
     </div>
   );

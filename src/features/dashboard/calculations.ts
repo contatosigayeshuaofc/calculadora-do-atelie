@@ -4,6 +4,7 @@ import type {
   DashboardTopCustomer,
   DashboardTopProduct,
 } from "./types";
+import { DEFAULT_CURRENCY_CODE } from "@/lib/currency/supported-currencies";
 
 type CalculateDashboardMetricsInput = {
   periodEnd: string;
@@ -64,6 +65,7 @@ export function calculateDashboardMetrics({
       .length,
     averageTicketCents:
       orderCount === 0 ? 0 : Math.round(revenueCents / orderCount),
+    currencyCode: DEFAULT_CURRENCY_CODE,
     customerCount,
     estimatedProfitCents,
     itemQuantity,

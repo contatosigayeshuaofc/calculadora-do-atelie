@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { CalendarClock, Edit3, Eye } from "lucide-react";
-import { Button, EmptyState } from "@/components/ui";
 import { OrderStatusBadge } from "@/components/sales/sale-status";
+import { Button, EmptyState } from "@/components/ui";
 import type { DashboardSaleInput } from "@/features/dashboard/types";
 import { formatCurrency } from "@/lib/currency/format-currency";
 
 type UpcomingDeliveriesProps = {
+  currencyCode: string;
   deliveries: DashboardSaleInput[];
 };
 
-export function UpcomingDeliveries({ deliveries }: UpcomingDeliveriesProps) {
+export function UpcomingDeliveries({ currencyCode, deliveries }: UpcomingDeliveriesProps) {
   return (
     <section className="rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-3 shadow-[var(--shadow-floating)]">
       <h2 className="text-xl font-medium text-[color:var(--color-cream)]">
@@ -37,26 +38,16 @@ export function UpcomingDeliveries({ deliveries }: UpcomingDeliveriesProps) {
                   <OrderStatusBadge status={sale.status} />
                 </div>
                 <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">
-                  {formatDate(sale.deliveryDate)} · {formatCurrency(sale.totalCents)}
+                  {formatDate(sale.deliveryDate)} · {formatCurrency(sale.totalCents, currencyCode)}
                 </p>
               </div>
               {sale.id ? (
                 <div className="flex gap-2 sm:justify-end">
                   <Link href={`/vendas/${sale.id}` as never}>
-                    <Button
-                      aria-label="Visualizar entrega"
-                      leftIcon={<Eye className="h-4 w-4" />}
-                      size="icon"
-                      variant="secondary"
-                    />
+                    <Button aria-label="Visualizar entrega" leftIcon={<Eye className="h-4 w-4" />} size="icon" variant="secondary" />
                   </Link>
                   <Link href={`/vendas/${sale.id}/editar` as never}>
-                    <Button
-                      aria-label="Editar entrega"
-                      leftIcon={<Edit3 className="h-4 w-4" />}
-                      size="icon"
-                      variant="ghost"
-                    />
+                    <Button aria-label="Editar entrega" leftIcon={<Edit3 className="h-4 w-4" />} size="icon" variant="ghost" />
                   </Link>
                 </div>
               ) : null}
@@ -73,7 +64,5 @@ function formatDate(value: string | null) {
     return "Sem data";
   }
 
-  return new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(
-    new Date(value),
-  );
+  return new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(new Date(value));
 }

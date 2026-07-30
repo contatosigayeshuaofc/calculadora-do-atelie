@@ -23,6 +23,7 @@ export type DashboardSaleInput = {
 export type DashboardSummary = {
   activeOrderCount: number;
   averageTicketCents: number;
+  currencyCode: string;
   customerCount: number;
   estimatedProfitCents: number;
   itemQuantity: number;

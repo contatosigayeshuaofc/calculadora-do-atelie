@@ -5,7 +5,7 @@ import { Button, EmptyState } from "@/components/ui";
 import { getSaleFormOptions } from "@/features/sales/queries";
 
 export default async function NewSalePage() {
-  const { customers, products } = await getSaleFormOptions();
+  const { currencyCode, customers, products } = await getSaleFormOptions();
 
   if (products.length === 0) {
     return (
@@ -23,5 +23,5 @@ export default async function NewSalePage() {
     );
   }
 
-  return <SaleForm customers={customers} products={products} />;
+  return <SaleForm currencyCode={currencyCode} customers={customers} products={products} />;
 }

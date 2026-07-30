@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { normalizeCurrencyCode } from "@/lib/currency/supported-currencies";
 import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
 
 const multiplierFromString = (field: string) =>
@@ -17,6 +18,10 @@ const optionalTrimmedString = z
 export const settingsFormSchema = z
   .object({
     atelierName: optionalTrimmedString,
+    currencyCode: z
+      .string()
+      .optional()
+      .transform((value) => normalizeCurrencyCode(value)),
     fullName: z.string().trim().min(2, "Digite seu nome."),
     minimumMultiplier: multiplierFromString("Multiplicador mínimo"),
     recommendedMultiplier: multiplierFromString("Multiplicador recomendado"),

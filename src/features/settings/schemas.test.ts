@@ -13,6 +13,7 @@ describe("parseSettingsFormData", () => {
 
     expect(result).toEqual({
       atelierName: "Atelie Flor de Cera",
+      currencyCode: "BRL",
       fullName: "Marina Lopes",
       minimumMultiplier: 1.7,
       recommendedMultiplier: 2.4,

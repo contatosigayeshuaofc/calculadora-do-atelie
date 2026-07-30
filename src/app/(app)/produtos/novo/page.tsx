@@ -26,6 +26,7 @@ export default async function NewProductPage() {
       </div>
       <ProductForm
         categories={categories}
+        currencyCode={settings.currencyCode}
         minimumMultiplier={settings.minimumMultiplier}
         recommendedMultiplier={settings.recommendedMultiplier}
       />

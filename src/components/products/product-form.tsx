@@ -28,6 +28,7 @@ import { cn } from "@/lib/cn";
 
 type ProductFormProps = {
   categories?: string[];
+  currencyCode?: string;
   product?: ProductDetail | null;
   minimumMultiplier: number;
   recommendedMultiplier: number;
@@ -104,6 +105,7 @@ const materialUnitOptions = [
 
 export function ProductForm({
   categories = [],
+  currencyCode = "BRL",
   minimumMultiplier,
   product,
   recommendedMultiplier,
@@ -116,7 +118,7 @@ export function ProductForm({
     message: null,
   });
   const [form, setForm] = useState<ProductFormDraft>(() =>
-    productToForm(product, minimumMultiplier, recommendedMultiplier),
+    productToForm(product, minimumMultiplier, recommendedMultiplier, currencyCode),
   );
   const [costItems, setCostItems] = useState<CostItemDraft[]>(
     () => form.costItems ?? [{ ...emptyCostItem }],
@@ -221,6 +223,7 @@ export function ProductForm({
           {step === 1 ? (
             <CostFields
               costItems={costItems}
+              currencyCode={currencyCode}
               removeCostItem={removeCostItem}
               setCostItems={setCostItems}
               updateCostItem={updateCostItem}
@@ -228,6 +231,7 @@ export function ProductForm({
           ) : null}
           {step === 2 ? (
             <PriceFields
+              currencyCode={currencyCode}
               form={form}
               product={product}
               pricing={pricing}
@@ -289,7 +293,7 @@ export function ProductForm({
       </section>
 
       {pricing ? (
-        <PriceSummary result={pricing} />
+        <PriceSummary currencyCode={currencyCode} result={pricing} />
       ) : (
         <aside className="rounded-[var(--radius-sm)] border border-dashed border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-4 text-sm text-[color:var(--color-text-muted)] shadow-[var(--shadow-floating)]">
           Preencha os dados para ver o resumo de preço.
@@ -480,11 +484,13 @@ function SaleUnitField({
 
 function CostFields({
   costItems,
+  currencyCode,
   removeCostItem,
   setCostItems,
   updateCostItem,
 }: {
   costItems: CostItemDraft[];
+  currencyCode: string;
   removeCostItem: (index: number) => void;
   setCostItems: (items: CostItemDraft[]) => void;
   updateCostItem: (
@@ -498,6 +504,7 @@ function CostFields({
       {costItems.map((item, index) => (
         <CostItemFields
           costItemsLength={costItems.length}
+          currencyCode={currencyCode}
           index={index}
           item={item}
           key={index}
@@ -519,12 +526,14 @@ function CostFields({
 
 function CostItemFields({
   costItemsLength,
+  currencyCode,
   index,
   item,
   removeCostItem,
   updateCostItem,
 }: {
   costItemsLength: number;
+  currencyCode: string;
   index: number;
   item: CostItemDraft;
   removeCostItem: (index: number) => void;
@@ -599,10 +608,10 @@ function CostItemFields({
           inputMode="decimal"
           label="Preço da compra"
           onChange={(event) =>
-            updateCostItem(
-              index,
-              "purchasePrice",
-              formatCurrencyFromDigits(event.target.value),
+              updateCostItem(
+                index,
+                "purchasePrice",
+              formatCurrencyFromDigits(event.target.value, currencyCode),
             )
           }
           value={item.purchasePrice}
@@ -651,12 +660,14 @@ function MaterialUnitField({
 }
 
 function PriceFields({
+  currencyCode,
   form,
   product,
   pricing,
   settings,
   updateField,
 }: {
+  currencyCode: string;
   form: ProductFormDraft;
   product?: ProductDetail | null;
   pricing: ReturnType<typeof calculateProductPricing> | null;
@@ -686,7 +697,7 @@ function PriceFields({
         onChange={(event) =>
           updateField(
             "packagingCostPerUnit",
-            formatCurrencyFromDigits(event.target.value),
+            formatCurrencyFromDigits(event.target.value, currencyCode),
           )
         }
         value={form.packagingCostPerUnit}
@@ -698,7 +709,7 @@ function PriceFields({
         onChange={(event) =>
           updateField(
             "additionalBatchCost",
-            formatCurrencyFromDigits(event.target.value),
+            formatCurrencyFromDigits(event.target.value, currencyCode),
           )
         }
         value={form.additionalBatchCost}
@@ -742,13 +753,13 @@ function PriceFields({
         inputMode="decimal"
         label="Preço praticado"
         onChange={(event) =>
-          updateField("sellingPrice", formatCurrencyFromDigits(event.target.value))
+          updateField("sellingPrice", formatCurrencyFromDigits(event.target.value, currencyCode))
         }
         value={form.sellingPrice}
       />
       <div className="rounded-[var(--radius-sm)] bg-[rgba(196,168,130,0.12)] p-4 text-sm text-[color:var(--color-text-muted)]">
         {pricing
-          ? `Preço recomendado: ${formatCurrency(pricing.recommendedPriceCents)}`
+          ? `Preço recomendado: ${formatCurrency(pricing.recommendedPriceCents, currencyCode)}`
           : "O recomendado aparece assim que os custos estiverem completos."}
       </div>
     </div>
@@ -810,6 +821,7 @@ function productToForm(
   product: ProductDetail | null | undefined,
   minimumMultiplier: number,
   recommendedMultiplier: number,
+  currencyCode: string,
 ): ProductFormDraft {
   if (!product) {
     return {
@@ -835,9 +847,9 @@ function productToForm(
     description: product.description ?? "",
     saleUnit: product.sale_unit,
     batchYield: String(product.batch_yield),
-    packagingCostPerUnit: formatCurrency(product.packaging_cost_per_unit_cents),
-    additionalBatchCost: formatCurrency(product.additional_batch_cost_cents),
-    sellingPrice: formatCurrency(product.selling_price_cents),
+    packagingCostPerUnit: formatCurrency(product.packaging_cost_per_unit_cents, currencyCode),
+    additionalBatchCost: formatCurrency(product.additional_batch_cost_cents, currencyCode),
+    sellingPrice: formatCurrency(product.selling_price_cents, currencyCode),
     minimumMultiplier: String(
       inferProductMultipliers(
         {
@@ -862,7 +874,7 @@ function productToForm(
       name: item.name,
       unitMeasure: item.unit_measure,
       purchaseQuantity: String(Number(item.purchase_quantity)),
-      purchasePrice: formatCurrency(item.purchase_price_cents),
+      purchasePrice: formatCurrency(item.purchase_price_cents, currencyCode),
       usedQuantity: String(Number(item.used_quantity)),
     })),
   };

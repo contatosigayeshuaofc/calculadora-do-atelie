@@ -1,4 +1,5 @@
 import { requireActiveUser } from "@/lib/auth/require-active-user";
+import { normalizeCurrencyCode } from "@/lib/currency/supported-currencies";
 import type {
   SaleCustomerOption,
   SaleDetail,
@@ -104,11 +105,12 @@ export async function getSaleDetail(saleId: string): Promise<SaleDetail | null> 
 }
 
 export async function getSaleFormOptions(): Promise<{
+  currencyCode: string;
   customers: SaleCustomerOption[];
   products: SaleProductOption[];
 }> {
-  const { supabase } = await requireActiveUser();
-  const [customersResponse, productsResponse] = await Promise.all([
+  const { supabase, user } = await requireActiveUser();
+  const [customersResponse, productsResponse, settingsResponse] = await Promise.all([
     supabase.from("customers").select("id, name").order("name"),
     supabase
       .from("products")
@@ -117,6 +119,11 @@ export async function getSaleFormOptions(): Promise<{
       )
       .eq("is_active", true)
       .order("name"),
+    supabase
+      .from("user_settings")
+      .select("currency_code")
+      .eq("user_id", user.id)
+      .maybeSingle(),
   ]);
 
   if (customersResponse.error) {
@@ -127,7 +134,12 @@ export async function getSaleFormOptions(): Promise<{
     throw new Error(productsResponse.error.message);
   }
 
+  if (settingsResponse.error) {
+    throw new Error(settingsResponse.error.message);
+  }
+
   return {
+    currencyCode: normalizeCurrencyCode(settingsResponse.data?.currency_code),
     customers: customersResponse.data ?? [],
     products: productsResponse.data ?? [],
   };

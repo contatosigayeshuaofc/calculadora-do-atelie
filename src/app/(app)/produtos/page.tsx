@@ -1,5 +1,5 @@
 import { ProductList } from "@/components/products/product-list";
-import { listProducts } from "@/features/products/queries";
+import { getProductPricingSettings, listProducts } from "@/features/products/queries";
 
 type ProductsPageProps = {
   searchParams: Promise<{
@@ -12,13 +12,17 @@ export default async function ProductsPage({
   searchParams,
 }: ProductsPageProps) {
   const params = await searchParams;
-  const products = await listProducts({
-    search: params.busca,
-    includeArchived: params.arquivados === "1",
-  });
+  const [products, settings] = await Promise.all([
+    listProducts({
+      search: params.busca,
+      includeArchived: params.arquivados === "1",
+    }),
+    getProductPricingSettings(),
+  ]);
 
   return (
     <ProductList
+      currencyCode={settings.currencyCode}
       includeArchived={params.arquivados === "1"}
       products={products}
       search={params.busca}
