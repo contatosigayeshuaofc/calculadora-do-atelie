@@ -58,7 +58,7 @@ export async function saveSettingsAction(
     revalidatePath("/painel");
 
     return {
-      message: "Configurações salvas. Novos produtos já usam esses multiplicadores.",
+      message: "Configurações salvas. Novos valores já usam sua moeda.",
       status: "success",
     };
   } catch (error) {
