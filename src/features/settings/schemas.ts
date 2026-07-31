@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { normalizeCurrencyCode } from "@/lib/currency/supported-currencies";
+import { normalizeWhatsappForCountry } from "@/lib/forms/international-phone-input";
 import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
+import { normalizeCountryCode } from "@/lib/localization/countries";
 
 const multiplierFromString = (field: string) =>
   z
@@ -18,6 +20,10 @@ const optionalTrimmedString = z
 export const settingsFormSchema = z
   .object({
     atelierName: optionalTrimmedString,
+    countryCode: z
+      .string()
+      .optional()
+      .transform((value) => normalizeCountryCode(value)),
     currencyCode: z
       .string()
       .optional()
@@ -27,12 +33,15 @@ export const settingsFormSchema = z
     recommendedMultiplier: multiplierFromString("Multiplicador recomendado"),
     whatsapp: optionalTrimmedString,
   })
+  .transform((value) => ({
+    ...value,
+    whatsapp: normalizeWhatsappForCountry(value.whatsapp, value.countryCode),
+  }))
   .superRefine((value, context) => {
     if (value.recommendedMultiplier < value.minimumMultiplier) {
       context.addIssue({
         code: "custom",
-        message:
-          "O multiplicador recomendado precisa ser igual ou maior que o mínimo.",
+        message: "O multiplicador recomendado precisa ser igual ou maior que o mínimo.",
         path: ["recommendedMultiplier"],
       });
     }

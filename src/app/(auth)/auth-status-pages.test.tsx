@@ -9,7 +9,10 @@ describe("auth status pages", () => {
     render(<WaitingAccessPage />);
 
     expect(screen.getByRole("heading", { name: "Aguardando liberação" })).toBeInTheDocument();
-    expect(screen.getByText("Sua conta foi criada e entrará no app assim que a compra for conferida manualmente.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Sua conta foi criada com sucesso. Em até 24horas será liberada automaticamente."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("suporte@ateliearomatico.site")).toBeInTheDocument();
   });
 
   it("shows accented Portuguese copy on support and recovery pages", () => {
@@ -20,7 +23,11 @@ describe("auth status pages", () => {
       </>,
     );
 
-    expect(screen.getByText("Seu acesso não está ativo no momento. Entre em contato pelo canal de suporte da compra para regularizar.")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Seu acesso não está ativo no momento. Entre em contato pelo canal de suporte da compra para regularizar.",
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByText("Recuperação")).toBeInTheDocument();
   });
 });

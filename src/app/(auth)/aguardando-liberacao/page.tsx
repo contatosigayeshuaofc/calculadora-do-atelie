@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock3, LogOut } from "lucide-react";
+import { Clock3, LifeBuoy, LogOut } from "lucide-react";
 import { Button } from "@/components/ui";
 import { signOutAction } from "@/features/auth/actions";
 
@@ -10,9 +10,11 @@ export default function WaitingAccessPage() {
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[rgba(196,168,130,0.18)] text-[color:var(--color-gold)]">
           <Clock3 className="h-7 w-7" aria-hidden="true" />
         </div>
-        <h1 className="mt-6 text-4xl font-medium leading-none text-[color:var(--color-cream)]">Aguardando liberação</h1>
+        <h1 className="mt-6 text-4xl font-medium leading-none text-[color:var(--color-cream)]">
+          Aguardando liberação
+        </h1>
         <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-[color:var(--color-text-muted)]">
-          Sua conta foi criada e entrará no app assim que a compra for conferida manualmente.
+          Sua conta foi criada com sucesso. Em até 24horas será liberada automaticamente.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Link href={"/entrar" as never}>
@@ -23,6 +25,13 @@ export default function WaitingAccessPage() {
               Sair
             </Button>
           </form>
+        </div>
+        <div className="mx-auto mt-5 flex max-w-md items-center justify-center gap-2 rounded-[var(--radius-sm)] border border-[color:var(--color-card-border)] bg-[rgba(196,168,130,0.08)] px-4 py-3 text-sm text-[color:var(--color-text-muted)]">
+          <LifeBuoy className="h-4 w-4 shrink-0 text-[color:var(--color-gold)]" aria-hidden="true" />
+          <span>Suporte:</span>
+          <a className="break-all font-medium text-[color:var(--color-gold)]" href="mailto:suporte@ateliearomatico.site">
+            suporte@ateliearomatico.site
+          </a>
         </div>
       </section>
     </main>

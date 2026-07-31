@@ -72,6 +72,7 @@ export type Database = {
           user_id: string;
           minimum_price_multiplier: number;
           recommended_price_multiplier: number;
+          country_code: string;
           currency_code: string;
         } & RowWithTimestamps;
         Insert: {
@@ -79,6 +80,7 @@ export type Database = {
           user_id: string;
           minimum_price_multiplier?: number;
           recommended_price_multiplier?: number;
+          country_code?: string;
           currency_code?: string;
           created_at?: string;
           updated_at?: string;

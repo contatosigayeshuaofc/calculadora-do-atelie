@@ -76,8 +76,8 @@ describe("copy and dark member-area theme guard", () => {
 
     expect(signInPage).toContain('href={"/criar-acesso"');
     expect(signInPage).not.toContain("<SignUpForm");
-    expect(signInPage).not.toContain("Contas novas ficarão aguardando liberação manual");
+    expect(signInPage).not.toContain("Contas novas serão liberadas automaticamente em até 24horas");
     expect(createAccessPage).toContain("<SignUpForm");
-    expect(createAccessPage).toContain("Contas novas ficarão aguardando liberação manual");
+    expect(createAccessPage).toContain("Contas novas serão liberadas automaticamente em até 24horas");
   });
 });

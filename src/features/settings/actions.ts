@@ -20,6 +20,7 @@ export async function saveSettingsAction(
 
     const settings = parseSettingsFormData({
       atelierName: getString(formData, "atelierName"),
+      countryCode: getString(formData, "countryCode"),
       currencyCode: getString(formData, "currencyCode"),
       fullName: getString(formData, "fullName"),
       minimumMultiplier: getString(formData, "minimumMultiplier"),
@@ -42,6 +43,7 @@ export async function saveSettingsAction(
       .from("user_settings")
       .upsert(
         {
+          country_code: settings.countryCode,
           currency_code: settings.currencyCode,
           minimum_price_multiplier: settings.minimumMultiplier,
           recommended_price_multiplier: settings.recommendedMultiplier,
@@ -61,7 +63,7 @@ export async function saveSettingsAction(
     revalidatePath("/painel");
 
     return {
-      message: "Configurações salvas. Novos valores já usam sua moeda.",
+      message: "Configurações salvas. Novos valores já usam sua moeda e país.",
       status: "success",
     };
   } catch (error) {

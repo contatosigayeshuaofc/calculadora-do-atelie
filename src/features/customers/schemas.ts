@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getUserFacingErrorMessage } from "@/lib/errors/user-facing-error";
-import { normalizeBrazilianWhatsapp, onlyPhoneDigits } from "@/lib/forms/phone-input";
+import { normalizeWhatsappForCountry, onlyPhoneDigits } from "@/lib/forms/international-phone-input";
+import { getCountryOption, normalizeCountryCode } from "@/lib/localization/countries";
 
 const optionalTrimmedString = z
   .string()
@@ -13,19 +14,32 @@ export const customerFormSchema = z
   .object({
     customerId: z.string().uuid().optional().or(z.literal("")),
     name: z.string().trim().min(1, "Informe o nome da cliente."),
-    whatsapp: optionalTrimmedString.refine(
-      (value) => !value || onlyPhoneDigits(value).length >= 10,
-      "Informe um WhatsApp com DDD.",
-    ),
+    countryCode: z
+      .string()
+      .optional()
+      .transform((value) => normalizeCountryCode(value)),
+    whatsapp: optionalTrimmedString,
     instagram: optionalTrimmedString,
     city: optionalTrimmedString,
     birthday: optionalTrimmedString,
     notes: optionalTrimmedString,
   })
+  .superRefine((value, context) => {
+    const country = getCountryOption(value.countryCode);
+    const digits = onlyPhoneDigits(value.whatsapp ?? "");
+
+    if (value.whatsapp && digits.length < Math.min(9, country.localDigits)) {
+      context.addIssue({
+        code: "custom",
+        message: "Informe um WhatsApp com DDI e número completo.",
+        path: ["whatsapp"],
+      });
+    }
+  })
   .transform((value) => ({
     customerId: value.customerId || undefined,
     name: value.name,
-    whatsapp: normalizeBrazilianWhatsapp(value.whatsapp),
+    whatsapp: normalizeWhatsappForCountry(value.whatsapp, value.countryCode),
     instagram: value.instagram,
     city: value.city,
     birthday: null,
@@ -48,8 +62,8 @@ export function parseCustomerFormData(input: unknown): CustomerFormValues {
 export function buildEmptyCustomerSummary(): CustomerSalesSummary {
   return {
     orderCount: 0,
-    totalSpentCents: 0,
     lastOrderDate: null,
+    totalSpentCents: 0,
   };
 }
 

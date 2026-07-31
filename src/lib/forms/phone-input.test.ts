@@ -4,6 +4,7 @@ import {
   normalizeBrazilianWhatsapp,
   onlyPhoneDigits,
 } from "./phone-input";
+import { formatWhatsappForCountry, normalizeWhatsappForCountry } from "./international-phone-input";
 
 describe("phone input helpers", () => {
   test("keeps only phone digits", () => {
@@ -20,5 +21,11 @@ describe("phone input helpers", () => {
   test("normalizes empty WhatsApp to null", () => {
     expect(normalizeBrazilianWhatsapp("texto sem numero")).toBeNull();
     expect(normalizeBrazilianWhatsapp(null)).toBeNull();
+  });
+
+  test("formats WhatsApp with international country codes", () => {
+    expect(formatWhatsappForCountry("912345678", "PT")).toBe("+351 912 345 678");
+    expect(formatWhatsappForCountry("5551234567", "US")).toBe("+1 (555) 123-4567");
+    expect(normalizeWhatsappForCountry("+351 912 345 678", "PT")).toBe("+351 912 345 678");
   });
 });

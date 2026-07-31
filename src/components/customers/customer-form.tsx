@@ -6,9 +6,11 @@ import { ArrowLeft, Save } from "lucide-react";
 import { Button, Input, Textarea } from "@/components/ui";
 import { saveCustomerAction } from "@/features/customers/actions";
 import type { CustomerRow } from "@/features/customers/types";
-import { formatBrazilianWhatsapp } from "@/lib/forms/phone-input";
+import { formatWhatsappForCountry } from "@/lib/forms/international-phone-input";
+import { getCountryOption } from "@/lib/localization/countries";
 
 type CustomerFormProps = {
+  countryCode?: string;
   customer?: CustomerRow | null;
 };
 
@@ -21,17 +23,16 @@ type CustomerFormDraft = {
   notes: string;
 };
 
-export function CustomerForm({ customer }: CustomerFormProps) {
+export function CustomerForm({ countryCode = "BR", customer }: CustomerFormProps) {
   const [state, action, isPending] = useActionState(saveCustomerAction, {
     status: "idle" as const,
     message: null,
   });
-  const [form, setForm] = useState<CustomerFormDraft>(() =>
-    customerToForm(customer),
-  );
+  const country = useMemo(() => getCountryOption(countryCode), [countryCode]);
+  const [form, setForm] = useState<CustomerFormDraft>(() => customerToForm(customer, countryCode));
   const payload = useMemo(
-    () => ({ ...form, customerId: customer?.id ?? "", birthday: "" }),
-    [customer?.id, form],
+    () => ({ ...form, birthday: "", countryCode, customerId: customer?.id ?? "" }),
+    [countryCode, customer?.id, form],
   );
 
   function updateField(name: keyof CustomerFormDraft, value: string) {
@@ -62,14 +63,11 @@ export function CustomerForm({ customer }: CustomerFormProps) {
           value={form.name}
         />
         <Input
-          hint="Opcional. Fica salvo como contato da cliente, sem abrir conversa automaticamente."
+          hint={`Opcional. Usa o DDI +${country.callingCode} configurado no seu perfil.`}
           inputMode="tel"
           label="WhatsApp"
-          maxLength={15}
-          onChange={(event) =>
-            updateField("whatsapp", formatBrazilianWhatsapp(event.target.value))
-          }
-          placeholder="(00) 00000-0000"
+          onChange={(event) => updateField("whatsapp", formatWhatsappForCountry(event.target.value, countryCode))}
+          placeholder={`+${country.callingCode}`}
           value={form.whatsapp}
         />
         <Input
@@ -78,11 +76,7 @@ export function CustomerForm({ customer }: CustomerFormProps) {
           onChange={(event) => updateField("instagram", event.target.value)}
           value={form.instagram}
         />
-        <Input
-          label="Cidade"
-          onChange={(event) => updateField("city", event.target.value)}
-          value={form.city}
-        />
+        <Input label="Cidade" onChange={(event) => updateField("city", event.target.value)} value={form.city} />
         <Textarea
           className="md:col-span-2"
           hint="Preferências, medidas, combinados ou cuidados especiais."
@@ -102,11 +96,7 @@ export function CustomerForm({ customer }: CustomerFormProps) {
       ) : null}
 
       <div className="flex justify-end">
-        <Button
-          isLoading={isPending}
-          leftIcon={<Save className="h-4 w-4" />}
-          type="submit"
-        >
+        <Button isLoading={isPending} leftIcon={<Save className="h-4 w-4" />} type="submit">
           Salvar cliente
         </Button>
       </div>
@@ -114,11 +104,11 @@ export function CustomerForm({ customer }: CustomerFormProps) {
   );
 }
 
-function customerToForm(customer: CustomerRow | null | undefined): CustomerFormDraft {
+function customerToForm(customer: CustomerRow | null | undefined, countryCode: string): CustomerFormDraft {
   return {
     customerId: customer?.id ?? "",
     name: customer?.name ?? "",
-    whatsapp: formatBrazilianWhatsapp(customer?.whatsapp ?? ""),
+    whatsapp: formatWhatsappForCountry(customer?.whatsapp ?? "", countryCode),
     instagram: customer?.instagram ?? "",
     city: customer?.city ?? "",
     notes: customer?.notes ?? "",

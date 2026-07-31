@@ -8,6 +8,7 @@ describe("SettingsForm", () => {
       <SettingsForm
         settings={{
           atelierName: "Atelie Lucrativo",
+          countryCode: "BR",
           currencyCode: "BRL",
           fullName: "Ana",
           minimumMultiplier: 1.5,

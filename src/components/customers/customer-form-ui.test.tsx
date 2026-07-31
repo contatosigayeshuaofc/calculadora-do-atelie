@@ -12,7 +12,7 @@ describe("CustomerForm", () => {
       target: { value: "abc11999998888texto" },
     });
 
-    expect(whatsapp).toHaveValue("(11) 99999-8888");
+    expect(whatsapp).toHaveValue("+55 (11) 99999-8888");
   });
 
   it("does not show birthday field", () => {

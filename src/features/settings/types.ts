@@ -5,6 +5,7 @@ export type SettingsActionState = {
 
 export type AtelierSettings = {
   atelierName: string | null;
+  countryCode: string;
   currencyCode: string;
   fullName: string;
   minimumMultiplier: number;

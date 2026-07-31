@@ -2,12 +2,12 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { getAccessDecision } from "@/features/auth/access";
 import { canAdminAccess, parseAdminEmails } from "@/features/admin/schemas";
+import { getAccessDecision } from "@/features/auth/access";
 import { forgotPasswordSchema, resetPasswordSchema, signInSchema, signUpSchema } from "@/features/auth/schemas";
-import { createClient } from "@/lib/supabase/server";
+import { enforceRateLimit, RateLimitError, rateLimitPolicies } from "@/lib/rate-limit";
 import { missingSupabaseMessage } from "@/lib/supabase/env";
-import { enforceRateLimit, rateLimitPolicies, RateLimitError } from "@/lib/rate-limit";
+import { createClient } from "@/lib/supabase/server";
 
 export type AuthActionState = {
   message: string;
@@ -104,6 +104,8 @@ export async function signUpAction(_: AuthActionState, formData: FormData): Prom
 
   const parsed = signUpSchema.safeParse({
     atelierName: getString(formData, "atelierName"),
+    countryCode: getString(formData, "countryCode"),
+    currencyCode: getString(formData, "currencyCode"),
     email: getString(formData, "email"),
     fullName: getString(formData, "fullName"),
     password: getString(formData, "password"),
@@ -127,8 +129,10 @@ export async function signUpAction(_: AuthActionState, formData: FormData): Prom
     options: {
       data: {
         atelier_name: parsed.data.atelierName || null,
+        country_code: parsed.data.countryCode,
+        currency_code: parsed.data.currencyCode,
         full_name: parsed.data.fullName,
-        whatsapp: parsed.data.whatsapp || null,
+        whatsapp: parsed.data.whatsapp,
       },
       emailRedirectTo: `${origin}/auth/callback?next=/aguardando-liberacao`,
     },

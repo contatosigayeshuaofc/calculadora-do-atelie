@@ -3,7 +3,7 @@ export const DEFAULT_CURRENCY_CODE = "BRL";
 export const supportedCurrencies = [
   { code: "BRL", locale: "pt-BR", label: "Real brasileiro", symbol: "R$" },
   { code: "USD", locale: "en-US", label: "Dólar americano", symbol: "$" },
-  { code: "EUR", locale: "de-DE", label: "Euro", symbol: "€" },
+  { code: "EUR", locale: "pt-PT", label: "Euro", symbol: "€" },
   { code: "GBP", locale: "en-GB", label: "Libra esterlina", symbol: "£" },
   { code: "CAD", locale: "en-CA", label: "Dólar canadense", symbol: "CA$" },
   { code: "AUD", locale: "en-AU", label: "Dólar australiano", symbol: "A$" },
