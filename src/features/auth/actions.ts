@@ -7,6 +7,7 @@ import { getAccessDecision } from "@/features/auth/access";
 import { forgotPasswordSchema, resetPasswordSchema, signInSchema, signUpSchema } from "@/features/auth/schemas";
 import { enforceRateLimit, RateLimitError, rateLimitPolicies } from "@/lib/rate-limit";
 import { missingSupabaseMessage } from "@/lib/supabase/env";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 export type AuthActionState = {
@@ -116,25 +117,22 @@ export async function signUpAction(_: AuthActionState, formData: FormData): Prom
     return errorState(parsed.error.issues[0]?.message ?? "Revise os dados do cadastro.");
   }
 
-  const supabase = await createClient();
+  const adminClient = createAdminClient();
 
-  if (!supabase) {
+  if (!adminClient) {
     return errorState(missingSupabaseMessage);
   }
 
-  const origin = await getOrigin();
-  const { error } = await supabase.auth.signUp({
+  const { error } = await adminClient.auth.admin.createUser({
     email: parsed.data.email,
+    email_confirm: true,
     password: parsed.data.password,
-    options: {
-      data: {
-        atelier_name: parsed.data.atelierName || null,
-        country_code: parsed.data.countryCode,
-        currency_code: parsed.data.currencyCode,
-        full_name: parsed.data.fullName,
-        whatsapp: parsed.data.whatsapp,
-      },
-      emailRedirectTo: `${origin}/auth/callback?next=/aguardando-liberacao`,
+    user_metadata: {
+      atelier_name: parsed.data.atelierName || null,
+      country_code: parsed.data.countryCode,
+      currency_code: parsed.data.currencyCode,
+      full_name: parsed.data.fullName,
+      whatsapp: parsed.data.whatsapp,
     },
   });
 
