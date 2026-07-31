@@ -22,11 +22,17 @@ const updateAccessSchema = z.object({
   userId: z.string().uuid("Usuário inválido."),
 });
 
+const deleteUserSchema = z.object({
+  userId: z.string().uuid("Usuário inválido."),
+});
+
 export type ManagedAccessStatus = Extract<AccessStatus, "active" | "suspended">;
 
 export type CreateManualUserInput = z.infer<typeof createUserSchema>;
 
 export type UpdateAccessInput = z.infer<typeof updateAccessSchema>;
+
+export type DeleteUserInput = z.infer<typeof deleteUserSchema>;
 
 export function parseAdminEmails(value: string | undefined) {
   void value;
@@ -58,6 +64,12 @@ export function parseCreateUserFormData(input: Record<string, FormDataEntryValue
 export function parseUpdateAccessFormData(input: Record<string, FormDataEntryValue | string | undefined>): UpdateAccessInput {
   return updateAccessSchema.parse({
     accessStatus: input.accessStatus,
+    userId: input.userId,
+  });
+}
+
+export function parseDeleteUserFormData(input: Record<string, FormDataEntryValue | string | undefined>): DeleteUserInput {
+  return deleteUserSchema.parse({
     userId: input.userId,
   });
 }

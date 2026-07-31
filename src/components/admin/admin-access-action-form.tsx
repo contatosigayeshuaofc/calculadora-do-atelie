@@ -1,9 +1,9 @@
 "use client";
 
 import { useActionState } from "react";
-import { Check, X } from "lucide-react";
+import { Check, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui";
-import { updateUserAccessAction } from "@/features/admin/actions";
+import { deleteCanceledUserAction, updateUserAccessAction } from "@/features/admin/actions";
 import type { AdminActionState } from "@/features/admin/types";
 import type { ManagedAccessStatus } from "@/features/admin/schemas";
 
@@ -34,6 +34,39 @@ export function AdminAccessActionForm({ actionLabel, status, userId }: AdminAcce
         variant={status === "suspended" ? "danger" : "primary"}
       >
         {actionLabel}
+      </Button>
+
+      {state.message ? (
+        <p
+          className={[
+            "max-w-44 rounded-[var(--radius-sm)] border px-2.5 py-2 text-xs leading-snug",
+            state.status === "success"
+              ? "border-[rgba(92,117,82,0.24)] bg-[rgba(92,117,82,0.1)] text-[color:var(--color-success)]"
+              : "border-[rgba(155,79,69,0.24)] bg-[rgba(155,79,69,0.1)] text-[color:var(--color-danger)]",
+          ].join(" ")}
+          role="status"
+        >
+          {state.message}
+        </p>
+      ) : null}
+    </form>
+  );
+}
+
+export function AdminDeleteUserForm({ userId }: { userId: string }) {
+  const [state, formAction, isPending] = useActionState(deleteCanceledUserAction, initialState);
+
+  return (
+    <form action={formAction} className="space-y-2">
+      <input name="userId" type="hidden" value={userId} />
+      <Button
+        isLoading={isPending}
+        leftIcon={<Trash2 className="h-4 w-4" aria-hidden="true" />}
+        size="sm"
+        type="submit"
+        variant="danger"
+      >
+        Excluir
       </Button>
 
       {state.message ? (

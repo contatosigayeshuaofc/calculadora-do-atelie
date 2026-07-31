@@ -4,6 +4,7 @@ import { AdminUsersTable } from "./admin-users-table";
 import type { AdminUserSummary } from "@/features/admin/types";
 
 vi.mock("@/features/admin/actions", () => ({
+  deleteCanceledUserAction: async () => ({ message: "", status: "idle" }),
   updateUserAccessAction: async () => ({ message: "", status: "idle" }),
 }));
 
@@ -21,6 +22,15 @@ function userSummary(overrides: Partial<AdminUserSummary>): AdminUserSummary {
   };
 }
 
+function getAccessGroup(label: string) {
+  const group = screen.getByText(label).closest("details");
+  if (!group) {
+    throw new Error(`Grupo ${label} não encontrado.`);
+  }
+
+  return group;
+}
+
 describe("AdminUsersTable", () => {
   it("groups customers by access status so the admin can review active users quickly", () => {
     render(
@@ -33,12 +43,16 @@ describe("AdminUsersTable", () => {
       />,
     );
 
-    const pendingGroup = screen.getByRole("region", { name: "Pendentes" });
-    const activeGroup = screen.getByRole("region", { name: "Ativos" });
-    const suspendedGroup = screen.getByRole("region", { name: "Cancelados" });
+    const pendingGroup = getAccessGroup("Acessos Pendentes");
+    const activeGroup = getAccessGroup("Acessos Ativos");
+    const suspendedGroup = getAccessGroup("Acessos Cancelados");
 
+    expect(pendingGroup).toBeInTheDocument();
+    expect(activeGroup).toBeInTheDocument();
+    expect(suspendedGroup).toBeInTheDocument();
     expect(within(pendingGroup).getByText("Cliente Pendente")).toBeInTheDocument();
     expect(within(activeGroup).getByText("Cliente Ativa")).toBeInTheDocument();
     expect(within(suspendedGroup).getByText("Cliente Cancelada")).toBeInTheDocument();
+    expect(within(suspendedGroup).getByRole("button", { name: "Excluir" })).toBeInTheDocument();
   });
 });

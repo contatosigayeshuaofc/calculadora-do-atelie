@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/auth/require-admin-user";
 import { missingSupabaseAdminMessage } from "@/lib/supabase/env";
 import { enforceRateLimit, rateLimitPolicies } from "@/lib/rate-limit";
-import { getAdminFormError, parseCreateUserFormData, parseUpdateAccessFormData } from "./schemas";
+import { getAdminFormError, parseCreateUserFormData, parseDeleteUserFormData, parseUpdateAccessFormData } from "./schemas";
 import type { AdminActionState } from "./types";
 
 function getString(formData: FormData, key: string) {
@@ -127,6 +127,66 @@ export async function updateUserAccessAction(
 
     return {
       message: input.accessStatus === "active" ? "Cliente aprovada para acessar o app." : "Acesso da cliente cancelado.",
+      status: "success",
+    };
+  } catch (error) {
+    return {
+      message: getAdminFormError(error),
+      status: "error",
+    };
+  }
+}
+
+export async function deleteCanceledUserAction(
+  _previousState: AdminActionState,
+  formData: FormData,
+): Promise<AdminActionState> {
+  try {
+    await enforceRateLimit(rateLimitPolicies.adminWrite);
+
+    const input = parseDeleteUserFormData({
+      userId: getString(formData, "userId"),
+    });
+    const { adminClient, user } = await requireAdminUser();
+
+    if (!adminClient) {
+      throw new Error(missingSupabaseAdminMessage);
+    }
+
+    if (input.userId === user.id) {
+      throw new Error("Você não pode excluir seu próprio acesso admin.");
+    }
+
+    const { data: profile, error: profileError } = await adminClient
+      .from("profiles")
+      .select("access_status")
+      .eq("id", input.userId)
+      .maybeSingle();
+
+    if (profileError) {
+      throw new Error(profileError.message);
+    }
+
+    if (profile?.access_status !== "suspended") {
+      throw new Error("Somente acessos cancelados podem ser excluídos.");
+    }
+
+    const { error: deleteAuthError } = await adminClient.auth.admin.deleteUser(input.userId);
+
+    if (deleteAuthError && !deleteAuthError.message.toLowerCase().includes("not found")) {
+      throw new Error(deleteAuthError.message);
+    }
+
+    const { error: deleteProfileError } = await adminClient.from("profiles").delete().eq("id", input.userId);
+
+    if (deleteProfileError) {
+      throw new Error(deleteProfileError.message);
+    }
+
+    revalidatePath("/admin");
+
+    return {
+      message: "Acesso excluído do painel.",
       status: "success",
     };
   } catch (error) {

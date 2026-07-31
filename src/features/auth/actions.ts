@@ -23,6 +23,20 @@ function errorState(message: string): AuthActionState {
   return { message, status: "error" };
 }
 
+function getSignUpErrorMessage(error: { code?: string; message?: string }) {
+  const text = `${error.code ?? ""} ${error.message ?? ""}`.toLowerCase();
+
+  if (text.includes("email_address_invalid") || text.includes("email address") || text.includes("invalid")) {
+    return "Esse e-mail não foi aceito. Use um e-mail real e ativo para criar o acesso.";
+  }
+
+  if (text.includes("already") || text.includes("registered") || text.includes("exists")) {
+    return "Esse e-mail já possui cadastro. Entre com sua senha ou recupere o acesso.";
+  }
+
+  return "Não foi possível criar sua conta agora. Verifique os dados e tente de novo.";
+}
+
 async function getOrigin() {
   const headerStore = await headers();
   return headerStore.get("origin") ?? "http://localhost:3000";
@@ -121,7 +135,7 @@ export async function signUpAction(_: AuthActionState, formData: FormData): Prom
   });
 
   if (error) {
-    return errorState("Não foi possível criar sua conta agora. Verifique os dados e tente de novo.");
+    return errorState(getSignUpErrorMessage(error));
   }
 
   redirect("/aguardando-liberacao" as never);
